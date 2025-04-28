@@ -16,7 +16,7 @@ We have two repositories:
   2) Client repo (where the actual app is): *soon to be documented*
 
 
-Extra note: most of the files in this project are irrelevant for our purpose, don't waste too much time trying to understand what every folder is
+Extra note: most of the files in this project are irrelevant for our purpose, don't waste too much time trying to understand what every folder is.
 
 ---
 
