@@ -15,6 +15,9 @@ We have two repositories:
      
   2) Client repo (where the actual app is): *soon to be documented*
         
+---
+
+## WebAPI Project Structure
 
 ```
 .
