@@ -14,7 +14,9 @@ We have two repositories:
       ✅ For homework purposes, the WebAPI is not deployed to an online server — you run it locally as a separate project.
      
   2) Client repo (where the actual app is): *soon to be documented*
-        
+
+
+Extra note: most of the files in this project are irrelevant for our purpose, don't waste too much time trying to understand what every folder is
 ---
 
 ## WebAPI Project Structure
