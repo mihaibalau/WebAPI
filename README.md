@@ -2,7 +2,17 @@
 
 Our project works in the following way:
 We have two repositories: 
-  1) WebAPI *(this one)*: runs the local database for your machine, so imagine this as a hosted server somewhere (except you run it locally), which you can make http requests to. An example would be you're in the app, you need the list of users to display it on the screen. How do you do this? You call a method in the repository which makes an http request to this server that is hosted somewhere (again, you are running it locally, separate from the actual app. For the homework purposes it's not hosted), and that's how you retrieve the users. It replaces querying the SQL Server database with querying this API that you run as a separate project.
+  1) WebAPI (this repo) 🌐
+      This project runs a local web server that hosts a local database.
+      Think of it like a server hosted somewhere on the internet — but in our case, it's running on your own machine.
+      You can send HTTP requests to this server to fetch or modify data.
+      
+      Example:
+      When you're using the app and need a list of users to display, you call a method in your client app that makes an HTTP request to this WebAPI.
+      Instead of directly querying a database (e.g., SQL Server), you query this API, which returns the needed data.
+      
+      ✅ For homework purposes, the WebAPI is not deployed to an online server — you run it locally as a separate project.
+     
   2) Client repo (where the actual app is): *soon to be documented*
         
 
