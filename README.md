@@ -19,6 +19,8 @@ We have two repositories:
 ```
 .
 ├── 📜 LICENSE                                      # License file for the project
+├── 📂 Models
+│   └── Department.cs                               # Department model 
 ├── 📂 Pages
 │   ├── ❗ Error.cshtml                             # Razor page to display error details
 │   ├── ❗ Error.cshtml.cs                          # Code-behind for error page handling
