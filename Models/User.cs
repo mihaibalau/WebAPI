@@ -49,5 +49,8 @@ namespace Models
 
         [Required]
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
+
+        [MaxLength(255)]
+        public string? AvatarUrl { get; set; }
     }
 }
