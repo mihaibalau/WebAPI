@@ -103,6 +103,60 @@ namespace Data
                       .OnDelete(DeleteBehavior.Restrict); // Prevent accidental cascading deletions
             });
 
+            modelBuilder.Entity<UserEntity>(entity =>
+            {
+                entity.HasKey(u => u.UserId);
+
+                entity.Property(u => u.Username)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.HasIndex(u => u.Username)
+                      .IsUnique();
+
+                entity.Property(u => u.Password)
+                      .IsRequired()
+                      .HasMaxLength(255);
+
+                entity.Property(u => u.Mail)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.HasIndex(u => u.Mail)
+                      .IsUnique();
+
+                entity.Property(u => u.Role)
+                      .IsRequired()
+                      .HasMaxLength(50)
+                      .HasDefaultValue("User");
+
+                entity.Property(u => u.Name)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(u => u.BirthDate)
+                      .IsRequired();
+
+                entity.Property(u => u.CNP)
+                      .IsRequired()
+                      .HasMaxLength(13)
+                      .IsFixedLength();
+
+                entity.HasIndex(u => u.CNP)
+                      .IsUnique();
+
+                entity.Property(u => u.Address)
+                      .HasMaxLength(255);
+
+                entity.Property(u => u.PhoneNumber)
+                      .HasMaxLength(10)
+                      .IsFixedLength();
+
+                entity.Property(u => u.RegistrationDate)
+                      .IsRequired()
+                      .HasDefaultValueSql("GETDATE()");
+            });
+
         }
     }
 }
