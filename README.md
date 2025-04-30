@@ -6,8 +6,6 @@ Our codebase consists of 3 projects: the web api, the winui project, class libra
 
 This is the **backend API** for the application. It defines HTTP routes used to interact with the system's data.
 
----
-
 ## 📌 Purpose
 
 The WebAPI exposes endpoints for working with application entities such as:
