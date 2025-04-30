@@ -80,6 +80,29 @@ namespace Data
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
+            modelBuilder.Entity<DoctorEntity>(entity =>
+            {
+                entity.HasKey(d => d.UserId); // UserId is both PK and FK for 1:1 relation with User
+
+                entity.Property(d => d.DoctorRating)
+                      .IsRequired()
+                      .HasDefaultValue(0.0f);
+
+                entity.Property(d => d.LicenceNumber)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.HasOne(d => d.User)
+                      .WithOne()
+                      .HasForeignKey<DoctorEntity>(d => d.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(d => d.Department)
+                      .WithMany()
+                      .HasForeignKey(d => d.DepartmentId)
+                      .OnDelete(DeleteBehavior.Restrict); // Prevent accidental cascading deletions
+            });
+
         }
     }
 }
