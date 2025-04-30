@@ -25,15 +25,17 @@ namespace WebApi.Repository
         /// <inheritdoc/>
         public async Task<List<Doctor>> GetAllDoctorsAsync()
         {
-            var doctorEntities = await dbContext.Doctors.Include(d => d.Department).ToListAsync();
+            List<DoctorEntity> doctorEntities = await dbContext.Doctors.Include(d => d.Department).ToListAsync();
 
-            return doctorEntities.Select(d => new Doctor
+            List<Doctor> doctors = doctorEntities.Select(d => new Doctor
             {
                 UserId = d.UserId,
                 DepartmentId = d.DepartmentId,
                 DoctorRating = d.DoctorRating,
                 LicenceNumber = d.LicenceNumber
             }).ToList();
+
+            return doctors;
         }
 
         /// <inheritdoc/>

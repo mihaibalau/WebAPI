@@ -48,7 +48,7 @@ namespace Data
 
                 entity.HasOne(l => l.User)
                       .WithOne()
-                      .HasForeignKey(l => l.UserId)
+                      .HasForeignKey<LogEntity>(l => l.UserId)
                       .OnDelete(DeleteBehavior.SetNull);
             });
 
