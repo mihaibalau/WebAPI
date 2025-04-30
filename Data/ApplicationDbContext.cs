@@ -15,6 +15,10 @@ namespace Data
         // Tables
 
         public DbSet<DepartmentEntity> Departments { get; set; }
+        public DbSet<LogEntity> Logs { get; set; }
+        public DbSet<DoctorEntity> Doctors { get; set; }
+        public DbSet<PatientEntity> Patients { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
