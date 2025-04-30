@@ -1,3 +1,9 @@
+using ClassLibrary.IRepository;
+using Data;
+using Microsoft.EntityFrameworkCore;
+using WebApi.Repository;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +13,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("MyLocalDb")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +39,7 @@ app.MapRazorPages();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.MapControllers();
 
 app.Run();
 

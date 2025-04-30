@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models
 {
-    public class Department
+    public class DepartmentEntity
     {
         [Key]  // Primary Key
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  // Auto-increment (IDENTITY(1,1))

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -12,47 +13,21 @@ namespace Data
         { }
 
         // Tables
-        public DbSet<User> Users { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Log> Logs { get; set; }
+
+        public DbSet<DepartmentEntity> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // One-to-one: Doctor ↔ User
-            modelBuilder.Entity<Doctor>()
-                .HasOne(d => d.User)
-                .WithOne()
-                .HasForeignKey<Doctor>(d => d.UserId);
+            modelBuilder.Entity<DepartmentEntity>(entity =>
+            {
+                entity.HasKey(d => d.Id); // Set the primary key
 
-            // One-to-one: Patient ↔ User
-            modelBuilder.Entity<Patient>()
-                .HasOne(p => p.User)
-                .WithOne()
-                .HasForeignKey<Patient>(p => p.UserId);
-
-            // Optional one-to-many: Log ↔ User (UserId nullable)
-            modelBuilder.Entity<Log>()
-                .HasOne(l => l.User)
-                .WithMany()
-                .HasForeignKey(l => l.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            // Enforce uniqueness for Username, Mail, and CNP
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Username)
-                .IsUnique();
-
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Mail)
-                .IsUnique();
-
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Cnp)
-                .IsUnique();
+                entity.Property(d => d.Name)
+                      .IsRequired()       // Make it NOT NULL
+                      .HasMaxLength(100); // Limit to 100 characters
+            });
         }
     }
 }
