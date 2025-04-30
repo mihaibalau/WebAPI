@@ -47,7 +47,7 @@ namespace Data
                       .HasDefaultValueSql("GETDATE()");
 
                 entity.HasOne(l => l.User)
-                      .WithMany()
+                      .WithOne()
                       .HasForeignKey(l => l.UserId)
                       .OnDelete(DeleteBehavior.SetNull);
             });

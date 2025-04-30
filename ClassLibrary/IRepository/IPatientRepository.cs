@@ -20,7 +20,7 @@ namespace ClassLibrary.IRepository
         /// </summary>
         /// <param name="id"> The id of the patient to get.</param>
         /// <returns> The patient with the given id.</returns>
-        Task<Patient> GetPatientByIdAsync(int id);
+        Task<Patient> GetPatientByUserIdAsync(int id);
 
         /// <summary>
         /// Get a patient by name
