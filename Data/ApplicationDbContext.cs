@@ -32,6 +32,25 @@ namespace Data
                       .IsRequired()       // Make it NOT NULL
                       .HasMaxLength(100); // Limit to 100 characters
             });
+
+            modelBuilder.Entity<LogEntity>(entity =>
+            {
+                entity.HasKey(l => l.LogId);
+
+                entity.Property(l => l.ActionType)
+                      .IsRequired()
+                      .HasMaxLength(50)
+                      .HasColumnType("nvarchar(50)");
+
+                entity.Property(l => l.Timestamp)
+                      .IsRequired()
+                      .HasDefaultValueSql("GETDATE()");
+
+                entity.HasOne(l => l.User)
+                      .WithMany()
+                      .HasForeignKey(l => l.UserId)
+                      .OnDelete(DeleteBehavior.SetNull);
+            });
         }
     }
 }
