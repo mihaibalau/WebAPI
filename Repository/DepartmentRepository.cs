@@ -8,7 +8,7 @@
     using ClassLibrary.IRepository;
     using Data;
     using Domain;
-    using Models;
+    using Entity;
 
     /// <summary>
     /// Repository class for managing department-related database operations.

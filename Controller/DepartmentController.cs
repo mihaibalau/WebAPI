@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data;
-using Models;
+using Entity;
 using ClassLibrary.IRepository;
 using Domain;
 
