@@ -1,43 +1,46 @@
 # 🌐 WebAPI Project
 
-This is the **backend API** for the application. It defines HTTP routes used to interact with the system's data.
+This project contains the backend API for the application. It defines routes and logic that allow you to interact with the database through HTTP requests.
+
+---
 
 ## 📌 Purpose
 
-The WebAPI exposes endpoints for working with application entities such as:
+The WebAPI exposes a set of endpoints that handle operations like:
 
-- Departments (`/api/department`)
-- Users (`/api/users`)
-- [Other relevant entities]
+- Creating and retrieving departments (`/api/department`)
+- Managing users (`/api/users`)
+- Other entity-based operations (only where needed)
 
-These endpoints support operations like `GET`, `POST`, `DELETE`, etc., depending on what was implemented.
-
-You will **use this API** from the **WinUI project** by making HTTP requests to these endpoints.
+> These endpoints are used to interact with the database. You will use them from the **WinUI project** by sending HTTP requests (GET, POST, DELETE, etc.).
 
 ---
 
-## 🚫 Do Not Modify This Project
+## ⚠️ Do Not Modify
 
-You are **not supposed to make any changes** in this project.
+You **should not** make any changes to this WebAPI project. It has been fully set up to support the application and should remain untouched unless explicitly instructed.
 
-✅ **Your work is only done in the WinUI project**, where you will call these API endpoints.
-
----
-
-## 🔍 Testing the API (Optional)
-
-You can view and test the available routes using Swagger UI:
-
-```
-https://localhost:<port>/swagger/index.html
-```
-
-Make sure the API is running before using Swagger.
+All your work will be in the **WinUI project**.
 
 ---
 
-### WinUI project
+## 🗄️ Database Setup
+
+To run the API properly:
+
+1. Create a **SQL Server database** named `HospitalDb`.
+2. Run the **initialization scripts** found in:
+
+   ```
+   Data/
+   ```
+
+   These scripts will create the necessary tables and seed any required data.
 
 ---
 
-### Class Library project
+## ✅ Summary
+
+- You **do not code here**.
+- Use the provided endpoints from the WinUI client.
+- Make sure `HospitalDb` exists and is properly initialized before running the app.
