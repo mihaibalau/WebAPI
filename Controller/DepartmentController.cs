@@ -5,7 +5,7 @@ using Models;
 
 namespace Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/departments")]
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
@@ -16,60 +16,137 @@ namespace Controllers
             _context = context;
         }
 
-        // GET: api/Departments
+        // GET: api/departments
+        /// <summary>
+        /// Retrieves all departments.
+        /// </summary>
+        /// <returns>An ActionResult containing a list of departments.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
+        [ProducesResponseType(typeof(List<Department>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<Department>>> GetDepartments()
         {
-            return await _context.Departments.ToListAsync();
-        }
-
-        // GET: api/Departments/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Department>> GetDepartment(int id)
-        {
-            var department = await _context.Departments.FindAsync(id);
-
-            if (department == null)
-                return NotFound();
-
-            return department;
-        }
-
-        // POST: api/Departments
-        [HttpPost]
-        public async Task<ActionResult<Department>> PostDepartment(Department department)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            _context.Departments.Add(department);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetDepartment), new { id = department.DepartmentId }, department);
-        }
-
-        // PUT: api/Departments/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDepartment(int id, Department department)
-        {
-            if (id != department.DepartmentId)
-                return BadRequest("ID mismatch.");
-
-            _context.Entry(department).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var departments = await _context.Departments.ToListAsync();
+                return Ok(departments);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!_context.Departments.Any(d => d.DepartmentId == id))
-                    return NotFound();
-                else
-                    throw;
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving departments. Error: {ex.Message}");
             }
+        }
 
-            return NoContent();
+        // POST: api/departments
+        /// <summary>
+        /// Creates a new department.
+        /// </summary>
+        /// <param name="department">The department to create.</param>
+        /// <returns>An ActionResult indicating the result of the operation.</returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(Department), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Department>> CreateDepartment([FromBody] Department department)
+        {
+            try
+            {
+                _context.Departments.Add(department);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetDepartmentById), new { id = department.Id }, department);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while creating the department. Error: {ex.Message}");
+            }
+        }
+
+        // DELETE: api/departments/{id}
+        /// <summary>
+        /// Deletes a department by ID.
+        /// </summary>
+        /// <param name="id">The ID of the department to delete.</param>
+        /// <returns>An ActionResult indicating the result of the operation.</returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteDepartment(int id)
+        {
+            try
+            {
+                var department = await _context.Departments.FindAsync(id);
+                if (department == null)
+                {
+                    return NotFound($"Department with ID {id} was not found.");
+                }
+
+                _context.Departments.Remove(department);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting the department. Error: {ex.Message}");
+            }
+        }
+
+        // GET: api/departments/{id}
+        /// <summary>
+        /// Retrieves a department by ID.
+        /// </summary>
+        /// <param name="id">The ID of the department.</param>
+        /// <returns>An ActionResult containing the department.</returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Department), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Department>> GetDepartmentById(int id)
+        {
+            try
+            {
+                var department = await _context.Departments.FindAsync(id);
+                if (department == null)
+                {
+                    return NotFound($"Department with ID {id} was not found.");
+                }
+
+                return Ok(department);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving the department. Error: {ex.Message}");
+            }
+        }
+
+        // GET: api/departments/by-name?name=Finance
+        /// <summary>
+        /// Retrieves a department by its name.
+        /// </summary>
+        /// <param name="name">The name of the department.</param>
+        /// <returns>An ActionResult containing the department.</returns>
+        [HttpGet("by-name")]
+        [ProducesResponseType(typeof(Department), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Department>> GetDepartmentByName([FromQuery] string name)
+        {
+            try
+            {
+                var department = await _context.Departments
+                    .FirstOrDefaultAsync(d => d.Name.ToLower() == name.ToLower());
+
+                if (department == null)
+                {
+                    return NotFound($"Department with name '{name}' was not found.");
+                }
+
+                return Ok(department);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving the department. Error: {ex.Message}");
+            }
         }
     }
 }

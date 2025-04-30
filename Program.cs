@@ -5,6 +5,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
