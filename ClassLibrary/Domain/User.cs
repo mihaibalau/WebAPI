@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a user in the system.
     /// </summary>
-    class Users
+    public class User
     {
         /// <summary>
         /// Gets or sets the unique identifier for the user.

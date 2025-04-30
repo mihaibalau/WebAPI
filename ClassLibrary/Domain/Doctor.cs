@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a doctor in the system.
     /// </summary>
-    class Doctors
+    public class Doctor
     {
         /// <summary>
         /// Gets or sets the unique identifier for the user.

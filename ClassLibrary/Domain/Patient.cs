@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a patient in the system.
     /// </summary>
-    class Patients
+    public class Patient
     {
         /// <summary>
         /// Gets or sets the unique identifier for the user.
@@ -21,9 +21,9 @@
         public string EmergencyContact { get; set; }
 
         /// <summary>
-        /// Gets or sets the address of the patient.
+        /// Gets or sets the allergies of the patient.
         /// </summary>
-        public string Address { get; set; }
+        public string Allergies { get; set; }
 
         /// <summary>
         /// Gets or sets the weight of the patient

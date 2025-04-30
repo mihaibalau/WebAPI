@@ -3,7 +3,7 @@
     /// <summary>
     /// Logs class.
     /// </summary>
-    class Logs
+    public class Log
     {
         /// <summary>
         /// Gets or sets the unique identifier for the log entry.
