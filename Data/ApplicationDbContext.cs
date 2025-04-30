@@ -51,6 +51,35 @@ namespace Data
                       .HasForeignKey(l => l.UserId)
                       .OnDelete(DeleteBehavior.SetNull);
             });
+
+            modelBuilder.Entity<PatientEntity>(entity =>
+            {
+                entity.HasKey(p => p.UserId); // UserId acts as both PK and FK for 1:1
+
+                entity.Property(p => p.BloodType)
+                      .IsRequired()
+                      .HasMaxLength(3);
+
+                entity.Property(p => p.EmergencyContact)
+                      .IsRequired()
+                      .HasMaxLength(10)
+                      .IsFixedLength(true); // Enforces exactly 10 characters
+
+                entity.Property(p => p.Allergies)
+                      .HasMaxLength(255);
+
+                entity.Property(p => p.Weight)
+                      .IsRequired();
+
+                entity.Property(p => p.Height)
+                      .IsRequired();
+
+                entity.HasOne(p => p.User)
+                      .WithOne()
+                      .HasForeignKey<PatientEntity>(p => p.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
         }
     }
 }

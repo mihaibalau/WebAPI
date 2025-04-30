@@ -18,7 +18,6 @@ namespace Entity
         [StringLength(10, MinimumLength = 10, ErrorMessage = "EmergencyContact must be exactly 10 characters.")]
         public string EmergencyContact { get; set; }
 
-        
         public string? Allergies { get; set; }
 
         [Required]
