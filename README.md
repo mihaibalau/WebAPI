@@ -1,7 +1,3 @@
-# Codebase overview
-
-Our codebase consists of 3 projects: the web api, the winui project, class library project. A more in-depth description of each is down below.
-
 # 🌐 WebAPI Project
 
 This is the **backend API** for the application. It defines HTTP routes used to interact with the system's data.
