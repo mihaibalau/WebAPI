@@ -19,11 +19,11 @@ namespace Entity
 
         [Required]
         [Range(0.0, 5.0, ErrorMessage = "Doctor rating must be between 0.0 and 5.0.")]
-        public float DoctorRating { get; set; } = 0.0f;
+        public double DoctorRating { get; set; } = 0.0f;
 
         [Required]
         [MaxLength(50)]
-        public string LicenceNumber { get; set; }
+        public string LicenseNumber { get; set; }
 
         // Navigation properties
         public virtual UserEntity User { get; set; }

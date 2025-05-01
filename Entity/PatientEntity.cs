@@ -22,7 +22,7 @@ namespace Entity
 
         [Required]
         [Range(0.1, double.MaxValue, ErrorMessage = "Weight must be greater than 0.")]
-        public float Weight { get; set; }
+        public double Weight { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Height must be greater than 0.")]

@@ -32,7 +32,7 @@ namespace WebApi.Repository
                 UserId = d.UserId,
                 DepartmentId = d.DepartmentId,
                 DoctorRating = d.DoctorRating,
-                LicenceNumber = d.LicenceNumber
+                LicenseNumber = d.LicenseNumber
             }).ToList();
 
             return doctors;
@@ -55,7 +55,7 @@ namespace WebApi.Repository
                 UserId = doctorEntity.UserId,
                 DepartmentId = doctorEntity.DepartmentId,
                 DoctorRating = doctorEntity.DoctorRating,
-                LicenceNumber = doctorEntity.LicenceNumber
+                LicenseNumber = doctorEntity.LicenseNumber
             };
         }
 
@@ -71,7 +71,7 @@ namespace WebApi.Repository
                 UserId = d.UserId,
                 DepartmentId = d.DepartmentId,
                 DoctorRating = d.DoctorRating,
-                LicenceNumber = d.LicenceNumber
+                LicenseNumber = d.LicenseNumber
             }).ToList();
         }
 
@@ -83,7 +83,7 @@ namespace WebApi.Repository
                 UserId = doctor.UserId,
                 DepartmentId = doctor.DepartmentId,
                 DoctorRating = doctor.DoctorRating,
-                LicenceNumber = doctor.LicenceNumber
+                LicenseNumber = doctor.LicenseNumber
             };
 
             dbContext.Doctors.Add(doctorEntity);

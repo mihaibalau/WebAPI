@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets the weight of the patient
         /// </summary>
-        public float Weight { get; set; }
+        public double Weight { get; set; }
 
         /// <summary>
         /// Gets or sets the height of the patient

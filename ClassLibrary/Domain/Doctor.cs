@@ -18,11 +18,11 @@
         /// <summary>
         /// Gets or sets doctor rating for the doctor.
         /// </summary>
-        public float DoctorRating { get; set; }
+        public double DoctorRating { get; set; }
 
         /// <summary>
-        /// Gets or sets the licence number for the doctor.
+        /// Gets or sets the License number for the doctor.
         /// </summary>
-        public string LicenceNumber { get; set; }
+        public string LicenseNumber { get; set; }
     }
 }

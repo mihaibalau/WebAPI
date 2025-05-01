@@ -88,7 +88,7 @@ namespace Data
                       .IsRequired()
                       .HasDefaultValue(0.0f);
 
-                entity.Property(d => d.LicenceNumber)
+                entity.Property(d => d.LicenseNumber)
                       .IsRequired()
                       .HasMaxLength(50);
 
