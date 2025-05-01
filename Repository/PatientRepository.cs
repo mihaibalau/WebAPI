@@ -62,6 +62,12 @@ namespace WebApi.Repository
         /// <inheritdoc/>
         public async Task AddPatientAsync(Patient patient)
         {
+            var existingDoctor = await dbContext.Doctors.FindAsync(patient.UserId);
+            if (existingDoctor != null)
+            {
+                throw new InvalidOperationException("User is already registered as a doctor and cannot be a patient.");
+            }
+
             var patientEntity = new PatientEntity
             {
                 UserId = patient.UserId,
