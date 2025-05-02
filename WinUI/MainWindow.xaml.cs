@@ -11,7 +11,7 @@ namespace WinUI
     {
         // HttpClient instance to make HTTP requests
         private static readonly HttpClient client = new HttpClient();
-
+        
         public MainWindow()
         {
             this.InitializeComponent();

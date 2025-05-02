@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI", "WinUI\WinUI.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebAPI\WebApi.csproj", "{8D6B33C5-CEE1-20B5-A207-99CBB61F699C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "ClassLibrary\ClassLibrary.csproj", "{F5AB970B-D7AC-480A-837C-1DF1C85413EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -47,6 +49,18 @@ Global
 		{8D6B33C5-CEE1-20B5-A207-99CBB61F699C}.Release|x64.Build.0 = Release|Any CPU
 		{8D6B33C5-CEE1-20B5-A207-99CBB61F699C}.Release|x86.ActiveCfg = Release|Any CPU
 		{8D6B33C5-CEE1-20B5-A207-99CBB61F699C}.Release|x86.Build.0 = Release|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Debug|x86.Build.0 = Debug|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Release|ARM64.Build.0 = Release|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Release|x64.Build.0 = Release|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{F5AB970B-D7AC-480A-837C-1DF1C85413EB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
