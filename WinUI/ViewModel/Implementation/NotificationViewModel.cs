@@ -34,6 +34,23 @@ namespace WinUI.ViewModel.Implementation
             Notifications = new ObservableCollection<Notification>();
         }
 
+        public async Task LoadNotificationsAsync(int userId)
+        {
+            try
+            {
+                var loaded = await notificationService.GetByUserIdAsync(userId);
+                Notifications.Clear();
+                foreach (var notification in loaded)
+                    Notifications.Add(notification);
+
+                ErrorMessage = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Failed to load notifications: {ex.Message}";
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string name)
