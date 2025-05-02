@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain;
+using ClassLibrary.IRepository;
+using ClassLibrary;
 
-namespace WinUI.IService
+namespace WinUI.Service.NotificationServiceFile
+
 {
-    internal interface INotificationService
+    public interface INotificationService
     {
         /// <summary>
         /// Return all Notifications for all users.

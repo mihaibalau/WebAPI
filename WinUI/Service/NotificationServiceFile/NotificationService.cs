@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
-using WinUI.IService;
 using Domain;
 
-namespace WinUI.Service
+namespace WinUI.Service.NotificationFile
 {
     public class NotificationService : INotificationService
     {
