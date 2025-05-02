@@ -88,3 +88,14 @@ VALUES
 (5, 'UPDATE_PROFILE'),
 (7, 'LOGOUT');
 
+CREATE TABLE Notifications(
+	NotificationId int primary key identity(1,1),
+	UserId int foreign key references users(UserId),
+	DeliveryDateTime datetime,
+	Message varchar(256)
+)
+
+INSERT INTO notifications (UserId, DeliveryDateTime, Message) VALUES
+(7, '2025-03-31 10:00:00', 'Tomorrow 2025-04-01 10:00:00, you have an appointment with Dr. Bogdan at location City Clinic.'),
+(6, '2025-04-05 11:30:00', 'Tomorrow 2025-04-06 11:30:00, you have an appointment with Dr. Maria at location City Clinic.'),
+(7, '2025-04-04 11:30:00', 'Tomorrow 2025-04-05 11:30:00, you have an appointment with Dr. Bogdan at location City Clinic.')
