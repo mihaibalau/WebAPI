@@ -1,7 +1,9 @@
+# Project structure
+### Please read the pdf before starting to code.
 ```
 📁 ClassLibrary
 │   ├── 📄 ClassLibrary.csproj
-│   ├── 🧩 Domain            # Domain models (used, not reimplemented)
+│   ├── 🧩 Domain            # Domain models (use this in WinUI project, do not redefine them there)
 │   ├── 🧾 IRepository       # Interfaces (must be implemented in WinUI/Repository)
 │   └── 📘 README.md
 📄 Project setup - ISS.pdf
