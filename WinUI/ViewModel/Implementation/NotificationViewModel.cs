@@ -51,6 +51,33 @@ namespace WinUI.ViewModel.Implementation
             }
         }
 
+        public async Task DeleteNotificationAsync(int notificationId, int userId)
+        {
+            try
+            {
+                await notificationService.DeleteAsync(notificationId, userId);
+                var item = FindNotificationById(notificationId);
+                if (item != null)
+                    Notifications.Remove(item);
+
+                ErrorMessage = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Failed to delete notification: {ex.Message}";
+            }
+        }
+
+        private Notification FindNotificationById(int id)
+        {
+            foreach (var notification in Notifications)
+            {
+                if (notification.NotificationId == id)
+                    return notification;
+            }
+            return null;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string name)
