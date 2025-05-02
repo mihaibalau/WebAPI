@@ -1,3 +1,4 @@
+```
 📁 ClassLibrary
 │   ├── 📄 ClassLibrary.csproj
 │   ├── 🧩 Domain            # Domain models (used, not reimplemented)
@@ -35,3 +36,4 @@
 │   ├── 📄 WinUI.csproj
 │   ├── ⚙️ WinUI.csproj.user
 │   └── ⚙️ app.manifest
+```
