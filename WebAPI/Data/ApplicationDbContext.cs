@@ -20,6 +20,8 @@ namespace Data
         public DbSet<PatientEntity> Patients { get; set; }
         public DbSet<UserEntity> Users { get; set; }
 
+        public DbSet<NotificationEntity> Notifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -157,6 +159,22 @@ namespace Data
                       .HasDefaultValueSql("GETDATE()");
             });
 
+            modelBuilder.Entity<NotificationEntity>(entity =>
+            {
+                entity.HasKey(n => n.NotificationId);
+
+                entity.Property(n => n.Message)
+                      .IsRequired()
+                      .HasMaxLength(256);
+
+                entity.Property(n => n.DeliveryDateTime)
+                      .IsRequired();
+
+                entity.HasOne(n => n.User)
+                      .WithMany() 
+                      .HasForeignKey(n => n.UserId)
+                      .OnDelete(DeleteBehavior.Cascade); 
+            });
         }
     }
 }
