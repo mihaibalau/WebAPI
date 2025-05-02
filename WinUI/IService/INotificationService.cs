@@ -5,26 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain;
 
-namespace WinUI.Service.IService
+namespace WinUI.IService
 {
-    public interface INotificationService
+    internal interface INotificationService
     {
-
         /// <summary>
-        /// Return all notification
+        /// Return all Notifications for all users.
         /// </summary>
         Task<List<Notification>> GetAllAsync();
 
         /// <summary>
-        /// Returnează all notification for a user
+        /// Return all notifications for a specific user.
         /// </summary>
         Task<List<Notification>> GetByUserIdAsync(int userId);
 
         /// <summary>
-        /// Delete notification <paramref name="notificationId"/>, 
-        /// delete notifications only for <paramref name="userId"/>.
+        /// Delete all notifications with <paramref name="notificationId"/>, 
+        /// Only if is from user <paramref name="userId"/>.
         /// </summary>
         Task DeleteAsync(int notificationId, int userId);
-
     }
 }

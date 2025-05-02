@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
-using WinUI.Service.IService;
+using WinUI.IService;
 using Domain;
 
 namespace WinUI.Service
