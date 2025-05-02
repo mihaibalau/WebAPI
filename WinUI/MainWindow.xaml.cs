@@ -1,9 +1,12 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Domain;
+using WinUI.Repository;
 
 namespace WinUI
 {
@@ -11,6 +14,7 @@ namespace WinUI
     {
         // HttpClient instance to make HTTP requests
         private static readonly HttpClient client = new HttpClient();
+
         
         public MainWindow()
         {
@@ -24,6 +28,7 @@ namespace WinUI
             {
                 // Make the GET request to your WebAPI
                 var response = await client.GetStringAsync("https://localhost:7004/api/department");
+
 
                 // Update the Button content with the response
                 myButton.Content = response;
