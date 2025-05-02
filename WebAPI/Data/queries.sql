@@ -6,7 +6,7 @@ CREATE TABLE Departments (
 	Name VARCHAR(100) NOT NULL
 );
 
-INSERT INTO Departments(Name) VALUES ('Pediatry'), ('Oncology')
+INSERT INTO Departments(Name) VALUES ('Pediatry'), ('Oncology'), ('Neurology')
 
 CREATE TABLE Users (
     UserId INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
