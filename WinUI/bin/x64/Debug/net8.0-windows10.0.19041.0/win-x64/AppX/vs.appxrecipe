@@ -29,7 +29,7 @@
     <AppXManifest Include="D:\UBB-SE\WinUI\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-05-02T06:07:02.339</Modified>
+      <Modified>2025-05-02T06:21:16.939</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -43,11 +43,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\UBB-SE\WinUI\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\WinUI.dll">
       <PackagePath>WinUI.dll</PackagePath>
-      <Modified>2025-05-02T06:07:02.033</Modified>
+      <Modified>2025-05-02T06:21:16.235</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\UBB-SE\WinUI\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\apphost.exe">
       <PackagePath>WinUI.exe</PackagePath>
-      <Modified>2025-05-02T06:07:02.038</Modified>
+      <Modified>2025-05-02T06:21:16.294</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\User\.nuget\packages\microsoft.netcore.app.runtime.win-x64\8.0.14\runtimes\win-x64\lib\net8.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>

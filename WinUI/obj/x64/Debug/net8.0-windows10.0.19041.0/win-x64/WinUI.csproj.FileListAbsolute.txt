@@ -253,3 +253,4 @@ D:\UBB-SE\WinUI\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\qualifiers.txt
 D:\UBB-SE\WinUI\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\qualifiers.txt.intermediate
 D:\UBB-SE\WinUI\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\MultipleQualifiersPerDimensionFound.txt
 D:\UBB-SE\WinUI\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ProjectArchitectures.txt
+D:\UBB-SE\WinUI\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\WinUI.sourcelink.json
