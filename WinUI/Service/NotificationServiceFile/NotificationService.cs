@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using Domain;
+using WinUI.Service.NotificationServiceFile;
 
 namespace WinUI.Service.NotificationFile
 {
