@@ -22,7 +22,7 @@ namespace WinUI.Repository
         /// <returns> 1 of the rows were modified.</returns>
         /// <exception cref="AuthenticationException">Throws exception if the type was not valid or if 
         /// there was a logger action error.</exception>
-        void authenticationLogService(int _user_id, ActionType _action_type_login_or_logout);
+        Task<bool> authenticationLogService(int _user_id, ActionType _action_type_login_or_logout);
 
         /// <summary>
         /// Creates a user account with the given information and adds it to the database.
@@ -31,7 +31,7 @@ namespace WinUI.Repository
         /// <returns> 1 if the user account was created, 0 otherwise.</returns>
         /// <exception cref="AuthenticationException">Throws an exception if the user already exists
         /// or if there was a database error.</exception>
-        void createAccount(UserCreateAccountModel _model_for_creating_user_account);
+        Task<bool> createAccount(UserCreateAccountModel _model_for_creating_user_account);
 
         /// <summary>
         /// Gets a user's information from the database based on the username.
