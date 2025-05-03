@@ -85,7 +85,7 @@ namespace WinUI.Service
             var domainPatient = await _patientRepository.GetPatientByUserIdAsync(userId);
             if (domainPatient == null) return false;
             domainPatient.EmergencyContact = emergencyContact;
-            await _patientRepository.AddPatientAsync(domainPatient); // ← assumes Add is Upsert
+            await _patientRepository.AddPatientAsync(domainPatient);
             return true;
         }
 
@@ -94,7 +94,7 @@ namespace WinUI.Service
             var domainPatient = await _patientRepository.GetPatientByUserIdAsync(userId);
             if (domainPatient == null) return false;
             domainPatient.Weight = weight;
-            await _patientRepository.AddPatientAsync(domainPatient); // ← assumes Add is Upsert
+            await _patientRepository.AddPatientAsync(domainPatient);
             return true;
         }
 
