@@ -66,16 +66,16 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Timestamp -->
-                        <TextBlock Text="{Binding Timestamp}" Grid.Column="0" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding log_id}" Grid.Column="0" VerticalAlignment="Center" />
 
                         <!-- UserId -->
-                        <TextBlock Text="{Binding UserId}" Grid.Column="1" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding user_id}" Grid.Column="1" VerticalAlignment="Center" />
 
                         <!-- ActionType -->
-                        <TextBlock Text="{Binding ActionType}" Grid.Column="2" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding action_type}" Grid.Column="2" VerticalAlignment="Center" />
 
                         <!-- Timestamp -->
-                        <TextBlock Text="{Binding Timestamp}" Grid.Column="3" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding timestamp}" Grid.Column="3" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
