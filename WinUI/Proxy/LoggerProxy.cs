@@ -1,4 +1,4 @@
-﻿// <copyright file="LoggerRepository.cs"  company="PlaceholderCompany">
+﻿// <copyright file="LoggerProxy.cs"  company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -9,29 +9,30 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using WinUI.Model;
+using WinUI.Repository;
 
-namespace WinUI.Repository
+namespace WinUI.Proxy
 {
     /// <summary>
     /// Service for handling database operations related to system logs.
     /// </summary>
-    public class LoggerRepository : ILoggerRepository
+    public class LoggerProxy : ILoggerRepository
     {
-        private readonly HttpClient client;
-        private readonly string baseApiUrl;
-        private readonly JsonSerializerOptions jsonOptions;
+        private readonly HttpClient _client;
+        private readonly string _baseApiUrl;
+        private readonly JsonSerializerOptions _jsonOptions;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoggerRepository"/> class.
+        /// Initializes a new instance of the <see cref="LoggerProxy"/> class.
         /// </summary>
         /// <param name="configProvider">The configuration provider for database connection information.</param>
         /// <exception cref="ArgumentNullException">Thrown when configProvider is null.</exception>
-        public LoggerRepository()
+        public LoggerProxy()
         {
-            client = new HttpClient();
-            baseApiUrl = "https://localhost:7004/";
+            _client = new HttpClient();
+            _baseApiUrl = "https://localhost:7004/";
 
-            jsonOptions = new JsonSerializerOptions
+            _jsonOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
@@ -46,10 +47,10 @@ namespace WinUI.Repository
             try
             {
                 // The ApiLogDto is a temporary class to handle the API response
-                var response = await client.GetAsync($"{baseApiUrl}/api/log");
+                var response = await _client.GetAsync($"{_baseApiUrl}/api/log");
                 response.EnsureSuccessStatusCode();
 
-                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(jsonOptions);
+                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
                 return ConvertApiLogsToLogEntryModels(apiLogs);
             }
             catch (Exception ex)
@@ -68,9 +69,9 @@ namespace WinUI.Repository
         {
             try
             {
-                var response = await client.GetAsync($"{baseApiUrl}/api/log");
+                var response = await _client.GetAsync($"{_baseApiUrl}/api/log");
                 response.EnsureSuccessStatusCode();
-                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(jsonOptions);
+                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
                 var filteredApiLogs = apiLogs.FindAll(log => log.UserId == userId);
                 return ConvertApiLogsToLogEntryModels(filteredApiLogs);
             }
@@ -91,9 +92,9 @@ namespace WinUI.Repository
         {
             try
             {
-                var response = await client.GetAsync($"{baseApiUrl}/api/log");
+                var response = await _client.GetAsync($"{_baseApiUrl}/api/log");
                 response.EnsureSuccessStatusCode();
-                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(jsonOptions);
+                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
                 var filteredApiLogs = apiLogs.FindAll(log => log.Timestamp < beforeTimeStamp);
                 return ConvertApiLogsToLogEntryModels(filteredApiLogs);
             }
@@ -121,7 +122,7 @@ namespace WinUI.Repository
                     Timestamp = DateTime.UtcNow
                 };
 
-                var response = await client.PostAsJsonAsync($"{baseApiUrl}/api/log", logData);
+                var response = await _client.PostAsJsonAsync($"{_baseApiUrl}/api/log", logData);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -140,9 +141,9 @@ namespace WinUI.Repository
         {
             try
             {
-                var response = await client.GetAsync($"{baseApiUrl}/api/log");
+                var response = await _client.GetAsync($"{_baseApiUrl}/api/log");
                 response.EnsureSuccessStatusCode();
-                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(jsonOptions);
+                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
                 var filteredApiLogs = apiLogs.FindAll(log => log.ActionType == actionType.ToString());
                 return ConvertApiLogsToLogEntryModels(filteredApiLogs);
             }
@@ -163,9 +164,9 @@ namespace WinUI.Repository
         {
             try
             {
-                var response = await client.GetAsync($"{baseApiUrl}/api/log");
+                var response = await _client.GetAsync($"{_baseApiUrl}/api/log");
                 response.EnsureSuccessStatusCode();
-                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(jsonOptions);
+                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
                 var filteredApiLogs = apiLogs.FindAll(log => 
                     log.ActionType == actionType.ToString() &&
                     log.Timestamp < beforeTimeStamp);
@@ -189,9 +190,9 @@ namespace WinUI.Repository
         {
             try
             {
-                var response = await client.GetAsync($"{baseApiUrl}/api/log");
+                var response = await _client.GetAsync($"{_baseApiUrl}/api/log");
                 response.EnsureSuccessStatusCode();
-                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(jsonOptions);
+                var apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
                 var filteredApiLogs = apiLogs.FindAll(log =>
                     log.UserId == userId &&
                     log.ActionType == actionType.ToString() &&
