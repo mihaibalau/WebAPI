@@ -8,15 +8,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-namespace WinUI.Repository
+namespace WinUI.Proxy
 {
-    internal class DoctorsRepository : IDoctorRepository
+    internal class DoctorsProxy : IDoctorRepository
     {
         private readonly HttpClient _client;
 
-        public DoctorsRepository(HttpClient client)
+        public DoctorsProxy(HttpClient client)
         {
-            this._client = client;
+            _client = client;
         }
 
         public async Task AddDoctorAsync(Doctor doctor)

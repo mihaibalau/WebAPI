@@ -11,6 +11,8 @@ namespace WinUI.Service
     public class SearchDoctorsService : ISearchDoctorsService
     {
         private readonly IDoctorRepository _doctorsRepository;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUserRepository _userRepository;
         public List<DoctorModel> AvailableDoctors { get; private set; }
 
         public SearchDoctorsService(IDoctorRepository doctorsDatabaseHelper)
@@ -64,20 +66,21 @@ namespace WinUI.Service
                     return new List<DoctorModel>();
                 }
 
-                // Filter doctors whose department name contains the search term (case-insensitive)
                 var filteredDoctors = allDoctors
-                    .Where(doctor => doctor.Department?.Name?.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .Where(doctor =>
+                    {
+                        var department = _departmentRepository.GetDepartmentByIdAsync(doctor.DepartmentId).Result;
+                        return department?.Name?.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0;
+                    })
                     .Select(doctor => new DoctorModel
                     {
-                        DoctorId = doctor.DoctorId,
-                        DoctorName = doctor.Name ?? DoctorModel.DefaultName,
-                        DepartmentId = doctor.Department?.DepartmentId ?? DoctorModel.DefaultDepartmentId,
-                        DepartmentName = doctor.Department?.Name ?? DoctorModel.DefaultDepartmentName,
-                        Rating = doctor.Rating ?? DoctorModel.DefaultRating,
-                        CareerInfo = doctor.CareerInfo ?? DoctorModel.DefaultCareerInfo,
-                        AvatarUrl = doctor.AvatarUrl,
-                        PhoneNumber = doctor.PhoneNumber ?? DoctorModel.DefaultPhone,
-                        Mail = doctor.Email ?? DoctorModel.DefaultEmail
+                        DoctorId = doctor.UserId, 
+                        DoctorName = GetUserName(doctor.UserId), 
+                        DepartmentId = doctor.DepartmentId,
+                        DepartmentName = GetDepartmentName(doctor.DepartmentId), 
+                        Rating = doctor.DoctorRating,
+                        PhoneNumber = GetUserPhoneNumber(doctor.UserId),
+                        Mail = GetUserEmail(doctor.UserId)
                     })
                     .ToList();
 
@@ -105,22 +108,21 @@ namespace WinUI.Service
                     return new List<DoctorModel>();
                 }
 
-                // Filter doctors whose name contains the search term (case-insensitive)
                 var filteredDoctors = allDoctors
                     .Where(doctor =>
-                        doctor.Name?.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0
-                    )
+                    {
+                        var user = _userRepository.GetUserByIdAsync(doctor.UserId).Result;
+                        return user?.Name?.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0;
+                    })
                     .Select(doctor => new DoctorModel
                     {
-                        DoctorId = doctor.DoctorId,
-                        DoctorName = doctor.Name ?? DoctorModel.DefaultName,
-                        DepartmentId = doctor.Department?.DepartmentId ?? DoctorModel.DefaultDepartmentId,
-                        DepartmentName = doctor.Department?.Name ?? DoctorModel.DefaultDepartmentName,
-                        Rating = doctor.Rating ?? DoctorModel.DefaultRating,
-                        CareerInfo = doctor.CareerInfo ?? DoctorModel.DefaultCareerInfo,
-                        AvatarUrl = doctor.AvatarUrl,
-                        PhoneNumber = doctor.PhoneNumber ?? DoctorModel.DefaultPhone,
-                        Mail = doctor.Email ?? DoctorModel.DefaultEmail
+                        DoctorId = doctor.UserId, 
+                        DoctorName = GetUserName(doctor.UserId), 
+                        DepartmentId = doctor.DepartmentId,
+                        DepartmentName = GetDepartmentName(doctor.DepartmentId), 
+                        Rating = doctor.DoctorRating, 
+                        PhoneNumber = GetUserPhoneNumber(doctor.UserId),
+                        Mail = GetUserEmail(doctor.UserId)
                     })
                     .ToList();
 
@@ -131,6 +133,30 @@ namespace WinUI.Service
                 Console.WriteLine($"Error searching doctors by name: {ex.Message}");
                 return new List<DoctorModel>();
             }
+        }
+
+        private string GetUserName(int userId)
+        {
+            var user = _userRepository.GetUserByIdAsync(userId).Result;
+            return user?.Name ?? DoctorModel.DefaultName;
+        }
+
+        private string GetDepartmentName(int departmentId)
+        {
+            var department = _departmentRepository.GetDepartmentByIdAsync(departmentId).Result;
+            return department?.Name ?? DoctorModel.DefaultDepartmentName;
+        }
+
+        private string GetUserPhoneNumber(int userId)
+        {
+            var user = _userRepository.GetUserByIdAsync(userId).Result;
+            return user?.PhoneNumber ?? DoctorModel.DefaultPhone;
+        }
+
+        private string GetUserEmail(int userId)
+        {
+            var user = _userRepository.GetUserByIdAsync(userId).Result;
+            return user?.Mail ?? DoctorModel.DefaultEmail;
         }
 
         public List<DoctorModel> GetSearchedDoctors()
