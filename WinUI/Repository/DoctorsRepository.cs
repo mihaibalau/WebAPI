@@ -12,7 +12,12 @@ namespace WinUI.Repository
 {
     internal class DoctorsRepository : IDoctorRepository
     {
-        private static readonly HttpClient client = new HttpClient();
+        private readonly HttpClient _client;
+
+        public DoctorsRepository(HttpClient client)
+        {
+            this._client = client;
+        }
 
         public async Task AddDoctorAsync(Doctor doctor)
         {
@@ -22,25 +27,25 @@ namespace WinUI.Repository
                 Encoding.UTF8,
                 "application/json");
 
-            await client.PostAsync("https://localhost:7004/api/doctor", content);
+            await _client.PostAsync("https://localhost:7004/api/doctor", content);
         }
 
 
         public Task DeleteDoctorAsync(int id)
         {
-             return client.DeleteAsync($"https://localhost:7004/api/doctor/delete/{id}");
+             return _client.DeleteAsync($"https://localhost:7004/api/doctor/delete/{id}");
         }
 
         public Task<List<Doctor>> GetAllDoctorsAsync()
         {
-            var response = client.GetStringAsync("https://localhost:7004/api/doctor");
+            var response = _client.GetStringAsync("https://localhost:7004/api/doctor");
             var doctors = JsonSerializer.Deserialize<List<Doctor>>(response.Result); // Deserialize ( convert string -> object ) the JSON response into a list of Doctor objects
             return Task.FromResult(doctors);
         }
 
         public Task<Doctor> GetDoctorByUserIdAsync(int id)
         {
-            var response = client.GetStringAsync($"https://localhost:7004/api/doctor/{id}");
+            var response = _client.GetStringAsync($"https://localhost:7004/api/doctor/{id}");
             var doctor = JsonSerializer.Deserialize<Doctor>(response.Result);  
             return Task.FromResult(doctor);
 
@@ -48,7 +53,7 @@ namespace WinUI.Repository
 
         public Task<List<Doctor>> GetDoctorsByDepartmentIdAsync(int departmentId)
         {
-            var response = client.GetStringAsync($"https://localhost:7004/api/doctor/doctor/{departmentId}");
+            var response = _client.GetStringAsync($"https://localhost:7004/api/doctor/doctor/{departmentId}");
             var doctors = JsonSerializer.Deserialize<List<Doctor>>(response.Result);  
             return Task.FromResult(doctors);
         }
