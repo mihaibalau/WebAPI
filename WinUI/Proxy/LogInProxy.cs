@@ -23,7 +23,7 @@ namespace WinUI.Proxy
             this._httpClient = httpClient;
         }
 
-        public async void authenticationLogService(int _user_id, ActionType _action_type_login_or_logout)
+        public async Task<bool> authenticationLogService(int _user_id, ActionType _action_type_login_or_logout)
         {
             HttpResponseMessage response = await this._httpClient.PostAsync(
                 this._baseUrl + "api/log",
@@ -40,9 +40,10 @@ namespace WinUI.Proxy
             );
 
             response.EnsureSuccessStatusCode();
+            return true;
         }
 
-        public async void createAccount(UserCreateAccountModel _model_for_creating_user_account)
+        public async Task<bool> createAccount(UserCreateAccountModel _model_for_creating_user_account)
         {
             HttpResponseMessage _response = await this._httpClient.GetAsync(this._baseUrl + "api/user");
             _response.EnsureSuccessStatusCode();
@@ -59,6 +60,7 @@ namespace WinUI.Proxy
                                       || u.mail == _model_for_creating_user_account.mail);
 
             if (exists) throw new AuthenticationException("User already exists!");
+            if (exists) return false;
 
             string _user_json = JsonSerializer.Serialize(new UserHttpModel
             {
@@ -77,6 +79,8 @@ namespace WinUI.Proxy
             StringContent _content = new StringContent(_user_json, Encoding.UTF8, "application/json");
             HttpResponseMessage _post_response = await this._httpClient.PostAsync(this._baseUrl + "api/user", _content);
             _post_response.EnsureSuccessStatusCode();
+
+            return true;
         }
 
         public async Task<UserAuthModel> getUserByUsername(string _username)
