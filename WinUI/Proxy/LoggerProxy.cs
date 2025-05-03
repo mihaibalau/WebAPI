@@ -30,7 +30,7 @@ namespace WinUI.Proxy
         public LoggerProxy()
         {
             _client = new HttpClient();
-            _baseApiUrl = "https://localhost:5005";
+            _baseApiUrl = "http://localhost:5005";
 
             _jsonOptions = new JsonSerializerOptions
             {
