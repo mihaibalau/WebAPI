@@ -88,6 +88,16 @@ namespace WinUI.View
 
                 this.LoginPanel.Visibility = Visibility.Collapsed;
 
+                var _debug_dialog = new ContentDialog
+                {
+                    Title = "GOOD",
+                    Content = $"LOGGED IN!",
+                    CloseButtonText = "OK",
+                };
+
+                _debug_dialog.XamlRoot = this.Content.XamlRoot;
+                await _debug_dialog.ShowAsync();
+
                 // TODO: UPDATE
                 //if (this._login_page_view_model.getUserRole() == "Patient")
                 //{
@@ -108,14 +118,15 @@ namespace WinUI.View
                 //    this.mainFrame.Navigate(typeof(DoctorDashboardPage), parameters);
                 //    return;
                 //}
+                
                 //  Admin Dashboard is done
-                /*else if (this._login_page_view_model.getUserRole() == "Admin")
+                if (this._login_page_view_model.getUserRole() == "Admin")
                 {
-                       ILoggerRepository loggerRepository = new LoggerProxy();
-                       var parameters = new Tuple<IAuthViewModel, ILoggerRepository>(this._login_page_view_model, loggerRepository);
-                       NavigationService.Navigate(typeof(AdminDashboardPage), parameters);
+                       ILoggerRepository _logger_repository = new LoggerProxy();
+                       Tuple<IAuthViewModel, ILoggerRepository> _parameters = new Tuple<IAuthViewModel, ILoggerRepository>(this._login_page_view_model, _logger_repository);
+                       NavigationService.Navigate(typeof(AdminDashboardPage), _parameters);
                        return;
-                }*/
+                }
             }
             catch (AuthenticationException _new_authentication_exception)
             {
