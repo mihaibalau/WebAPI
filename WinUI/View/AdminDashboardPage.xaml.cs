@@ -1,0 +1,158 @@
+// <copyright file="AdminDashboardPage.xaml.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+
+namespace WinUI.View
+{
+    using System;
+    using System.Threading.Tasks;
+    using WinUI.Repository;
+    using WinUI.Service;
+    using WinUI.ViewModel;
+    using Microsoft.UI.Xaml;
+    using Microsoft.UI.Xaml.Controls;
+    using Microsoft.UI.Xaml.Data;
+    using Microsoft.UI.Xaml.Navigation;
+
+    /// <summary>
+    /// Window for the Admin Dashboard functionality.
+    /// </summary>
+    public sealed partial class AdminDashboardPage : Page
+    {
+        private IAuthViewModel authViewModel;
+        private ILoggerViewModel loggerViewModel;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminDashboardPage"/> class.
+        /// Default constructor for XAML preview.
+        /// </summary>
+        public AdminDashboardPage()
+        {
+            this.InitializeComponent();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminDashboardPage"/> class.
+        /// </summary>
+        /// <param name="authViewModel">Authentication service for user operations.</param>
+        /// <param name="loggerRepository">Logger service for auditing.</param>
+        /// <exception cref="ArgumentNullException">Thrown if auth service is null.</exception>
+        public AdminDashboardPage(IAuthViewModel authViewModel, ILoggerRepository loggerRepository)
+        {
+            this.InitializeComponent();
+            this.authViewModel = authViewModel ?? throw new ArgumentNullException(nameof(authViewModel));
+            InitializeLogger(loggerRepository ?? throw new ArgumentNullException(nameof(loggerRepository)));
+        }
+
+        /// <summary>
+        /// Override OnNavigatedTo to handle parameters passed during navigation
+        /// </summary>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter is Tuple<IAuthViewModel, ILoggerRepository> parameters)
+            {
+                this.authViewModel = parameters.Item1;
+                InitializeLogger(parameters.Item2);
+            }
+            else if (e.Parameter is ValueTuple<IAuthViewModel, ILoggerRepository> valueTuple)
+            {
+                this.authViewModel = valueTuple.Item1;
+                InitializeLogger(valueTuple.Item2);
+            }
+        }
+
+        private void InitializeLogger(ILoggerRepository loggerRepository)
+        {
+            // Initialize LoggerViewModel with LoggerService
+            var loggerManagerModel = new LoggerService(loggerRepository);
+            this.loggerViewModel = new LoggerViewModel(loggerManagerModel);
+
+            // Load all logs initially
+            this.LoadInitialLogData();
+
+            // Set up UI bindings
+            this.ConfigureUserInterface();
+        }
+
+        private void LoadInitialLogData()
+        {
+            this.loggerViewModel.LoadAllLogsCommand.Execute(null);
+        }
+
+        private void ConfigureUserInterface()
+        {
+            // Set the item source for ListView
+            this.LogListView.ItemsSource = this.loggerViewModel.Logs;
+
+            // Set up ComboBox for action types
+            this.ActionTypeComboBox.ItemsSource = this.loggerViewModel.ActionTypes;
+
+            // Bind TextBox for user ID filtering
+            this.UserIdTextBox.SetBinding(TextBox.TextProperty, new Binding
+            {
+                Path = new PropertyPath("UserIdInput"),
+                Source = this.loggerViewModel,
+                Mode = BindingMode.TwoWay,
+            });
+
+            // Bind ComboBox for action type filtering
+            this.ActionTypeComboBox.SetBinding(ComboBox.SelectedItemProperty, new Binding
+            {
+                Path = new PropertyPath("SelectedActionType"),
+                Source = this.loggerViewModel,
+                Mode = BindingMode.TwoWay,
+            });
+
+            // Bind DatePicker for timestamp filtering
+            this.TimestampDatePicker.SetBinding(DatePicker.DateProperty, new Binding
+            {
+                Path = new PropertyPath("SelectedTimestamp"),
+                Source = this.loggerViewModel,
+                Mode = BindingMode.TwoWay,
+                Converter = new Helpers.DateTimeToDateTimeOffsetConverter(),
+            });
+
+            // Bind the buttons directly to commands in the ViewModel
+            this.LoadAllLogsButton.Command = this.loggerViewModel.LoadAllLogsCommand;
+            this.LoadLogsByUserIdButton.Command = this.loggerViewModel.FilterLogsByUserIdCommand;
+            this.LoadLogsByActionTypeButton.Command = this.loggerViewModel.FilterLogsByActionTypeCommand;
+            this.LoadLogsBeforeTimestampButton.Command = this.loggerViewModel.FilterLogsByTimestampCommand;
+            this.ApplyFiltersButton.Command = this.loggerViewModel.ApplyAllFiltersCommand;
+        }
+
+        private async void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            await this.PerformLogoutAsync();
+        }
+
+        private async Task PerformLogoutAsync()
+        {
+            try
+            {
+                await this.authViewModel.logout();
+                NavigationService.NavigateToLogin();
+            }
+            catch (Exception exception)
+            {
+                await this.DisplayErrorDialogAsync($"Logout error: {exception.Message}");
+            }
+        }
+
+
+        private async Task DisplayErrorDialogAsync(string errorMessage)
+        {
+            ContentDialog errorDialog = new ContentDialog
+            {
+                Title = "Error",
+                Content = errorMessage,
+                CloseButtonText = "OK",
+                XamlRoot = this.Content.XamlRoot,
+            };
+
+            await errorDialog.ShowAsync();
+        }
+    }
+}

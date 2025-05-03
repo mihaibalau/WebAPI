@@ -11,6 +11,9 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <None Update="View\AdminDashboardPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
     <None Update="View\LoggerView.xaml">
       <SubType>Designer</SubType>
     </None>
