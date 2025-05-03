@@ -25,21 +25,20 @@ namespace WinUI.Proxy
 
         public async Task<bool> authenticationLogService(int _user_id, ActionType _action_type_login_or_logout)
         {
-            HttpResponseMessage response = await this._httpClient.PostAsync(
-                this._baseUrl + "api/log",
-                new StringContent(
-                    JsonSerializer.Serialize(
-                        new {
-                            logId = 0, // Assuming logId is auto-generated
-                            userId = _user_id,
-                            actionType = _action_type_login_or_logout.convertToString(),
-                            timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ") // ISO 8601 format
-                        }
-                    )
-                )
-            );
+            UserLogHttpModel log = new UserLogHttpModel
+            {
+                log_id = 0, // Assuming the server auto-generates this
+                user_id = _user_id,
+                action_type = _action_type_login_or_logout.convertToString(),
+                timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")
+            };
 
+            string logJson = JsonSerializer.Serialize(log);
+            StringContent content = new StringContent(logJson, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync(_baseUrl + "api/log", content);
             response.EnsureSuccessStatusCode();
+
             return true;
         }
 
@@ -140,6 +139,21 @@ namespace WinUI.Proxy
 
             [JsonPropertyName("registrationDate")]
             public DateTime registration_date { get; set; }
+        }
+
+        private class UserLogHttpModel
+        {
+            [JsonPropertyName("logId")]
+            public int log_id { get; set; }
+
+            [JsonPropertyName("userId")]
+            public int user_id { get; set; }
+
+            [JsonPropertyName("actionType")]
+            public string action_type { get; set; }
+
+            [JsonPropertyName("timestamp")]
+            public string timestamp { get; set; } // ISO 8601 string format
         }
     }
 }
