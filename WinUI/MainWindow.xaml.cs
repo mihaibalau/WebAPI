@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Domain;
 using WinUI.Repository;
+using ClassLibrary.IRepository;
+using WinUI.Proxy;
 
 namespace WinUI
 {
@@ -26,15 +28,13 @@ namespace WinUI
         {
             try
             {
+                INotificationRepository NotificationProxy = new NotificationProxy(new HttpClient());
                 // Make the GET request to your WebAPI
-                var response = await client.GetStringAsync("https://localhost:7004/api/department");
+                var response = await NotificationProxy.GetAllNotificationsAsync();
 
 
                 // Update the Button content with the response
-                myButton.Content = response;
-
-                // Optionally, update a TextBlock with the response
-                responseText.Text = response;
+                myButton.Content = response[0]; // should print Domain.Notification since we dont have a ToString() method;
             }
             catch (Exception ex)
             {
