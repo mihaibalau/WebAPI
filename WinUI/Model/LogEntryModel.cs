@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,7 +65,6 @@ namespace WinUI.Model
     /// <param name="_timestamp">The date and time when the action occurred.</param>
     public class LogEntryModel(int _log_id, int _user_id, ActionType _action, DateTime _timestamp)
     {
-
         /// <summary>
         /// Gets or sets the unique identifier for the log entry.
         /// </summary>
@@ -75,7 +74,7 @@ namespace WinUI.Model
         /// Gets or sets the ID of the user who performed the action.
         /// </summary>
         public int user_id { get; set; } = _user_id;
-
+      
         /// <summary>
         /// Gets or sets the type of action performed.
         /// </summary>
