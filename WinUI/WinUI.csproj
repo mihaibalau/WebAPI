@@ -16,6 +16,8 @@
     <Page Remove="View\DoctorDashboardControl.xaml" />
     <Page Remove="View\DoctorDashboardPage.xaml" />
     <Page Remove="View\SearchDoctorsView.xaml" />
+    <None Remove="View\PatientDashboardControl.xaml" />
+    <None Remove="View\PatientDashboardView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -79,5 +81,17 @@
 	   
 	<ItemGroup>
 		<ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
+	</ItemGroup>
+	   
+	<ItemGroup>
+	  <Page Update="View\PatientDashboardView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	   
+	<ItemGroup>
+	  <Page Update="View\PatientDashboardControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 </Project>

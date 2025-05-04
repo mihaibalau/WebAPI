@@ -1,0 +1,138 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ClassLibrary.IRepository;
+using ClassLibrary.Domain;
+using WinUI.Model;
+using WinUI.Service;
+
+namespace WinUI.Service
+{
+    class PatientService : IPatientService
+    {
+        private readonly IPatientRepository _patient_repository; // ← From ClassLibrary.IRepository
+
+        public PatientJointModel _patient_info { get; private set; } = PatientJointModel.Default;
+        public List<PatientJointModel> _patient_list { get; private set; } = new List<PatientJointModel>();
+
+        public PatientService(IPatientRepository _patient_repository)
+        {
+            this._patient_repository = _patient_repository;
+        }
+
+        public async Task<bool> loadPatientInfoByUserId(int _user_id)
+        {
+            Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
+            if (domain_patient == null)
+            {
+                _patient_info = PatientJointModel.Default;
+                return false;
+            }
+
+            this._patient_info = mapToJointModel(domain_patient);
+            Debug.WriteLine($"Patient info loaded: {this._patient_info.patient_name}");
+            return true;
+        }
+
+        public async Task<bool> loadAllPatients()
+        {
+            List<Patient> domain_patients = await this._patient_repository.getAllPatientsAsync();
+            this._patient_list = domain_patients.Select(mapToJointModel).ToList();
+            return true;
+        }
+
+        public virtual async Task<bool> updatePassword(int _user_id, string _password)
+        {
+            throw new NotSupportedException("updatePassword is not supported in IPatientRepository from ClassLibrary.");
+        }
+
+        public virtual async Task<bool> updateEmail(int _user_id, string _email)
+        {
+            throw new NotSupportedException("updateEmail is not supported in IPatientRepository from ClassLibrary.");
+        }
+
+        public virtual async Task<bool> updateUsername(int _user_id, string _username)
+        {
+            throw new NotSupportedException("updateUsername is not supported in IPatientRepository from ClassLibrary.");
+        }
+
+        public virtual async Task<bool> updateName(int _user_id, string _name)
+        {
+            throw new NotSupportedException("updateName is not supported in IPatientRepository from ClassLibrary.");
+        }
+
+        public virtual async Task<bool> updateBirthDate(int _user_id, DateOnly _birth_date)
+        {
+            throw new NotSupportedException("updateBirthDate is not supported in IPatientRepository from ClassLibrary.");
+        }
+
+        public virtual async Task<bool> updateAddress(int _user_id, string _address)
+        {
+            throw new NotSupportedException("updateAddress is not supported in IPatientRepository from ClassLibrary.");
+        }
+
+        public virtual async Task<bool> updatePhoneNumber(int _user_id, string _phone_number)
+        {
+            throw new NotSupportedException("updatePhoneNumber is not supported in IPatientRepository from ClassLibrary.");
+        }
+
+        public virtual async Task<bool> updateEmergencyContact(int _user_id, string _emergency_contact)
+        {
+            // This one is supported
+            Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(_user_id);
+            if (domain_patient == null) return false;
+            domain_patient.EmergencyContact = _emergency_contact;
+            await this._patient_repository.addPatientAsync(domain_patient);
+            return true;
+        }
+
+        public virtual async Task<bool> updateWeight(int _user_id, double weight)
+        {
+            Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
+            if (domain_patient == null) return false;
+            domain_patient.Weight = weight;
+            await this._patient_repository.addPatientAsync(domain_patient);
+            return true;
+        }
+
+        public virtual async Task<bool> updateHeight(int _user_id, int height)
+        {
+            Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
+            if (domain_patient == null) return false;
+            domain_patient.Height = height;
+            await this._patient_repository.addPatientAsync(domain_patient); // ← assumes Add is Upsert
+            return true;
+        }
+
+        public virtual async Task<bool> logUpdate(int _user_id, ActionType action)
+        {
+            Debug.WriteLine($"logUpdate called for user {_user_id}, action: {action}");
+            return await Task.FromResult(true); // stub implementation
+        }
+
+        private PatientJointModel mapToJointModel(Patient _domain_patient)
+        {
+            return new PatientJointModel(
+                _domain_patient.UserId,
+                _domain_patient.UserId, // using _user_id as patient_id if not available
+                $"Patient {_domain_patient.UserId}", // placeholder
+                _domain_patient.BloodType ?? string.Empty,
+                _domain_patient.EmergencyContact ?? string.Empty,
+                _domain_patient.Allergies ?? string.Empty,
+                _domain_patient.Weight,
+                _domain_patient.Height,
+                $"user{_domain_patient.UserId}", // placeholder
+                string.Empty, // placeholder
+                $"patient{_domain_patient.UserId}@example.com", // placeholder
+                DateOnly.FromDateTime(DateTime.Now), // placeholder
+                string.Empty, // placeholder
+                string.Empty, // placeholder
+                string.Empty, // placeholder
+                DateTime.Now // placeholder
+            );
+        }
+    }
+}

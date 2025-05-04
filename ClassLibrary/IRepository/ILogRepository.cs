@@ -13,34 +13,34 @@ namespace ClassLibrary.IRepository
         /// Gets all logs.
         /// </summary>
         /// <returns></returns>
-        Task<List<Log>> GetAllLogsAsync();
+        Task<List<Log>> getAllLogsAsync();
 
         /// <summary>
         /// Gets a log by its unique identifier.
         /// </summary>
         /// <param name="id">the id of the log.</param>
         /// <returns>The log with the given id.</returns>
-        Task<Log> GetLogByIdAsync(int id);
+        Task<Log> getLogByIdAsync(int id);
 
         /// <summary>
         /// Gets a log by its user id.
         /// </summary>
         /// <param name="userId">The id of the user.</param>
         /// <returns>The log with the given user id.</returns>
-        Task<Log> GetLogByUserIdAsync(int userId);
+        Task<Log> getLogByUserIdAsync(int userId);
 
         /// <summary>
         /// Adds a new log to the system.
         /// </summary>
         /// <param name="log">The log to be added.</param>
         /// <returns> task representing the asynchronous operation.</returns>
-        Task AddLogAsync(Log log);
+        Task addLogAsync(Log log);
 
         /// <summary>
         /// Deletes a log by its unique identifier.
         /// </summary>
         /// <param name="id">The id of the log</param>
         /// <returns> task representing the asynchronous operation.</returns>
-        Task DeleteLogAsync(int id);
+        Task deleteLogAsync(int id);
     }
 }
