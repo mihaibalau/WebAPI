@@ -29,8 +29,18 @@ namespace ClassLibrary.IRepository
         /// <returns>The list of doctors with the given department id</returns>
         Task<List<Doctor>> GetDoctorsByDepartmentIdAsync(int departmentId);
 
+        /// <summary>
+        /// Adds a new doctor to the system.
+        /// </summary>
+        /// <param name="doctor">The doctor to add.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         Task AddDoctorAsync(Doctor doctor);
 
+        /// <summary>
+        /// Deletes a doctor by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the doctor to delete.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         Task DeleteDoctorAsync(int id);
     }
 }

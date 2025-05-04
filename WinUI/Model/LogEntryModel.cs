@@ -41,9 +41,9 @@ namespace WinUI.Model
 
     static class ActionTypeMethods
     {
-        public static String convertToString(this ActionType s1)
+        public static String convertToString(this ActionType actionType)
         {
-            switch (s1)
+            switch (actionType)
             {
                 case ActionType.LOGIN:
                     return "LOGIN";
@@ -61,9 +61,9 @@ namespace WinUI.Model
     /// Represents a log entry in the system's activity log.
     /// <param name="_log_id">The unique identifier for the log entry.</param>
     /// <param name="_user_id">The user ID associated with the action.</param>
-    /// <param name="_action">The type of action performed.</param>
+    /// <param name="_action_type">The type of action performed.</param>
     /// <param name="_timestamp">The date and time when the action occurred.</param>
-    public class LogEntryModel(int _log_id, int _user_id, ActionType _action, DateTime _timestamp)
+    public class LogEntryModel(int _log_id, int _user_id, ActionType _action_type, DateTime _timestamp)
     {
         /// <summary>
         /// Gets or sets the unique identifier for the log entry.
@@ -78,7 +78,7 @@ namespace WinUI.Model
         /// <summary>
         /// Gets or sets the type of action performed.
         /// </summary>
-        public ActionType action_type { get; set; } = _action;
+        public ActionType action_type { get; set; } = _action_type;
 
         /// <summary>
         /// Gets or sets the date and time when the action was performed.
@@ -91,7 +91,7 @@ namespace WinUI.Model
         /// <returns>A string containing the log entry details.</returns>
         public override string ToString()
         {
-            return $"LogId: {this.log_id}, UserId: {this.user_id}, Action: {this.action_type}, Timestamp: {this.timestamp}";
+            return $"LogId: {this.log_id}, UserId: {this.user_id}, ActionType: {this.action_type}, Timestamp: {this.timestamp}";
         }
     }
 }
