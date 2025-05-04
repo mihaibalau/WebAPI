@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClassLibrary;
 using System.Threading.Tasks;
+using WinUI.Model;
 
 namespace WinUI.Service
 {
@@ -20,10 +22,9 @@ namespace WinUI.Service
 
         Task<bool> UpdateEmail(int userId, string email);
 
-        Task<bool> LogUpdate(int userId, ActionType action);
+        // Task<bool> LogUpdate(int userId, ActionType action);
 
         DoctorModel DoctorInformation { get; }
-
 
     }
 }

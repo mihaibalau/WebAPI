@@ -57,5 +57,6 @@ namespace WinUI.Proxy
             var doctors = JsonSerializer.Deserialize<List<Doctor>>(response.Result);  
             return Task.FromResult(doctors);
         }
+
     }
 }

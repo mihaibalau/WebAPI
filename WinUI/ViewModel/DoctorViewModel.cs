@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Hospital.ViewModels;
 using WinUI.Model;
 using WinUI.Service;
 
