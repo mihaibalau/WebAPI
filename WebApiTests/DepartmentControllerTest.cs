@@ -32,8 +32,8 @@ namespace WebApiTests
 
             // Assert
             Assert.IsNotNull(_ok_result);
-            var returnedDepartments = _ok_result.Value as List<Department>;
-            Assert.AreEqual(2, returnedDepartments.Count);
+            var _returned_departments = _ok_result.Value as List<Department>;
+            Assert.AreEqual(2, _returned_departments.Count);
         }
 
         [TestMethod]
