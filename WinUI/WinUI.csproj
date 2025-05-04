@@ -63,4 +63,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
 	</ItemGroup>
+	   
+	<ItemGroup>
+	  <Page Update="View\CreateAccountView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
 </Project>
