@@ -32,7 +32,6 @@ namespace WinUI.View
     public sealed partial class LogInView : Page
     {
         private readonly IAuthViewModel _login_page_view_model;
-        private Frame _main_frame;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginWindow"/> class.
@@ -47,11 +46,27 @@ namespace WinUI.View
             IAuthService _service = new AuthService(_log_in_service);
             this._login_page_view_model = new AuthViewModel(_service);
 
-            this._main_frame = this.LoginFrame;
+            NavigationService.s_main_frame = this.LoginFrame;
 
             this.LoginPanel.Visibility = Visibility.Visible;
             // Create login form page and navigate to it
-            // this.mainFrame.Navigate(typeof(LoginPage), this.loginPageViewModel);
+            // this.mainFrame.navigate(typeof(LoginPage), this.loginPageViewModel);
+        }
+
+        /// <summary>
+        /// Called when navigated to this page.
+        /// </summary>
+        /// <param name="e">Navigation event arguments</param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Reset UI state
+            this.UsernameTextField.Text = string.Empty;
+            this.PasswordTextField.Password = string.Empty;
+
+            // Show login panel
+            this.LoginPanel.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -73,37 +88,45 @@ namespace WinUI.View
 
                 this.LoginPanel.Visibility = Visibility.Collapsed;
 
+                var _debug_dialog = new ContentDialog
+                {
+                    Title = "GOOD",
+                    Content = $"LOGGED IN!",
+                    CloseButtonText = "OK",
+                };
+
+                _debug_dialog.XamlRoot = this.Content.XamlRoot;
+                await _debug_dialog.ShowAsync();
+
                 // TODO: UPDATE
                 //if (this._login_page_view_model.getUserRole() == "Patient")
                 //{
                 //    PatientService patientService = new PatientService();
-                //    PatientViewModel patientViewModel = new PatientViewModel(patientService, this.loginPageViewModel.AuthService.allUserInformation.UserId);
+                //    PatientViewModel patientViewModel = new PatientViewModel(patientService, this.loginPageViewModel.AuthService.allUserInformation.user_id);
 
                 //    var parameters = new Tuple<IPatientViewModel, IAuthViewModel>(patientViewModel, this.loginPageViewModel);
-                //    this.mainFrame.Navigate(typeof(PatientDashboardPage), parameters);
+                //    this.mainFrame.navigate(typeof(PatientDashboardPage), parameters);
                 //    return;
                 //}
                 //else if (this.loginPageViewModel.GetUserRole() == "Doctor")
                 //{
                 //    IDoctorRepository doctorRepository = new DoctorRepository();
                 //    IDoctorService doctorService = new DoctorService(doctorRepository);
-                //    IDoctorViewModel doctorViewModel = new DoctorViewModel(doctorService, this.loginPageViewModel.AuthService.allUserInformation.UserId);
+                //    IDoctorViewModel doctorViewModel = new DoctorViewModel(doctorService, this.loginPageViewModel.AuthService.allUserInformation.user_id);
 
                 //    var parameters = new Tuple<IDoctorViewModel, AuthViewModel>(doctorViewModel, this.loginPageViewModel);
-                //    this.mainFrame.Navigate(typeof(DoctorDashboardPage), parameters);
+                //    this.mainFrame.navigate(typeof(DoctorDashboardPage), parameters);
                 //    return;
                 //}
-                //else if (this.loginPageViewModel.GetUserRole() == "Admin")
-                //{
-                //    ILoggerRepository loggerRepository = new LoggerRepository();
-                //    var parameters = new Tuple<IAuthViewModel, ILoggerRepository>(this.loginPageViewModel, loggerRepository);
-                //    this.mainFrame.Navigate(typeof(AdminDashboardPage), parameters);
-                //    return;
-                //}
-
-                //LogoutWindow newLogOutWindow = new LogoutWindow(this.loginPageViewModel);
-                //newLogOutWindow.Activate();
-                //this.Close();
+                
+                //  Admin Dashboard is done
+                if (this._login_page_view_model.getUserRole() == "Admin")
+                {
+                       ILoggerRepository _logger_repository = new LoggerProxy();
+                       Tuple<IAuthViewModel, ILoggerRepository> _parameters = new Tuple<IAuthViewModel, ILoggerRepository>(this._login_page_view_model, _logger_repository);
+                       NavigationService.navigate(typeof(AdminDashboardPage), _parameters);
+                       return;
+                }
             }
             catch (AuthenticationException _new_authentication_exception)
             {
@@ -122,18 +145,8 @@ namespace WinUI.View
         private void createAccountButtonClick(object _sender, RoutedEventArgs _route_event_args)
         {
             this.LoginPanel.Visibility = Visibility.Collapsed;
-            // TODO: UPDATE
-            // this._main_frame.Navigate(typeof(CreateAccountPage), this.loginPageViewModel);
-        }
-
-        /// <summary>
-        /// Returns to login from page
-        /// </summary>
-        public void returnToLogin()
-        {
-            // Clear the frame and show login controls
-            this._main_frame.Content = null;
-            this.LoginPanel.Visibility = Visibility.Visible;
+            //example usage of NavigationService
+            //NavigationService.navigate(typeof(CreateAccountPage), this.loginPageViewModel);
         }
     }
 }

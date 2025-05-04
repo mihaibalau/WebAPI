@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
-using Domain;
+using ClassLibrary.Domain;
 using Entity;
 using Microsoft.EntityFrameworkCore;
 using ClassLibrary.IRepository;

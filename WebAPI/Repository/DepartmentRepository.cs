@@ -7,7 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using ClassLibrary.IRepository;
     using Data;
-    using Domain;
+    using ClassLibrary.Domain;
     using Entity;
 
     /// <summary>

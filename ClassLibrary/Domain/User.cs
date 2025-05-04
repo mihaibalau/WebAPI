@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace ClassLibrary.Domain
 {
     /// <summary>
     /// Represents a user in the system.

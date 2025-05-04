@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain; 
+using ClassLibrary.Domain;
 
 namespace ClassLibrary.IRepository
 {

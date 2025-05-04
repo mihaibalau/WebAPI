@@ -1,0 +1,114 @@
+// <copyright file="LoggerView.xaml.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace WinUI.View
+{
+    using System;
+    using Microsoft.UI.Xaml;
+    using Microsoft.UI.Xaml.Controls;
+    using Microsoft.UI.Xaml.Data;
+    using Microsoft.UI.Xaml.Navigation;
+    using WinUI.Helpers;
+    using WinUI.Repository;
+    using WinUI.Service;
+    using WinUI.ViewModel;
+
+    /// <summary>
+    /// View for displaying and managing system logs.
+    /// </summary>
+    public sealed partial class LoggerView : Page
+    {
+        private LoggerViewModel _logger_view_model;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoggerView"/> class.
+        /// Default constructor required for XAML preview.
+        /// </summary>
+        public LoggerView()
+        {
+            this.InitializeComponent();
+        }
+
+
+        /// <summary>
+        /// Overrides the OnNavigatedTo method to initialize with parameters.
+        /// </summary>
+        /// <param name="e">Navigation event arguments</param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Check if we received a repository in navigation
+            if (e.Parameter is ILoggerRepository logger_repository)
+            {
+                initializeWithRepository(logger_repository);
+            }
+        }
+
+        /// <summary>
+        /// Secondary constructor for direct initialization with repository
+        /// </summary>
+        /// <param name="_logger_repository">The logger repository to use</param>
+        public LoggerView(ILoggerRepository _logger_repository)
+        {
+            this.InitializeComponent();
+            initializeWithRepository(_logger_repository);
+        }
+
+        private void initializeWithRepository(ILoggerRepository _logger_repository)
+        {
+            LoggerService logger_service = new LoggerService(_logger_repository);
+            this._logger_view_model = new LoggerViewModel(logger_service);
+
+            this.bindUserInterface();
+            this.loadInitialLogs();
+        }
+
+
+        private void loadInitialLogs()
+        {
+            this._logger_view_model.load_all_logs_command.Execute(null);
+        }
+
+        private void bindUserInterface()
+        {
+            this.LogListView.ItemsSource = this._logger_view_model.logs;
+
+            this.LoadAllLogsButton.Command = this._logger_view_model.load_all_logs_command;
+
+            this.LoadLogsByUserIdButton.Command = this._logger_view_model.filter_logs_by_user_id_command;
+            this.UserIdTextBox.DataContext = this._logger_view_model;
+
+            this.LoadLogsByActionTypeButton.Command = this._logger_view_model.filter_logs_by_action_type_command;
+            this.ActionTypeComboBox.ItemsSource = this._logger_view_model.action_types;
+
+            this.LoadLogsBeforeTimestampButton.Command = this._logger_view_model.filter_logs_by_timestamp_command;
+
+            this.LoadLogsWithAllParametersButton.Command = this._logger_view_model.apply_all_filters_command;
+
+            // Bind TextBox, ComboBox, and DatePicker to ViewModel properties
+            this.UserIdTextBox.SetBinding(Microsoft.UI.Xaml.Controls.TextBox.TextProperty, new Microsoft.UI.Xaml.Data.Binding
+            {
+                Path = new Microsoft.UI.Xaml.PropertyPath("user_id_input"),
+                Mode = Microsoft.UI.Xaml.Data.BindingMode.TwoWay
+            });
+
+            this.ActionTypeComboBox.SetBinding(Microsoft.UI.Xaml.Controls.ComboBox.SelectedItemProperty, new Microsoft.UI.Xaml.Data.Binding
+            {
+                Source = this._logger_view_model,
+                Path = new Microsoft.UI.Xaml.PropertyPath("selected_action_type"),
+                Mode = Microsoft.UI.Xaml.Data.BindingMode.TwoWay
+            });
+
+            this.TimestampDatePicker.SetBinding(Microsoft.UI.Xaml.Controls.DatePicker.DateProperty, new Microsoft.UI.Xaml.Data.Binding
+            {
+                Source = this._logger_view_model,
+                Path = new Microsoft.UI.Xaml.PropertyPath("selected_timestamp"),
+                Mode = Microsoft.UI.Xaml.Data.BindingMode.TwoWay,
+                Converter = new DateTimeToDateTimeOffsetConverter()
+            });
+
+        }
+    }
+}

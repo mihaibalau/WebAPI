@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using Data;
-using Domain;
+using ClassLibrary.Domain;
 using Entity;
 using Microsoft.EntityFrameworkCore;
 
