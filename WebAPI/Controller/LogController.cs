@@ -28,7 +28,7 @@ namespace Controllers
         {
             try
             {
-                List<Log> logs = await this.logRepository.GetAllLogsAsync();
+                List<Log> logs = await this.logRepository.getAllLogsAsync();
                 return this.Ok(logs);
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace Controllers
         {
             try
             {
-                Log log = await this.logRepository.GetLogByIdAsync(id);
+                Log log = await this.logRepository.getLogByIdAsync(id);
                 if (log == null)
                 {
                     return this.NotFound($"Log with ID {id} was not found.");
@@ -81,7 +81,7 @@ namespace Controllers
 
             try
             {
-                await this.logRepository.AddLogAsync(log);
+                await this.logRepository.addLogAsync(log);
                 return this.CreatedAtAction(nameof(GetLogById), new { id = log.LogId }, log);
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace Controllers
         {
             try
             {
-                await this.logRepository.DeleteLogAsync(id);
+                await this.logRepository.deleteLogAsync(id);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)
