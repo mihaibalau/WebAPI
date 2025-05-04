@@ -10,86 +10,86 @@ namespace WebApiTests;
 public class LogControllerTest
 {
     [TestMethod]
-    public async Task GetAllLogs_ReturnsListOfLogs()
+    public async Task GetAllLogs_WithValidController_ReturnsListOfLogs()
     {
         // Arrange
-        var mockRepo = new Mock<ILogRepository>();
-        var fakeLogs = new List<Log>
+        var _mock_repo = new Mock<ILogRepository>();
+        var _fake_logs = new List<Log>
         {
             new Log { LogId = 1, UserId = 1, ActionType = "Action 1", Timestamp = new DateTime(2025, 3, 2, 12, 32, 0) },
             new Log { LogId = 2, UserId = 1, ActionType = "Action 2", Timestamp = new DateTime(2025, 5, 1, 23, 59, 30) },
         };
-        mockRepo.Setup(repo => repo.GetAllLogsAsync()).ReturnsAsync(fakeLogs);
+        _mock_repo.Setup(_repo => _repo.GetAllLogsAsync()).ReturnsAsync(_fake_logs);
 
-        var controller = new LogController(mockRepo.Object);
+        var _controller = new LogController(_mock_repo.Object);
 
         // Act
-        var result = await controller.GetAllLogs();
-        var okResult = result.Result as OkObjectResult;
+        var _result = await _controller.GetAllLogs();
+        var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(okResult);
-        var returnedLogs = okResult.Value as List<Log>;
-        Assert.AreEqual(2, returnedLogs.Count);
+        Assert.IsNotNull(_ok_result);
+        var _returned_logs = _ok_result.Value as List<Log>;
+        Assert.AreEqual(2, _returned_logs.Count);
     }
 
     [TestMethod]
-    public async Task GetLogById_ReturnsLog()
+    public async Task GetLogById_WithValidLogId_ReturnsLog()
     {
         // Arrange
-        var mockRepo = new Mock<ILogRepository>();
-        var fakeLog = new Log { LogId = 2, UserId = 1, ActionType = "Action 2", Timestamp = new DateTime(2025, 5, 1, 23, 59, 30) };
+        var _mock_repo = new Mock<ILogRepository>();
+        var _fake_log = new Log { LogId = 2, UserId = 1, ActionType = "Action 2", Timestamp = new DateTime(2025, 5, 1, 23, 59, 30) };
 
-        mockRepo.Setup(repo => repo.GetLogByIdAsync(1)).ReturnsAsync(fakeLog);
+        _mock_repo.Setup(_repo => _repo.GetLogByIdAsync(1)).ReturnsAsync(_fake_log);
 
-        var controller = new LogController(mockRepo.Object);
+        var _controller = new LogController(_mock_repo.Object);
 
         // Act
-        var result = await controller.GetLogById(1);
-        var okResult = result.Result as OkObjectResult;
+        var _result = await _controller.GetLogById(1);
+        var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(okResult);
-        var returnedLog = okResult.Value as Log;
-        Assert.AreEqual(2, returnedLog.LogId);
+        Assert.IsNotNull(_ok_result);
+        var _returned_log = _ok_result.Value as Log;
+        Assert.AreEqual(2, _returned_log.LogId);
     }
 
     [TestMethod]
-    public async Task CreateLog_ReturnsCreatedAtAction()
+    public async Task CreateLog_WithValidLog_ReturnsCreatedAtAction()
     {
         // Arrange
-        var mockRepo = new Mock<ILogRepository>();
-        var fakeLog = new Log { LogId = 2, UserId = 1, ActionType = "Action 2", Timestamp = new DateTime(2025, 5, 1, 23, 59, 30) };
-        mockRepo.Setup(repo => repo.AddLogAsync(fakeLog)).Returns(Task.CompletedTask);
+        var _mock_repo = new Mock<ILogRepository>();
+        var _fake_log = new Log { LogId = 2, UserId = 1, ActionType = "Action 2", Timestamp = new DateTime(2025, 5, 1, 23, 59, 30) };
+        _mock_repo.Setup(_repo => _repo.AddLogAsync(_fake_log)).Returns(Task.CompletedTask);
 
-        var controller = new LogController(mockRepo.Object);
+        var _controller = new LogController(_mock_repo.Object);
 
         // Act
-        var result = await controller.CreateLog(fakeLog);
-        var createdAt = result as CreatedAtActionResult;
+        var _result = await _controller.CreateLog(_fake_log);
+        var _created_at = _result as CreatedAtActionResult;
 
         // Assert
-        Assert.IsNotNull(createdAt);
-        Assert.AreEqual(fakeLog.LogId, ((Log)createdAt.Value).LogId);
+        Assert.IsNotNull(_created_at);
+        Assert.AreEqual(_fake_log.LogId, ((Log)_created_at.Value).LogId);
     }
 
     [TestMethod]
-    public async Task DeleteLog_ReturnsNoContent()
+    public async Task DeleteLog_WithValidLogId_ReturnsNoContent()
     {
         // Arrange
-        var mockRepo = new Mock<ILogRepository>();
-        int logId = 1;
+        var _mock_repo = new Mock<ILogRepository>();
+        int _log_id = 1;
 
         // No setup needed if the method succeeds (completes without exception)
-        mockRepo.Setup(repo => repo.DeleteLogAsync(logId)).Returns(Task.CompletedTask);
+        _mock_repo.Setup(_repo => _repo.DeleteLogAsync(_log_id)).Returns(Task.CompletedTask);
 
-        var controller = new LogController(mockRepo.Object);
+        var _controller = new LogController(_mock_repo.Object);
 
         // Act
-        var result = await controller.DeleteLog(logId);
+        var _result = await _controller.DeleteLog(_log_id);
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(NoContentResult));
-        mockRepo.Verify(repo => repo.DeleteLogAsync(logId), Times.Once);
+        Assert.IsInstanceOfType(_result, typeof(NoContentResult));
+        _mock_repo.Verify(_repo => _repo.DeleteLogAsync(_log_id), Times.Once);
     }
 }
