@@ -148,8 +148,7 @@ namespace WinUI.View
         private void createAccountButtonClick(object _sender, RoutedEventArgs _route_event_args)
         {
             this.LoginPanel.Visibility = Visibility.Collapsed;
-            //example usage of NavigationService
-            //NavigationService.navigate(typeof(CreateAccountPage), this.loginPageViewModel);
+            NavigationService.navigate(typeof(CreateAccountView), this._login_page_view_model);
         }
     }
 }
