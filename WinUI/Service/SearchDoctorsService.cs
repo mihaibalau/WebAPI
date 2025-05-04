@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
-using Domain;
+using ClassLibrary.Domain;
 using WinUI.Model;
 
 namespace WinUI.Service

@@ -1,4 +1,4 @@
-using WinUI.Services;
+using WinUI.Service;
 using WinUI.Repository;
 using WinUI.ViewModel;
 using Microsoft.UI.Xaml;
@@ -67,7 +67,7 @@ namespace Hospital.Views
                 doctorDashboardControl.LogoutButtonClicked += Logout;
             }
         }
-
+        
         private async void Logout()
         {
             try
@@ -88,6 +88,7 @@ namespace Hospital.Views
                 await ShowErrorDialog("Database Error", err.Message);
             }
         }
+        
         private async System.Threading.Tasks.Task ShowErrorDialog(string title, string message)
         {
             var dialog = new ContentDialog

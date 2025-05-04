@@ -2,23 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <None Update="App.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="View\DoctorDashboardPage.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="View\SearchDoctorsView.xaml">
-    <None Update="View\AdminDashboardPage.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="View\LoggerView.xaml">
+    <None Update="View\DoctorDashboardControl.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

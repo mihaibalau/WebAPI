@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
-using Domain;
+using ClassLibrary.Domain;
 using WinUI.Repository;
 using ClassLibrary.IRepository;
 using WinUI.Proxy;
