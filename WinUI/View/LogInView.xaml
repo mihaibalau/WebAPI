@@ -15,11 +15,11 @@
             <TextBlock Text="Login" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
             <!-- Username Field -->
-            <TextBlock Text="Username:" Margin="0,5,0,5"/>
+            <TextBlock Text="username:" Margin="0,5,0,5"/>
             <TextBox x:Name="UsernameTextField" Margin="0,0,0,10"/>
 
             <!-- Password Field -->
-            <TextBlock Text="Password:" Margin="0,5,0,5"/>
+            <TextBlock Text="password:" Margin="0,5,0,5"/>
             <PasswordBox x:Name="PasswordTextField" Margin="0,0,0,20"/>
 
             <!-- Buttons -->

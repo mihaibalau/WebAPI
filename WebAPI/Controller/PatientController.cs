@@ -29,7 +29,7 @@ namespace Controllers
         {
             try
             {
-                List<Patient> patients = await this.patientRepository.GetAllPatientsAsync();
+                List<Patient> patients = await this.patientRepository.getAllPatientsAsync();
                 return this.Ok(patients);
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace Controllers
         {
             try
             {
-                Patient patient = await this.patientRepository.GetPatientByUserIdAsync(id);
+                Patient patient = await this.patientRepository.getPatientByUserIdAsync(id);
                 if (patient == null)
                 {
                     return this.NotFound($"Patient with ID {id} was not found.");
@@ -82,7 +82,7 @@ namespace Controllers
 
             try
             {
-                await this.patientRepository.AddPatientAsync(patient);
+                await this.patientRepository.addPatientAsync(patient);
                 return this.CreatedAtAction(nameof(GetPatientById), new { id = patient.UserId }, patient);
             }
             catch (Exception ex)
@@ -104,7 +104,7 @@ namespace Controllers
         {
             try
             {
-                await this.patientRepository.DeletePatientAsync(id);
+                await this.patientRepository.deletePatientAsync(id);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)
