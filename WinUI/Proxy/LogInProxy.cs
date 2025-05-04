@@ -69,24 +69,15 @@ namespace WinUI.Proxy
                 mail = _model_for_creating_user_account.mail,
                 role = "USER",
                 name = _model_for_creating_user_account.name,
-                birth_date = _model_for_creating_user_account.birth_date.ToDateTime(new TimeOnly(0, 0)),
+                birth_date = _model_for_creating_user_account.birth_date,
                 cnp = _model_for_creating_user_account.cnp,
                 address = "",
                 phone_number = "0711111111",
                 registration_date = DateTime.UtcNow
             };
-            var _options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = null,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            };
 
-            var _json = JsonSerializer.Serialize(_user_json, _options);
+            var _json = JsonSerializer.Serialize(_user_json);
             HttpContent _content = new StringContent(_json, Encoding.UTF8, "application/json");
-            _content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json")
-            {
-                CharSet = "utf-8"
-            };
             HttpResponseMessage _post_response = await this._httpClient.PostAsync(this._baseUrl + "api/user", _content);
             _post_response.EnsureSuccessStatusCode();
 
@@ -137,7 +128,7 @@ namespace WinUI.Proxy
             public string name { get; set; }
 
             [JsonPropertyName("birthDate")]
-            public DateTime birth_date { get; set; }
+            public DateOnly birth_date { get; set; }
 
             [JsonPropertyName("cnp")]
             public string cnp { get; set; }
