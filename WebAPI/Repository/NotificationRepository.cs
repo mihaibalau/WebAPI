@@ -9,6 +9,7 @@ namespace WebApi.Repository
     using Data;
     using Domain;
     using Entity;
+    using global::Data;
 
     /// <summary>
     /// Repository class for managing notification-related database operations.
