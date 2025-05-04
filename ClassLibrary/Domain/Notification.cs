@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace ClassLibrary.Domain
 {
     /// <summary>
     /// Represents a notification in the system.

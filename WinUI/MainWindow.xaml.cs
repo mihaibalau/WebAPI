@@ -9,6 +9,8 @@ using Domain;
 using WinUI.Repository;
 using ClassLibrary.IRepository;
 using WinUI.Proxy;
+using Microsoft.UI.Xaml.Navigation;
+using WinUI.View;
 
 namespace WinUI
 {
@@ -21,10 +23,11 @@ namespace WinUI
         public MainWindow()
         {
             this.InitializeComponent();
+
+            root_frame.Navigate(typeof(LogInView), null);
         }
 
-        // Button click event to make the GET request and update the button's content
-        private async void myButton_Click(object sender, RoutedEventArgs e)
+        void onNavigationFailed(object _sender, NavigationFailedEventArgs _nav_failed_event_args)
         {
             try
             {
@@ -42,6 +45,7 @@ namespace WinUI
                 myButton.Content = "Failed to load data";
                 responseText.Text = $"Error: {ex.Message}";
             }
+            throw new Exception("Failed to load Page: " + _nav_failed_event_args.SourcePageType.FullName);
         }
     }
 }

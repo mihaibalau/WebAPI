@@ -15,6 +15,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Update="View\SearchDoctorsView.xaml">
+    <None Update="View\AdminDashboardPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="View\LoggerView.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
