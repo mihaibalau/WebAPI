@@ -19,51 +19,51 @@ namespace WinUI.ViewModel
         /// <summary>
         /// Gets the collection of log entries to display.
         /// </summary>
-        ObservableCollection<LogEntryModel> Logs { get; }
+        ObservableCollection<LogEntryModel> logs { get; }
 
         /// <summary>
         /// Gets the command to load all logs.
         /// </summary>
-        ICommand LoadAllLogsCommand { get; }
+        ICommand load_all_logs_command { get; }
 
         /// <summary>
         /// Gets the command to filter logs by user ID.
         /// </summary>
-        ICommand FilterLogsByUserIdCommand { get; }
+        ICommand filter_logs_by_user_id_command { get; }
 
         /// <summary>
         /// Gets the command to filter logs by timestamp.
         /// </summary>
-        ICommand FilterLogsByTimestampCommand { get; }
+        ICommand filter_logs_by_timestamp_command { get; }
 
         /// <summary>
         /// Gets the command to filter logs by action type.
         /// </summary>
-        ICommand FilterLogsByActionTypeCommand { get; }
+        ICommand filter_logs_by_action_type_command { get; }
 
         /// <summary>
         /// Gets the command to apply all filters simultaneously.
         /// </summary>
-        ICommand ApplyAllFiltersCommand { get; }
+        ICommand apply_all_filters_command { get; }
 
         /// <summary>
         /// Gets the list of available action types for filtering.
         /// </summary>
-        List<ActionType> ActionTypes { get; }
+        List<ActionType> action_types { get; }
 
         /// <summary>
         /// Gets or sets the user ID input for filtering.
         /// </summary>
-        string UserIdInput { get; set; }
+        string user_id_input { get; set; }
 
         /// <summary>
         /// Gets or sets the selected action type for filtering.
         /// </summary>
-        ActionType SelectedActionType { get; set; }
+        ActionType selected_action_type { get; set; }
 
         /// <summary>
         /// Gets or sets the selected timestamp for filtering.
         /// </summary>
-        DateTime SelectedTimestamp { get; set; }
+        DateTime selected_timestamp { get; set; }
     }
 }

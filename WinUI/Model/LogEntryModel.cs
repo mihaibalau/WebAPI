@@ -91,7 +91,7 @@ namespace WinUI.Model
         /// <returns>A string containing the log entry details.</returns>
         public override string ToString()
         {
-            return $"LogId: {this.log_id}, UserId: {this.user_id}, Action: {this.action_type}, Timestamp: {this.timestamp}";
+            return $"log_id: {this.log_id}, user_id: {this.user_id}, Action: {this.action_type}, timestamp: {this.timestamp}";
         }
     }
 }

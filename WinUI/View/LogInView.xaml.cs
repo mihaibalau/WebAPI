@@ -46,11 +46,11 @@ namespace WinUI.View
             IAuthService _service = new AuthService(_log_in_service);
             this._login_page_view_model = new AuthViewModel(_service);
 
-            NavigationService.MainFrame = this.LoginFrame;
+            NavigationService.s_main_frame = this.LoginFrame;
 
             this.LoginPanel.Visibility = Visibility.Visible;
             // Create login form page and navigate to it
-            // this.mainFrame.Navigate(typeof(LoginPage), this.loginPageViewModel);
+            // this.mainFrame.navigate(typeof(LoginPage), this.loginPageViewModel);
         }
 
         /// <summary>
@@ -102,20 +102,20 @@ namespace WinUI.View
                 //if (this._login_page_view_model.getUserRole() == "Patient")
                 //{
                 //    PatientService patientService = new PatientService();
-                //    PatientViewModel patientViewModel = new PatientViewModel(patientService, this.loginPageViewModel.AuthService.allUserInformation.UserId);
+                //    PatientViewModel patientViewModel = new PatientViewModel(patientService, this.loginPageViewModel.AuthService.allUserInformation.user_id);
 
                 //    var parameters = new Tuple<IPatientViewModel, IAuthViewModel>(patientViewModel, this.loginPageViewModel);
-                //    this.mainFrame.Navigate(typeof(PatientDashboardPage), parameters);
+                //    this.mainFrame.navigate(typeof(PatientDashboardPage), parameters);
                 //    return;
                 //}
                 //else if (this.loginPageViewModel.GetUserRole() == "Doctor")
                 //{
                 //    IDoctorRepository doctorRepository = new DoctorRepository();
                 //    IDoctorService doctorService = new DoctorService(doctorRepository);
-                //    IDoctorViewModel doctorViewModel = new DoctorViewModel(doctorService, this.loginPageViewModel.AuthService.allUserInformation.UserId);
+                //    IDoctorViewModel doctorViewModel = new DoctorViewModel(doctorService, this.loginPageViewModel.AuthService.allUserInformation.user_id);
 
                 //    var parameters = new Tuple<IDoctorViewModel, AuthViewModel>(doctorViewModel, this.loginPageViewModel);
-                //    this.mainFrame.Navigate(typeof(DoctorDashboardPage), parameters);
+                //    this.mainFrame.navigate(typeof(DoctorDashboardPage), parameters);
                 //    return;
                 //}
                 
@@ -124,7 +124,7 @@ namespace WinUI.View
                 {
                        ILoggerRepository _logger_repository = new LoggerProxy();
                        Tuple<IAuthViewModel, ILoggerRepository> _parameters = new Tuple<IAuthViewModel, ILoggerRepository>(this._login_page_view_model, _logger_repository);
-                       NavigationService.Navigate(typeof(AdminDashboardPage), _parameters);
+                       NavigationService.navigate(typeof(AdminDashboardPage), _parameters);
                        return;
                 }
             }
@@ -146,7 +146,7 @@ namespace WinUI.View
         {
             this.LoginPanel.Visibility = Visibility.Collapsed;
             //example usage of NavigationService
-            //NavigationService.Navigate(typeof(CreateAccountPage), this.loginPageViewModel);
+            //NavigationService.navigate(typeof(CreateAccountPage), this.loginPageViewModel);
         }
     }
 }

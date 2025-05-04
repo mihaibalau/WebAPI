@@ -2,23 +2,27 @@ using System;
 using Microsoft.UI.Xaml.Controls;
 using WinUI.View;
 
-public static class NavigationService
+namespace WinUI.Service
 {
-    public static Frame MainFrame { get; set; }
-    
-    public static void NavigateToLogin()
+    public static class NavigationService
     {
-        if (MainFrame != null)
-        {
-            MainFrame.Navigate(typeof(LogInView), null);
-        }
-    }
+        public static Frame s_main_frame { get; set; }
 
-    public static void Navigate(Type pageType, object parameter = null)
-    {
-        if (MainFrame != null)
+        public static void navigateToLogin()
         {
-            MainFrame.Navigate(pageType, parameter);
+            if (s_main_frame != null)
+            {
+                s_main_frame.Navigate(typeof(LogInView), null);
+            }
+        }
+
+        public static void navigate(Type _page_type, object _parameter = null)
+        {
+            if (s_main_frame != null)
+            {
+                s_main_frame.Navigate(_page_type, _parameter);
+            }
         }
     }
 }
+

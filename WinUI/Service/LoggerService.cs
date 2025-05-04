@@ -15,119 +15,119 @@ namespace WinUI.Service
     /// </summary>
     public class LoggerService : ILoggerService
     {
-        private readonly ILoggerRepository _loggerRepository;
+        private readonly ILoggerRepository _logger_repository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggerService"/> class.
         /// </summary>
-        /// <param name="loggerRepository">The logger service interface.</param>
-        public LoggerService(ILoggerRepository loggerRepository)
+        /// <param name="_logger_repository">The logger service interface.</param>
+        public LoggerService(ILoggerRepository _logger_repository)
         {
-            _loggerRepository = loggerRepository ?? throw new ArgumentNullException(nameof(loggerRepository));
+            this._logger_repository = _logger_repository ?? throw new ArgumentNullException(nameof(_logger_repository));
         }
 
         /// <summary>
         /// Retrieves all log entries from the system.
         /// </summary>
         /// <returns>A list of all log entries.</returns>
-        public async Task<List<LogEntryModel>> GetAllLogs()
+        public async Task<List<LogEntryModel>> getAllLogs()
         {
-            return await _loggerRepository.GetAllLogs();
+            return await this._logger_repository.getAllLogs();
         }
 
         /// <summary>
         /// Retrieves log entries for a specific user.
         /// </summary>
-        /// <param name="userId">The ID of the user.</param>
+        /// <param name="_user_id">The ID of the user.</param>
         /// <returns>A list of log entries for the specified user.</returns>
-        /// <exception cref="ArgumentException">Thrown when the userId is invalid.</exception>
-        public async Task<List<LogEntryModel>> GetLogsByUserId(int userId)
+        /// <exception cref="ArgumentException">Thrown when the _user_id is invalid.</exception>
+        public async Task<List<LogEntryModel>> getLogsByUserId(int _user_id)
         {
-            if (userId <= 0)
+            if (_user_id <= 0)
             {
-                throw new ArgumentException("User ID must be greater than zero.", nameof(userId));
+                throw new ArgumentException("User ID must be greater than zero.", nameof(_user_id));
             }
 
-            return await _loggerRepository.GetLogsByUserId(userId);
+            return await this._logger_repository.getLogsByUserId(_user_id);
         }
 
         /// <summary>
         /// Retrieves log entries for a specific action type.
         /// </summary>
-        /// <param name="actionType">The type of action to filter by.</param>
+        /// <param name="_action_type">The type of action to filter by.</param>
         /// <returns>A list of log entries for the specified action type.</returns>
-        /// <exception cref="ArgumentNullException">This exception won't occur since ActionType is an enum, but kept for interface compliance.</exception>
-        public async Task<List<LogEntryModel>> GetLogsByActionType(ActionType actionType)
+        /// <exception cref="ArgumentNullException">This exception won't occur since _action_type is an enum, but kept for interface compliance.</exception>
+        public async Task<List<LogEntryModel>> getLogsByActionType(ActionType _action_type)
         {
-            // ActionType is an enum, so it can't be null, but we're keeping this check
+            // _action_type is an enum, so it can't be null, but we're keeping this check
             // for interface compliance and future-proofing
             // The result of the expression is always 'false'
-            if (actionType == null)
+            if (_action_type == null)
             {
-                throw new ArgumentNullException(nameof(actionType), "Action type cannot be null.");
+                throw new ArgumentNullException(nameof(_action_type), "Action type cannot be null.");
             }
 
-            return await _loggerRepository.GetLogsByActionType(actionType);
+            return await this._logger_repository.getLogsByActionType(_action_type);
         }
 
         /// <summary>
-        /// Retrieves log entries before a specific timestamp.
+        /// Retrieves log entries before a specific _timestamp.
         /// </summary>
-        /// <param name="timestamp">The cutoff timestamp.</param>
-        /// <returns>A list of log entries before the specified timestamp.</returns>
-        /// <exception cref="ArgumentException">Thrown when the timestamp is default/uninitialized.</exception>
-        public async Task<List<LogEntryModel>> GetLogsBeforeTimestamp(DateTime timestamp)
+        /// <param name="_timestamp">The cutoff _timestamp.</param>
+        /// <returns>A list of log entries before the specified _timestamp.</returns>
+        /// <exception cref="ArgumentException">Thrown when the _timestamp is default/uninitialized.</exception>
+        public async Task<List<LogEntryModel>> getLogsBeforeTimestamp(DateTime _timestamp)
         {
-            if (timestamp == default)
+            if (_timestamp == default)
             {
-                throw new ArgumentException("Timestamp cannot be default.", nameof(timestamp));
+                throw new ArgumentException("_timestamp cannot be default.", nameof(_timestamp));
             }
 
-            return await _loggerRepository.GetLogsBeforeTimestamp(timestamp);
+            return await this._logger_repository.getLogsBeforeTimestamp(_timestamp);
         }
 
         /// <summary>
         /// Retrieves log entries filtered by multiple parameters.
         /// </summary>
-        /// <param name="userId">The ID of the user, or null for all users.</param>
-        /// <param name="actionType">The type of action.</param>
-        /// <param name="timestamp">The cutoff timestamp.</param>
+        /// <param name="_user_id">The ID of the user, or null for all users.</param>
+        /// <param name="_action_type">The type of action.</param>
+        /// <param name="_timestamp">The cutoff _timestamp.</param>
         /// <returns>A list of log entries matching the specified filters.</returns>
-        public async Task<List<LogEntryModel>> GetLogsWithParameters(int? userId, ActionType actionType, DateTime timestamp)
+        public async Task<List<LogEntryModel>> getLogsWithParameters(int? _user_id, ActionType _action_type, DateTime _timestamp)
         {
-            if (userId != null)
+            if (_user_id != null)
             {
-                return await _loggerRepository.GetLogsWithParameters(userId.Value, actionType, timestamp);
+                return await this._logger_repository.getLogsWithParameters(_user_id.Value, _action_type, _timestamp);
             }
             else
             {
-                return await _loggerRepository.GetLogsWithParametersWithoutUserId(actionType, timestamp);
+                return await this._logger_repository.getLogsWithParametersWithoutUserId(_action_type, _timestamp);
             }
         }
 
         /// <summary>
         /// Logs a user action in the system.
         /// </summary>
-        /// <param name="userId">The ID of the user performing the action.</param>
-        /// <param name="actionType">The type of action being performed.</param>
+        /// <param name="_user_id">The ID of the user performing the action.</param>
+        /// <param name="_action_type">The type of action being performed.</param>
         /// <returns>True if the action was logged successfully, otherwise false.</returns>
-        /// <exception cref="ArgumentException">Thrown when the userId is invalid.</exception>
-        /// <exception cref="ArgumentNullException">This exception won't occur since ActionType is an enum, but kept for interface compliance.</exception>
-        public async Task<bool> LogAction(int userId, ActionType actionType)
+        /// <exception cref="ArgumentException">Thrown when the _user_id is invalid.</exception>
+        /// <exception cref="ArgumentNullException">This exception won't occur since action_type is an enum, but kept for interface compliance.</exception>
+        public async Task<bool> logAction(int _user_id, ActionType _action_type)
         {
-            if (userId <= 0)
+            if (_user_id <= 0)
             {
-                throw new ArgumentException("User ID must be greater than zero.", nameof(userId));
+                throw new ArgumentException("User ID must be greater than zero.", nameof(_user_id));
             }
 
-            // ActionType is an enum, so it can't be null, but we're keeping this check
+            // action_type is an enum, so it can't be null, but we're keeping this check
             // for interface compliance and future-proofing
-            if (actionType == null)
+            if (_action_type == null)
             {
-                throw new ArgumentNullException(nameof(actionType), "Action type cannot be null.");
+                throw new ArgumentNullException(nameof(_action_type), "Action type cannot be null.");
             }
 
-            return await _loggerRepository.LogAction(userId, actionType);
+            return await this._logger_repository.logAction(_user_id, _action_type);
         }
     }
 }
