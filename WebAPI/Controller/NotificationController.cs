@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ClassLibrary.IRepository;
-using Domain;
+using ClassLibrary.Domain;
 
 namespace Controllers
 {

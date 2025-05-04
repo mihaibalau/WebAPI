@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using Entity;
 using ClassLibrary.IRepository;
-using Domain;
+using ClassLibrary.Domain;
 
 namespace Controllers
 {
