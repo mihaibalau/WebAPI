@@ -10,89 +10,90 @@ namespace WebApiTests;
 public class NotificationControllerTest
 {
     [TestMethod]
-    public async Task GetAllNotifications_ReturnsListOfNotification()
+    public async Task GetAllNotifications_WithValidController_ReturnsListOfNotification()
     {
         // Arrange
-        var mockRepo = new Mock<INotificationRepository>();
-        var fakeNotifications = new List<Notification>
+        var _mock_repo = new Mock<INotificationRepository>();
+        var _fake_notifications = new List<Notification>
         {
             new Notification { NotificationId = 1, UserId = 1, Message = "Message 1", DeliveryDateTime = new DateTime(2025, 3, 2, 12, 32, 0) },
             new Notification { NotificationId = 2, UserId = 1, Message = "Message 2", DeliveryDateTime = new DateTime(2025, 5, 1, 23, 59, 30) },
         };
-        mockRepo.Setup(repo => repo.GetAllNotificationsAsync()).ReturnsAsync(fakeNotifications);
+        _mock_repo.Setup(_repo => _repo.GetAllNotificationsAsync()).ReturnsAsync(_fake_notifications);
 
-        var controller = new NotificationController(mockRepo.Object);
+        var _controller = new NotificationController(_mock_repo.Object);
 
         // Act
-        var result = await controller.GetAllNotifications();
-        var okResult = result.Result as OkObjectResult;
+        var _result = await _controller.GetAllNotifications();
+        var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(okResult);
-        var returnedNotifications = okResult.Value as List<Notification>;
-        Assert.AreEqual(2, returnedNotifications.Count);
+        Assert.IsNotNull(_ok_result);
+        var _returned_notifications = _ok_result.Value as List<Notification>;
+        Assert.AreEqual(2, _returned_notifications.Count);
     }
 
     [TestMethod]
-    public async Task GetNotificationByUserId_ReturnsListOfNotifications()
+    public async Task GetNotificationByUserId_WithValidUserId_ReturnsListOfNotifications()
     {
         // Arrange
-        var mockRepo = new Mock<INotificationRepository>();
-        var fakeNotifications = new List<Notification>
+        var _valid_notification_id = 1;
+        var _mock_repo = new Mock<INotificationRepository>();
+        var _fake_notifications = new List<Notification>
         {
             new Notification { NotificationId = 1, UserId = 1, Message = "Message 1", DeliveryDateTime = new DateTime(2025, 3, 2, 12, 32, 0) },
             new Notification { NotificationId = 2, UserId = 1, Message = "Message 2", DeliveryDateTime = new DateTime(2025, 5, 1, 23, 59, 30) },
         }; 
-        mockRepo.Setup(repo => repo.GetNotificationsByUserIdAsync(1)).ReturnsAsync(fakeNotifications.Where(d => d.UserId == 1).ToList());
+        _mock_repo.Setup(_repo => _repo.GetNotificationsByUserIdAsync(_valid_notification_id)).ReturnsAsync(_fake_notifications.Where(d => d.UserId == _valid_notification_id).ToList());
 
-        var controller = new NotificationController(mockRepo.Object);
+        var _controller = new NotificationController(_mock_repo.Object);
 
         // Act
-        var result = await controller.GetNotificationsByUserId(1);
-        var okResult = result.Result as OkObjectResult;
+        var _result = await _controller.GetNotificationsByUserId(_valid_notification_id);
+        var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(okResult);
-        var returnedNotifications = okResult.Value as List<Notification>;
-        Assert.AreEqual(2, returnedNotifications.Count);
+        Assert.IsNotNull(_ok_result);
+        var _returned_notifications = _ok_result.Value as List<Notification>;
+        Assert.AreEqual(2, _returned_notifications.Count);
     }
 
     [TestMethod]
-    public async Task CreateNotification_ReturnsCreatedAtAction()
+    public async Task CreateNotification_WithValidNotification_ReturnsCreatedAtAction()
     {
         // Arrange
-        var mockRepo = new Mock<INotificationRepository>();
-        var fakeNotification = new Notification { NotificationId = 1, UserId = 1, Message = "Message 1", DeliveryDateTime = new DateTime(2025, 3, 2, 12, 32, 0) };
-        mockRepo.Setup(repo => repo.AddNotificationAsync(fakeNotification)).Returns(Task.CompletedTask);
+        var _mock_repo = new Mock<INotificationRepository>();
+        var _fake_notification = new Notification { NotificationId = 1, UserId = 1, Message = "Message 1", DeliveryDateTime = new DateTime(2025, 3, 2, 12, 32, 0) };
+        _mock_repo.Setup(_repo => _repo.AddNotificationAsync(_fake_notification)).Returns(Task.CompletedTask);
 
-        var controller = new NotificationController(mockRepo.Object);
+        var _controller = new NotificationController(_mock_repo.Object);
 
         // Act
-        var result = await controller.CreateNotification(fakeNotification);
-        var createdAt = result as CreatedAtActionResult;
+        var _result = await _controller.CreateNotification(_fake_notification);
+        var _created_at = _result as CreatedAtActionResult;
 
         // Assert
-        Assert.IsNotNull(createdAt);
-        Assert.AreEqual(fakeNotification.NotificationId, ((Notification)createdAt.Value).NotificationId);
+        Assert.IsNotNull(_created_at);
+        Assert.AreEqual(_fake_notification.NotificationId, ((Notification)_created_at.Value).NotificationId);
     }
 
     [TestMethod]
-    public async Task DeleteNotification_ReturnsNoContent()
+    public async Task DeleteNotification_WithValidNotificationId_ReturnsNoContent()
     {
         // Arrange
-        var mockRepo = new Mock<INotificationRepository>();
-        int notificationId = 1;
+        var _mock_repo = new Mock<INotificationRepository>();
+        int _notification_id = 1;
 
         // No setup needed if the method succeeds (completes without exception)
-        mockRepo.Setup(repo => repo.DeleteNotificationAsync(notificationId)).Returns(Task.CompletedTask);
+        _mock_repo.Setup(_repo => _repo.DeleteNotificationAsync(_notification_id)).Returns(Task.CompletedTask);
 
-        var controller = new NotificationController(mockRepo.Object);
+        var _controller = new NotificationController(_mock_repo.Object);
 
         // Act
-        var result = await controller.DeleteNotification(notificationId);
+        var _result = await _controller.DeleteNotification(_notification_id);
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(NoContentResult));
-        mockRepo.Verify(repo => repo.DeleteNotificationAsync(notificationId), Times.Once);
+        Assert.IsInstanceOfType(_result, typeof(NoContentResult));
+        _mock_repo.Verify(_repo => _repo.DeleteNotificationAsync(_notification_id), Times.Once);
     }
 }
