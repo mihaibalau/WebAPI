@@ -9,7 +9,7 @@ namespace WinUI.View
 {
     public sealed partial class PatientDashboardControl : UserControl
     {
-        private IPatientViewModel? _patientViewModel;
+        private IPatientViewModel? _patient_view_model;
         public event Action? LogoutButtonClicked;
 
         public PatientDashboardControl()
@@ -17,43 +17,43 @@ namespace WinUI.View
             this.InitializeComponent();
         }
 
-        public PatientDashboardControl(IPatientViewModel patientViewModel)
+        public PatientDashboardControl(IPatientViewModel _patient_view_model)
         {
             InitializeComponent();
-            _patientViewModel = patientViewModel;
-            DataContext = _patientViewModel;
+            this._patient_view_model = _patient_view_model;
+            DataContext = this._patient_view_model;
         }
 
         private async void OnUpdateButtonClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (_patientViewModel == null)
+                if (this._patient_view_model == null)
                     throw new Exception("Patient is not initialized");
 
-                bool hasChanges = false;
+                bool has_changes = false;
 
-                if (_patientViewModel.EmergencyContact != _patientViewModel._originalPatient.EmergencyContact)
+                if (this._patient_view_model.emergency_contact != this._patient_view_model._original_patient.emergency_contact)
                 {
-                    bool emergencyUpdated = await _patientViewModel.UpdateEmergencyContact(_patientViewModel.EmergencyContact);
-                    hasChanges |= emergencyUpdated;
+                    bool emergencyUpdated = await this._patient_view_model.updateEmergencyContact(this._patient_view_model.emergency_contact);
+                    has_changes |= emergencyUpdated;
                 }
 
-                if (_patientViewModel.Weight != _patientViewModel._originalPatient.Weight)
+                if (this._patient_view_model.weight != this._patient_view_model._original_patient.weight)
                 {
-                    bool weightUpdated = await _patientViewModel.UpdateWeight(_patientViewModel.Weight);
-                    hasChanges |= weightUpdated;
+                    bool weight_updated = await this._patient_view_model.updateWeight(this._patient_view_model.weight);
+                    has_changes |= weight_updated;
                 }
 
-                if (_patientViewModel.Height != _patientViewModel._originalPatient.Height)
+                if (this._patient_view_model.height != this._patient_view_model._original_patient.height)
                 {
-                    bool heightUpdated = await _patientViewModel.UpdateHeight(_patientViewModel.Height);
-                    hasChanges |= heightUpdated;
+                    bool height_updated = await this._patient_view_model.updateHeight(this._patient_view_model.height);
+                    has_changes |= height_updated;
                 }
 
-                if (hasChanges)
+                if (has_changes)
                 {
-                    await _patientViewModel.LogUpdate(_patientViewModel.UserId, ActionType.UPDATE_PROFILE);
+                    await this._patient_view_model.logUpdate(this._patient_view_model.user_id, ActionType.UPDATE_PROFILE);
                     await ShowDialogAsync("Success", "Changes applied successfully.");
                 }
                 else
@@ -63,29 +63,29 @@ namespace WinUI.View
             }
             catch (Exception exception)
             {
-                if (_patientViewModel != null)
+                if (this._patient_view_model != null)
                 {
-                    RestoreOriginalPatientData();
+                    restoreOriginalPatientData();
                     await ShowDialogAsync("Error", exception.Message);
-                    await _patientViewModel.LoadPatientInfoByUserIdAsync(_patientViewModel.UserId);
+                    await this._patient_view_model.loadPatientInfoByUserIdAsync(this._patient_view_model.user_id);
                 }
             }
         }
 
-        private void RestoreOriginalPatientData()
+        private void restoreOriginalPatientData()
         {
-            var original = _patientViewModel!._originalPatient;
-            _patientViewModel!.EmergencyContact = original.EmergencyContact;
-            _patientViewModel.Weight = original.Weight;
-            _patientViewModel.Height = original.Height;
+            PatientJointModel? original = this._patient_view_model!._original_patient;
+            this._patient_view_model!.emergency_contact = original.emergency_contact;
+            this._patient_view_model.weight = original.weight;
+            this._patient_view_model.height = original.height;
         }
 
-        private async Task ShowDialogAsync(string title, string message)
+        private async Task ShowDialogAsync(string _title, string _message)
         {
             var dialog = new ContentDialog
             {
-                Title = title,
-                Content = message,
+                Title = _title,
+                Content = _message,
                 CloseButtonText = "OK",
                 XamlRoot = this.Content.XamlRoot
             };

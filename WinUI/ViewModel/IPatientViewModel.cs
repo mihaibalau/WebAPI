@@ -7,29 +7,30 @@ namespace WinUI.ViewModel
 {
     public interface IPatientViewModel : INotifyPropertyChanged
     {
-        int UserId { get; set; }
-        string Name { get; set; }
-        string Email { get; set; }
-        string Username { get; set; }
-        string Address { get; set; }
-        string PhoneNumber { get; set; }
-        string EmergencyContact { get; set; }
-        string BloodType { get; set; }
-        string Allergies { get; set; }
-        DateTime BirthDate { get; set; }
-        string Cnp { get; set; }
-        DateTime RegistrationDate { get; set; }
-        double Weight { get; set; }
-        int Height { get; set; }
-        bool IsLoading { get; set; }
+        int user_id { get; set; }
+        string name { get; set; }
+        string email { get; set; }
+        string username { get; set; }
+        string password { get; set; }
+        string address { get; set; }
+        string phone_number { get; set; }
+        string emergency_contact { get; set; }
+        string blood_type { get; set; }
+        string allergies { get; set; }
+        DateTime birth_date { get; set; }
+        string cnp { get; set; }
+        DateTime registration_date { get; set; }
+        double weight { get; set; }
+        int height { get; set; }
+        bool is_loading { get; set; }
 
-        PatientJointModel _originalPatient { get; }
+        PatientJointModel _original_patient { get; }
 
-        Task<bool> LoadPatientInfoByUserIdAsync(int userId);
-        Task<bool> UpdateEmergencyContact(string emergencyContact);
-        Task<bool> UpdateWeight(double weight);
-        Task<bool> UpdateHeight(int height);
+        Task<bool> loadPatientInfoByUserIdAsync(int _user_id);
+        Task<bool> updateEmergencyContact(string _emergency_contact);
+        Task<bool> updateWeight(double _weight);
+        Task<bool> updateHeight(int _height);
 
-        Task<bool> LogUpdate(int userId, ActionType action);
+        Task<bool> logUpdate(int _user_id, ActionType _action);
     }
 }

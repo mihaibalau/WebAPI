@@ -8,64 +8,65 @@ namespace WinUI.ViewModel
 {
     public class PatientViewModel : IPatientViewModel
     {
-        private readonly IPatientService _patientManager;
+        private readonly IPatientService _patient_service;
         public event PropertyChangedEventHandler? PropertyChanged;
+        public string password { get; set; } = string.Empty;
 
-        public PatientJointModel _originalPatient { get; private set; }
+        public PatientJointModel _original_patient { get; private set; }
 
-        public PatientViewModel(IPatientService patientManager, int userId)
+        public PatientViewModel(IPatientService patient_service, int user_id)
         {
-            _patientManager = patientManager;
-            _userId = userId;
-            _originalPatient = PatientJointModel.Default;
-            _ = LoadPatientInfoByUserIdAsync(userId);
+            _patient_service = patient_service;
+            _user_id = user_id;
+            _original_patient = PatientJointModel.Default;
+            _ = loadPatientInfoByUserIdAsync(_user_id);
         }
 
-        private int _userId;
-        public int UserId
+        private int _user_id;
+        public int user_id
         {
-            get => _userId;
-            set { if (_userId != value) { _userId = value; OnPropertyChanged(); } }
+            get => this._user_id;
+            set { if (this._user_id != value) { this._user_id = value; OnPropertyChanged(); } }
         }
 
         // These properties stay for binding/display
-        public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Username { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public string BloodType { get; set; } = string.Empty;
-        public string Allergies { get; set; } = string.Empty;
-        public DateTime BirthDate { get; set; }
-        public string Cnp { get; set; } = string.Empty;
-        public DateTime RegistrationDate { get; set; }
+        public string name { get; set; } = string.Empty;
+        public string email { get; set; } = string.Empty;
+        public string username { get; set; } = string.Empty;
+        public string address { get; set; } = string.Empty;
+        public string phone_number { get; set; } = string.Empty;
+        public string blood_type { get; set; } = string.Empty;
+        public string allergies { get; set; } = string.Empty;
+        public DateTime birth_date { get; set; }
+        public string cnp { get; set; } = string.Empty;
+        public DateTime registration_date { get; set; }
 
         private string _emergencyContact = string.Empty;
-        public string EmergencyContact
+        public string emergency_contact
         {
-            get => _emergencyContact;
-            set { if (_emergencyContact != value) { _emergencyContact = value; OnPropertyChanged(); } }
+            get => this._emergencyContact;
+            set { if (this._emergencyContact != value) { this._emergencyContact = value; OnPropertyChanged(); } }
         }
 
         private double _weight;
-        public double Weight
+        public double weight
         {
-            get => _weight;
-            set { if (_weight != value) { _weight = value; OnPropertyChanged(); } }
+            get => this._weight;
+            set { if (this._weight != value) { this._weight = value; OnPropertyChanged(); } }
         }
 
         private int _height;
-        public int Height
+        public int height
         {
-            get => _height;
-            set { if (_height != value) { _height = value; OnPropertyChanged(); } }
+            get => this._height;
+            set { if (this._height != value) { this._height = value; OnPropertyChanged(); } }
         }
 
-        private bool _isLoading;
-        public bool IsLoading
+        private bool _is_loading;
+        public bool is_loading
         {
-            get => _isLoading;
-            set { if (_isLoading != value) { _isLoading = value; OnPropertyChanged(); } }
+            get => this._is_loading;
+            set { if (this._is_loading != value) { this._is_loading = value; OnPropertyChanged(); } }
         }
 
         protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
@@ -73,113 +74,113 @@ namespace WinUI.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async Task<bool> LoadPatientInfoByUserIdAsync(int userId)
+        public async Task<bool> loadPatientInfoByUserIdAsync(int _user_id)
         {
             try
             {
-                IsLoading = true;
+                this.is_loading = true;
 
-                bool success = await _patientManager.LoadPatientInfoByUserId(userId);
-                var patient = _patientManager._patientInfo;
+                bool success = await this._patient_service.loadPatientInfoByUserId(_user_id);
+                PatientJointModel? patient = this._patient_service._patient_info;
 
                 if (success && patient != PatientJointModel.Default)
                 {
-                    Name = patient.PatientName;
-                    Email = patient.Email;
-                    Username = patient.Username;
-                    Address = patient.Address;
-                    PhoneNumber = patient.PhoneNumber;
-                    EmergencyContact = patient.EmergencyContact;
-                    BloodType = patient.BloodType;
-                    Allergies = patient.Allergies;
-                    BirthDate = patient.BirthDate.ToDateTime(TimeOnly.MinValue);
-                    Cnp = patient.CNP;
-                    RegistrationDate = patient.RegistrationDate;
-                    Weight = patient.Weight;
-                    Height = patient.Height;
+                    this.name = patient.patient_name;
+                    this.email = patient.email;
+                    this.username = patient.username;
+                    this.address = patient.address;
+                    this.phone_number = patient.phone_number;
+                    this.emergency_contact = patient.emergency_contact;
+                    this.blood_type = patient.blood_type;
+                    this.allergies = patient.allergies;
+                    this.birth_date = patient.birth_date.ToDateTime(TimeOnly.MinValue);
+                    this.cnp = patient.cnp;
+                    this.registration_date = patient.registration_date;
+                    this.weight = patient.weight;
+                    this.height = patient.height;
 
-                    _originalPatient = new PatientJointModel(
-                        userId,
-                        patient.PatientId,
-                        Name,
-                        BloodType,
-                        EmergencyContact,
-                        Allergies,
-                        Weight,
-                        Height,
-                        Username,
+                    this._original_patient = new PatientJointModel(
+                        this._user_id,
+                        patient.patient_id,
+                        this.name,
+                        this.blood_type,
+                        this.emergency_contact,
+                        this.allergies,
+                        this.weight,
+                        this.height,
+                        this.username,
                         "", // password unused now
-                        Email,
-                        patient.BirthDate,
-                        Cnp,
-                        Address,
-                        PhoneNumber,
-                        RegistrationDate
+                        this.email,
+                        patient.birth_date,
+                        this.cnp,
+                        this.address,
+                        this.phone_number,
+                        this.registration_date
                     );
                 }
 
-                IsLoading = false;
+                this.is_loading = false;
                 return success;
             }
             catch (Exception exception)
             {
-                IsLoading = false;
+                this.is_loading = false;
                 Console.WriteLine($"Error loading patient info: {exception.Message}");
                 return false;
             }
         }
 
-        public async Task<bool> UpdateEmergencyContact(string emergencyContact)
+        public async Task<bool> updateEmergencyContact(string _emergencyContact)
         {
             try
             {
-                IsLoading = true;
-                bool updated = await _patientManager.UpdateEmergencyContact(UserId, emergencyContact);
+                this.is_loading = true;
+                bool updated = await this._patient_service.updateEmergencyContact(user_id, _emergencyContact);
                 if (updated)
                 {
-                    EmergencyContact = emergencyContact;
-                    _originalPatient.EmergencyContact = emergencyContact;
+                    this.emergency_contact = _emergencyContact;
+                    this._original_patient.emergency_contact = _emergencyContact;
                 }
                 return updated;
             }
-            finally { IsLoading = false; }
+            finally { this.is_loading = false; }
         }
 
-        public async Task<bool> UpdateWeight(double weight)
+        public async Task<bool> updateWeight(double _weight)
         {
             try
             {
-                IsLoading = true;
-                bool updated = await _patientManager.UpdateWeight(UserId, weight);
+                this.is_loading = true;
+                bool updated = await this._patient_service.updateWeight(user_id, _weight);
                 if (updated)
                 {
-                    Weight = weight;
-                    _originalPatient.Weight = weight;
+                    this.weight = weight;
+                    this._original_patient.weight = weight;
                 }
                 return updated;
             }
-            finally { IsLoading = false; }
+            finally { this.is_loading = false; }
         }
 
-        public async Task<bool> UpdateHeight(int height)
+        public async Task<bool> updateHeight(int _height)
         {
             try
             {
-                IsLoading = true;
-                bool updated = await _patientManager.UpdateHeight(UserId, height);
+                this.is_loading = true;
+                bool updated = await this._patient_service.updateHeight(user_id, _height);
                 if (updated)
                 {
-                    Height = height;
-                    _originalPatient.Height = height;
+                    this.height = _height;
+                    this._original_patient.height = _height;
                 }
                 return updated;
             }
-            finally { IsLoading = false; }
+            finally { this.is_loading = false; }
         }
 
-        public async Task<bool> LogUpdate(int userId, ActionType action)
+        public async Task<bool> logUpdate(int _user_id, ActionType _action)
         {
-            return await _patientManager.LogUpdate(userId, action);
+            return await this._patient_service.logUpdate(_user_id, _action);
         }
     }
 }

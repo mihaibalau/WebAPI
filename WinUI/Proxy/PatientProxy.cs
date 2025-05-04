@@ -7,142 +7,142 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
-using Domain;
+using ClassLibrary.Domain;
 
 namespace WinUI.Proxy
 {
     internal class PatientProxy : IPatientRepository
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://localhost:7004/";
+        private readonly HttpClient _http_client;
+        private readonly string _base_api_url = "http://localhost:5005/";
 
-        public PatientProxy(HttpClient httpClient)
+        public PatientProxy(HttpClient _http_client)
         {
-            _httpClient = httpClient;
+            this._http_client = _http_client;
         }
 
-        public async Task<List<Patient>> GetAllPatientsAsync()
+        public async Task<List<Patient>> getAllPatientsAsync()
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + "api/patient");
+            HttpResponseMessage response = await this._http_client.GetAsync(this._base_api_url + "api/patient");
             response.EnsureSuccessStatusCode();
 
-            string responseBody = await response.Content.ReadAsStringAsync();
+            string response_body = await response.Content.ReadAsStringAsync();
 
-            List<PatientHttpModel> patientsHttp = JsonSerializer.Deserialize<List<PatientHttpModel>>(responseBody, new JsonSerializerOptions
+            List<PatientHttpModel> patients_http = JsonSerializer.Deserialize<List<PatientHttpModel>>(response_body, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            return patientsHttp.Select(MapToDomainModel).ToList();
+            return patients_http.Select(mapToDomainModel).ToList();
         }
 
-        public async Task<Patient> GetPatientByUserIdAsync(int id)
+        public async Task<Patient> getPatientByUserIdAsync(int id)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"{_baseUrl}api/patient/{id}");
+            HttpResponseMessage response = await this._http_client.GetAsync($"{this._base_api_url}api/patient/{id}");
             response.EnsureSuccessStatusCode();
 
-            string responseBody = await response.Content.ReadAsStringAsync();
+            string response_body = await response.Content.ReadAsStringAsync();
 
-            PatientHttpModel patientHttp = JsonSerializer.Deserialize<PatientHttpModel>(responseBody, new JsonSerializerOptions
+            PatientHttpModel patient_http = JsonSerializer.Deserialize<PatientHttpModel>(response_body, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            if (patientHttp == null)
+            if (patient_http == null)
                 throw new Exception($"No patient found with user id {id}");
 
-            return MapToDomainModel(patientHttp);
+            return mapToDomainModel(patient_http);
         }
 
-        public async Task AddPatientAsync(Patient patient)
+        public async Task addPatientAsync(Patient patient)
         {
-            PatientHttpModel patientHttp = MapToHttpModel(patient);
+            PatientHttpModel patient_http = mapToHttpModel(patient);
 
-            string patientJson = JsonSerializer.Serialize(patientHttp);
-            StringContent content = new StringContent(patientJson, Encoding.UTF8, "application/json");
+            string patient_json = JsonSerializer.Serialize(patient_http);
+            StringContent content = new StringContent(patient_json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync(_baseUrl + "api/patient", content);
+            HttpResponseMessage response = await this._http_client.PostAsync(this._base_api_url + "api/patient", content);
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task DeletePatientAsync(int id)
+        public async Task deletePatientAsync(int id)
         {
-            HttpResponseMessage response = await _httpClient.DeleteAsync($"{_baseUrl}api/patient/{id}");
+            HttpResponseMessage response = await this._http_client.DeleteAsync($"{this._base_api_url}api/patient/{id}");
             response.EnsureSuccessStatusCode();
         }
 
-        private Patient MapToDomainModel(PatientHttpModel httpModel)
+        private Patient mapToDomainModel(PatientHttpModel _http_model)
         {
             return new Patient
             {
-                UserId = httpModel.UserId,
-                BloodType = httpModel.BloodType,
-                EmergencyContact = httpModel.EmergencyContact,
-                Allergies = httpModel.Allergies,
-                Weight = httpModel.Weight,
-                Height = httpModel.Height
+                UserId = _http_model.user_id,
+                BloodType = _http_model.blood_type,
+                EmergencyContact = _http_model.emergency_contact,
+                Allergies = _http_model.allergies,
+                Weight = _http_model.weight,
+                Height = _http_model.height
             };
         }
 
-        private PatientHttpModel MapToHttpModel(Patient domainModel)
+        private PatientHttpModel mapToHttpModel(Patient _domain_model)
         {
             return new PatientHttpModel
             {
-                UserId = domainModel.UserId,
-                BloodType = domainModel.BloodType,
-                EmergencyContact = domainModel.EmergencyContact,
-                Allergies = domainModel.Allergies,
-                Weight = domainModel.Weight,
-                Height = domainModel.Height
+                user_id = _domain_model.UserId,
+                blood_type = _domain_model.BloodType,
+                emergency_contact = _domain_model.EmergencyContact,
+                allergies = _domain_model.Allergies,
+                weight = _domain_model.Weight,
+                height = _domain_model.Height
             };
         }
 
         private class PatientHttpModel
         {
             [JsonPropertyName("userId")]
-            public int UserId { get; set; }
+            public int user_id { get; set; }
 
             [JsonPropertyName("patientName")]
-            public string PatientName { get; set; }
+            public string patient_name { get; set; }
 
             [JsonPropertyName("email")]
-            public string Email { get; set; }
+            public string email { get; set; }
 
             [JsonPropertyName("username")]
-            public string Username { get; set; }
+            public string username { get; set; }
 
             [JsonPropertyName("address")]
-            public string Address { get; set; }
+            public string address { get; set; }
 
             [JsonPropertyName("phoneNumber")]
-            public string PhoneNumber { get; set; }
+            public string phone_number { get; set; }
 
             [JsonPropertyName("password")]
-            public string Password { get; set; }
+            public string password { get; set; }
 
             [JsonPropertyName("bloodType")]
-            public string BloodType { get; set; }
+            public string blood_type { get; set; }
 
             [JsonPropertyName("emergencyContact")]
-            public string EmergencyContact { get; set; }
+            public string emergency_contact { get; set; }
 
             [JsonPropertyName("allergies")]
-            public string Allergies { get; set; }
+            public string allergies { get; set; }
 
             [JsonPropertyName("birthDate")]
-            public DateOnly BirthDate { get; set; }
+            public DateOnly birth_date { get; set; }
 
             [JsonPropertyName("cnp")]
-            public string Cnp { get; set; }
+            public string cnp { get; set; }
 
             [JsonPropertyName("registrationDate")]
-            public DateTime RegistrationDate { get; set; }
+            public DateTime registration_date { get; set; }
 
             [JsonPropertyName("weight")]
-            public double Weight { get; set; }
+            public double weight { get; set; }
 
             [JsonPropertyName("height")]
-            public int Height { get; set; }
+            public int height { get; set; }
         }
     }
 }

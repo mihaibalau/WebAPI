@@ -16,27 +16,28 @@ using WinUI.ViewModel;
 using WinUI.View;
 using System.Security.Authentication;
 using System.Threading.Tasks;
+using WinUI.Service;
 
 namespace WinUI.View
 {
     public sealed partial class PatientDashboardView : Page
     {
-        private IAuthViewModel _authenticationViewModel;
+        private IAuthViewModel _authentication_view_model;
 
         public PatientDashboardView()
         {
             this.InitializeComponent();
         }
 
-        public PatientDashboardView(IPatientViewModel patientViewModel, IAuthViewModel authenticationViewModel)
+        public PatientDashboardView(IPatientViewModel _patient_view_model, IAuthViewModel _authentication_view_model)
         {
             InitializeComponent();
-            _authenticationViewModel = authenticationViewModel;
+            this._authentication_view_model = _authentication_view_model;
 
-            var patientDashboardControl = new PatientDashboardControl(patientViewModel);
-            patientDashboardControl.LogoutButtonClicked += HandleLogoutRequested;
+            var patient_dashboard_control = new PatientDashboardControl(_patient_view_model);
+            patient_dashboard_control.LogoutButtonClicked += handleLogoutRequested;
 
-            this.Content = patientDashboardControl;
+            this.Content = patient_dashboard_control;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -45,30 +46,26 @@ namespace WinUI.View
 
             if (e.Parameter is Tuple<IPatientViewModel, IAuthViewModel> parameters)
             {
-                var patientViewModel = parameters.Item1;
-                _authenticationViewModel = parameters.Item2;
+                IPatientViewModel patient_view_model = parameters.Item1;
+                this._authentication_view_model = parameters.Item2;
 
-                var patientDashboardControl = new PatientDashboardControl(patientViewModel);
-                patientDashboardControl.LogoutButtonClicked += HandleLogoutRequested;
+                var patient_dashboard_control = new PatientDashboardControl(patient_view_model);
+                patient_dashboard_control.LogoutButtonClicked += handleLogoutRequested;
 
-                this.Content = patientDashboardControl;
+                this.Content = patient_dashboard_control;
             }
         }
 
-        private async void HandleLogoutRequested()
+        private async void handleLogoutRequested()
         {
             try
             {
-                await _authenticationViewModel.logout();
-
-                if (Window.Current.Content is Frame frame && frame.Content is LogInView logInView)
-                {
-                    logInView.returnToLogin();
-                }
+                await this._authentication_view_model.logout();
+                NavigationService.navigateToLogin();
             }
-            catch (AuthenticationException authenticationException)
+            catch (AuthenticationException authentication_exception)
             {
-                await ShowErrorDialog("Authentication Error", authenticationException.Message);
+                await ShowErrorDialog("Authentication Error", authentication_exception.Message);
             }
             catch (Exception exception)
             {
@@ -76,12 +73,12 @@ namespace WinUI.View
             }
         }
 
-        private async Task ShowErrorDialog(string title, string message)
+        private async Task ShowErrorDialog(string _title, string _message)
         {
             var errorDialog = new ContentDialog
             {
-                Title = title,
-                Content = message,
+                Title = _title,
+                Content = _message,
                 CloseButtonText = "OK",
                 XamlRoot = this.Content.XamlRoot
             };

@@ -9,18 +9,18 @@ namespace WinUI.Repository
 {
     public interface IPatientRepository
     {
-        Task<List<PatientJointModel>> GetAllPatients();
-        Task<PatientJointModel> GetPatientByUserId(int userId);
-        Task<bool> UpdatePassword(int userId, string password);
-        Task<bool> UpdateEmail(int userId, string email);
-        Task<bool> UpdateUsername(int userId, string username);
-        Task<bool> UpdateName(int userId, string name);
-        Task<bool> UpdateBirthDate(int userId, DateOnly birthDate);
-        Task<bool> UpdateAddress(int userId, string address);
-        Task<bool> UpdatePhoneNumber(int userId, string phoneNumber);
-        Task<bool> UpdateEmergencyContact(int userId, string emergencyContact);
-        Task<bool> UpdateWeight(int userId, double weight);
-        Task<bool> UpdateHeight(int userId, int height);
-        Task<bool> LogUpdate(int userId, ActionType type);
+        Task<List<PatientJointModel>> getAllPatients();
+        Task<PatientJointModel> getPatientByUserId(int userId);
+        Task<bool> updatePassword(int userId, string password);
+        Task<bool> updateEmail(int userId, string email);
+        Task<bool> updateUsername(int userId, string username);
+        Task<bool> updateName(int userId, string name);
+        Task<bool> updateBirthDate(int userId, DateOnly birthDate);
+        Task<bool> updateAddress(int userId, string address);
+        Task<bool> updatePhoneNumber(int userId, string phoneNumber);
+        Task<bool> updateEmergencyContact(int userId, string emergencyContact);
+        Task<bool> updateWeight(int userId, double weight);
+        Task<bool> updateHeight(int userId, int height);
+        Task<bool> logUpdate(int userId, ActionType type);
     }
 }

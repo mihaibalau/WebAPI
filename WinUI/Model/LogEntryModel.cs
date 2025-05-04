@@ -24,7 +24,7 @@ namespace WinUI.Model
         UPDATE_PROFILE,
 
         /// <summary>
-        /// Password change action.
+        /// password change action.
         /// </summary>
         CHANGE_PASSWORD,
 

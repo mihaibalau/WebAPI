@@ -7,16 +7,16 @@ namespace WinUI.Service
 {
     public interface IPatientService
     {
-        PatientJointModel _patientInfo { get; }
-        List<PatientJointModel> _patientList { get; }
+        PatientJointModel _patient_info { get; }
+        List<PatientJointModel> _patient_list { get; }
 
-        Task<bool> LoadPatientInfoByUserId(int userId);
-        Task<bool> LoadAllPatients();
+        Task<bool> loadPatientInfoByUserId(int _user_id);
+        Task<bool> loadAllPatients();
 
-        Task<bool> UpdateWeight(int userId, double weight);
-        Task<bool> UpdateHeight(int userId, int height);
-        Task<bool> UpdateEmergencyContact(int userId, string emergencyContact);
+        Task<bool> updateWeight(int _user_id, double weight);
+        Task<bool> updateHeight(int _user_id, int _height);
+        Task<bool> updateEmergencyContact(int _user_id, string _emergency_contact);
 
-        Task<bool> LogUpdate(int userId, ActionType action);
+        Task<bool> logUpdate(int _user_id, ActionType _action);
     }
 }

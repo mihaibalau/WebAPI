@@ -8,22 +8,22 @@ namespace WinUI.Model
 {
     public class PatientJointModel
     {
-        public int UserId { get; set; }
-        public int PatientId { get; set; }
-        public string PatientName { get; set; }
-        public string BloodType { get; set; }
-        public string EmergencyContact { get; set; }
-        public string Allergies { get; set; }
-        public double Weight { get; set; }
-        public int Height { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public DateOnly BirthDate { get; set; }
-        public string CNP { get; set; }
-        public string Address { get; set; }
-        public string PhoneNumber { get; set; }
-        public DateTime RegistrationDate { get; set; }
+        public int user_id { get; set; }
+        public int patient_id { get; set; }
+        public string patient_name { get; set; }
+        public string blood_type { get; set; }
+        public string emergency_contact { get; set; }
+        public string allergies { get; set; }
+        public double weight { get; set; }
+        public int height { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
+        public string email { get; set; }
+        public DateOnly birth_date { get; set; }
+        public string cnp { get; set; }
+        public string address { get; set; }
+        public string phone_number { get; set; }
+        public DateTime registration_date { get; set; }
 
         public static readonly PatientJointModel Default = new(
             -1, -1, string.Empty, string.Empty, string.Empty, string.Empty,
@@ -32,40 +32,40 @@ namespace WinUI.Model
         );
 
         public PatientJointModel(
-            int userId,
-            int patientId,
-            string patientName,
-            string bloodType,
-            string emergencyContact,
+            int user_id,
+            int patient_id,
+            string patient_name,
+            string blood_type,
+            string emergency_contact,
             string allergies,
             double weight,
             int height,
             string username,
             string password,
             string email,
-            DateOnly birthDate,
+            DateOnly birth_date,
             string cnp,
             string address,
-            string phoneNumber,
-            DateTime registrationDate
+            string phone_number,
+            DateTime registration_date
         )
         {
-            UserId = userId;
-            PatientId = patientId;
-            PatientName = patientName;
-            BloodType = bloodType;
-            EmergencyContact = emergencyContact;
-            Allergies = allergies;
-            Weight = weight;
-            Height = height;
-            Username = username;
-            Password = password;
-            Email = email;
-            BirthDate = birthDate;
-            CNP = cnp;
-            Address = address;
-            PhoneNumber = phoneNumber;
-            RegistrationDate = registrationDate;
+            this.user_id = user_id;
+            this.patient_id = patient_id;
+            this.patient_name = patient_name;
+            this.blood_type = blood_type;
+            this.emergency_contact = emergency_contact;
+            this.allergies = allergies;
+            this.weight = weight;
+            this.height = height;
+            this.username = username;
+            this.password = password;
+            this.email = email;
+            this.birth_date = birth_date;
+            this.cnp = cnp;
+            this.address = address;
+            this.phone_number = phone_number;
+            this.registration_date = registration_date;
         }
     }
 }

@@ -85,50 +85,50 @@
             </Grid.RowDefinitions>
 
             <!-- ROW 1 -->
-            <TextBlock Text="Name" Foreground="White" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Name}" IsReadOnly="True" Width="300" Grid.Row="1" Grid.Column="0" Margin="30,0,30,30"/>
+            <TextBlock Text="name" Foreground="White" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding name}" IsReadOnly="True" Width="300" Grid.Row="1" Grid.Column="0" Margin="30,0,30,30"/>
 
             <TextBlock Text="Mail" Foreground="White" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Email}" IsReadOnly="True" Width="400" Grid.Row="1" Grid.Column="1" Margin="30,0,30,30"/>
+            <TextBox Text="{Binding email}" IsReadOnly="True" Width="400" Grid.Row="1" Grid.Column="1" Margin="30,0,30,30"/>
 
-            <TextBlock Text="Password" Foreground="White" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Password}" IsReadOnly="True" Width="400" Grid.Row="1" Grid.Column="2" Margin="30,0,30,30"/>
+            <TextBlock Text="password" Foreground="White" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding password}" IsReadOnly="True" Width="400" Grid.Row="1" Grid.Column="2" Margin="30,0,30,30"/>
 
-            <TextBlock Text="Username" Foreground="White" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Username}" IsReadOnly="True" Width="300" Grid.Row="1" Grid.Column="3" Margin="30,0,30,30"/>
+            <TextBlock Text="username" Foreground="White" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding username}" IsReadOnly="True" Width="300" Grid.Row="1" Grid.Column="3" Margin="30,0,30,30"/>
 
             <!-- ROW 2 -->
-            <TextBlock Text="Address" Foreground="White" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Address}" IsReadOnly="True" Width="300" Grid.Row="3" Grid.Column="0" Margin="30,0,30,30"/>
+            <TextBlock Text="address" Foreground="White" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding address}" IsReadOnly="True" Width="300" Grid.Row="3" Grid.Column="0" Margin="30,0,30,30"/>
 
             <TextBlock Text="Phone Number" Foreground="White" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding PhoneNumber}" IsReadOnly="True" Width="400" Grid.Row="3" Grid.Column="1" Margin="30,0,30,30"/>
+            <TextBox Text="{Binding phone_number}" IsReadOnly="True" Width="400" Grid.Row="3" Grid.Column="1" Margin="30,0,30,30"/>
 
             <TextBlock Text="Emergency Contact" Foreground="White" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding EmergencyContact, Mode=TwoWay}" Width="400" MaxLength="10" Grid.Row="3" Grid.Column="2" Margin="30,0,30,30"/>
+            <TextBox Text="{Binding emergency_contact, Mode=TwoWay}" Width="400" MaxLength="10" Grid.Row="3" Grid.Column="2" Margin="30,0,30,30"/>
 
-            <TextBlock Text="Weight" Foreground="White" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Weight, Mode=TwoWay}" Width="300" Grid.Row="3" Grid.Column="3" Margin="30,0,30,30"/>
+            <TextBlock Text="weight" Foreground="White" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding weight, Mode=TwoWay}" Width="300" Grid.Row="3" Grid.Column="3" Margin="30,0,30,30"/>
 
             <!-- ROW 3 -->
-            <TextBlock Text="Height" Foreground="White" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Height, Mode=TwoWay}" Width="300" Grid.Row="5" Grid.Column="0" Margin="30,0,30,30"/>
+            <TextBlock Text="height" Foreground="White" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding height, Mode=TwoWay}" Width="300" Grid.Row="5" Grid.Column="0" Margin="30,0,30,30"/>
 
             <TextBlock Text="Blood Type" Foreground="White" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding BloodType}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="1" Margin="30,0,30,30"/>
+            <TextBox Text="{Binding blood_type}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="1" Margin="30,0,30,30"/>
 
-            <TextBlock Text="Allergies" Foreground="White" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Allergies}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="2" Margin="30,0,30,30"/>
+            <TextBlock Text="allergies" Foreground="White" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding allergies}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="2" Margin="30,0,30,30"/>
 
             <TextBlock Text="Birth Date" Foreground="White" Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding BirthDate}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="3" Margin="30,0,30,30"/>
+            <TextBox Text="{Binding birth_date}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="3" Margin="30,0,30,30"/>
 
             <!-- ROW 4 -->
-            <TextBlock Text="CNP" Foreground="White" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding Cnp}" IsReadOnly="True" Width="400" Grid.Row="7" Grid.Column="0" Margin="30,0,30,30"/>
+            <TextBlock Text="cnp" Foreground="White" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding cnp}" IsReadOnly="True" Width="400" Grid.Row="7" Grid.Column="0" Margin="30,0,30,30"/>
 
             <TextBlock Text="Registration Date" Foreground="White" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding RegistrationDate}" IsReadOnly="True" Width="300" Grid.Row="7" Grid.Column="1" Margin="30,0,30,0"/>
+            <TextBox Text="{Binding registration_date}" IsReadOnly="True" Width="300" Grid.Row="7" Grid.Column="1" Margin="30,0,30,0"/>
 
         </Grid>
 
