@@ -37,7 +37,7 @@ namespace WinUI.ViewModel
 
             if (!_check_if_user_exists)
             {
-                throw new AuthenticationException("Username doesn't exist!");
+                throw new AuthenticationException("username doesn't exist!");
             }
 
             bool _is_the_password_valid = await this.auth_service.verifyPassword(_password);

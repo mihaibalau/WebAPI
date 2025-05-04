@@ -31,12 +31,12 @@ namespace WinUI.Service
         public enum NumbersForValidationsWhenCreatingAnAccount
         {
             /// <summary>
-            /// The maximum Limit for the Username Length.
+            /// The maximum Limit for the username Length.
             /// </summary>
             LIMIT_FOR_USERNAME_LENGTH = 50,
 
             /// <summary>
-            /// The maximum Limit for the Password Length.
+            /// The maximum Limit for the password Length.
             /// </summary>
             LIMIT_FOR_PASSWORD_LENGTH = 255,
 
@@ -46,12 +46,12 @@ namespace WinUI.Service
             LIMIT_FOR_MAIL_LENGTH = 100,
 
             /// <summary>
-            /// The maximum Limit for the Name Length.
+            /// The maximum Limit for the name Length.
             /// </summary>
             LIMIT_FOR_NAME_LENGTH = 100,
 
             /// <summary>
-            /// The maximum Limit for the CNP Length.
+            /// The maximum Limit for the cnp Length.
             /// </summary>
             LIMIT_FOR_CNP_LENGTH = 13,
 
@@ -66,7 +66,7 @@ namespace WinUI.Service
             MINIMUM_AGE_FOR_USER = -14,
 
             /// <summary>
-            /// The first digit-index from the CNP.
+            /// The first digit-index from the cnp.
             /// </summary>
             FIRST_DIGIT_FROM_THE_CNP = 0,
 
@@ -86,12 +86,12 @@ namespace WinUI.Service
             LIMIT_FOR_BIRTH_DATE_MONTH_LENGTH = 1,
 
             /// <summary>
-            /// The second digit-index from the CNP / birthdate.
+            /// The second digit-index from the cnp / birthdate.
             /// </summary>
             SECOND_DIGIT_FROM_CNP_OR_BIRTH_DATE = 1,
 
             /// <summary>
-            /// The third digit-index from the CNP / birthdate.
+            /// The third digit-index from the cnp / birthdate.
             /// </summary>
             THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP = 2,
 
@@ -101,7 +101,7 @@ namespace WinUI.Service
             FOURTH_DIGIT_FROM_BIRTH_DATE = 3,
 
             /// <summary>
-            /// The fourth digit-index from the CNP.
+            /// The fourth digit-index from the cnp.
             /// </summary>
             FOURTH_DIGIT_FROM_CNP = 3,
 
@@ -111,17 +111,17 @@ namespace WinUI.Service
             FIRST_DIGIT_FROM_BIRTH_DATE = 0,
 
             /// <summary>
-            /// The sixth digit-index from the CNP.
+            /// The sixth digit-index from the cnp.
             /// </summary>
             SIXTH_DIGIT_OF_THE_CNP = 5,
 
             /// <summary>
-            /// The fifth digit-index from the CNP.
+            /// The fifth digit-index from the cnp.
             /// </summary>
             FIFTH_DIGIT_OF_THE_CNP = 4,
 
             /// <summary>
-            /// The seventh digit-index from the CNP.
+            /// The seventh digit-index from the cnp.
             /// </summary>
             SEVENTH_DIGIT_OF_THE_CNP = 6,
 
@@ -236,14 +236,14 @@ namespace WinUI.Service
 
             if (_model_for_creating_user_account.cnp.Length != (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_CNP_LENGTH)
             {
-                throw new AuthenticationException("Invalid CNP!\nHas to have length 13");
+                throw new AuthenticationException("Invalid cnp!\nHas to have length 13");
             }
 
             foreach (char characterFromCNP in _model_for_creating_user_account.cnp)
             {
                 if (!char.IsDigit(characterFromCNP))
                 {
-                    throw new AuthenticationException("Invalid CNP!\nOnly numbers allowed");
+                    throw new AuthenticationException("Invalid cnp!\nOnly numbers allowed");
                 }
             }
 
@@ -274,14 +274,14 @@ namespace WinUI.Service
                 case true:
                     if (_model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_THE_CNP] != '1' && _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_THE_CNP] != '2')
                     {
-                        throw new AuthenticationException("CNP gender is invalid");
+                        throw new AuthenticationException("cnp gender is invalid");
                     }
 
                     break;
                 case false:
                     if (_model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_THE_CNP] != '5' && _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_THE_CNP] != '6')
                     {
-                        throw new AuthenticationException("CNP gender is invalid");
+                        throw new AuthenticationException("cnp gender is invalid");
                     }
 
                     break;
@@ -289,14 +289,14 @@ namespace WinUI.Service
 
             if (_model_for_creating_user_account.birth_date.Year.ToString().Length != (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_YEAR_LENGTH)
             {
-                throw new AuthenticationException("CNP birth year errorYou may be old, but you surely aren't this old :)!");
+                throw new AuthenticationException("cnp birth year errorYou may be old, but you surely aren't this old :)!");
             }
 
-            // check if valid match between birth date and CNP birth date
+            // check if valid match between birth date and cnp birth date
             if (_model_for_creating_user_account.birth_date.Year.ToString().Substring((int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP)
                 != _model_for_creating_user_account.cnp.Substring((int)NumbersForValidationsWhenCreatingAnAccount.SECOND_DIGIT_FROM_CNP_OR_BIRTH_DATE, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP))
             {
-                throw new AuthenticationException("Mismatch between Birth year and CNP birth year");
+                throw new AuthenticationException("Mismatch between Birth year and cnp birth year");
             }
 
             if (_model_for_creating_user_account.birth_date.Month.ToString().Length == (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_MONTH_LENGTH)
@@ -305,27 +305,27 @@ namespace WinUI.Service
                     != _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FIFTH_DIGIT_OF_THE_CNP]
                     || _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FOURTH_DIGIT_FROM_CNP] != '0')
                 {
-                    throw new AuthenticationException("Mismatch between Birth Month and CNP birth month");
+                    throw new AuthenticationException("Mismatch between Birth Month and cnp birth month");
                 }
             }
             else
                 if (_model_for_creating_user_account.birth_date.Month.ToString() !=
                 _model_for_creating_user_account.cnp.Substring((int)NumbersForValidationsWhenCreatingAnAccount.FOURTH_DIGIT_FROM_BIRTH_DATE, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP))
             {
-                throw new AuthenticationException("Mismatch between Birth Month and CNP birth month");
+                throw new AuthenticationException("Mismatch between Birth Month and cnp birth month");
             }
 
             if (_model_for_creating_user_account.birth_date.Day.ToString().Length == (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_MONTH_LENGTH)
             {
                 if (_model_for_creating_user_account.birth_date.Day.ToString()[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_BIRTH_DATE] != _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.SEVENTH_DIGIT_OF_THE_CNP] || _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.SIXTH_DIGIT_OF_THE_CNP] != '0')
                 {
-                    throw new AuthenticationException("Mismatch between Birth Day and CNP birth day");
+                    throw new AuthenticationException("Mismatch between Birth Day and cnp birth day");
                 }
             }
             else
                 if (_model_for_creating_user_account.birth_date.Day.ToString() != _model_for_creating_user_account.cnp.Substring((int)NumbersForValidationsWhenCreatingAnAccount.SIXTH_DIGIT_OF_THE_CNP, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP))
             {
-                throw new AuthenticationException("Mismatch between Birth Day and CNP birth day");
+                throw new AuthenticationException("Mismatch between Birth Day and cnp birth day");
             }
 
             bool _result = await _log_in_repository.createAccount(_model_for_creating_user_account);

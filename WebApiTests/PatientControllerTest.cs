@@ -19,7 +19,7 @@ public class PatientControllerTest
             new Patient { UserId = 1, BloodType = "AB+", EmergencyContact = "Mom", Allergies = "cats, dogs", Weight = 72.6, Height = 167 },
             new Patient { UserId = 2, BloodType = "A-", EmergencyContact = "Dad", Allergies = "cats, dogs", Weight = 92.6, Height = 199 }
         };
-        _mock_repo.Setup(_repo => _repo.GetAllPatientsAsync()).ReturnsAsync(_fake_patients);
+        _mock_repo.Setup(_repo => _repo.getAllPatientsAsync()).ReturnsAsync(_fake_patients);
 
         var _controller = new PatientController(_mock_repo.Object);
 
@@ -41,7 +41,7 @@ public class PatientControllerTest
         var _mock_repo = new Mock<IPatientRepository>();
         var _fake_patient = new Patient { UserId = 2, BloodType = "A-", EmergencyContact = "Dad", Allergies = "cats, dogs", Weight = 92.6, Height = 199 };
 
-        _mock_repo.Setup(_repo => _repo.GetPatientByUserIdAsync(_patient_id)).ReturnsAsync(_fake_patient);
+        _mock_repo.Setup(_repo => _repo.getPatientByUserIdAsync(_patient_id)).ReturnsAsync(_fake_patient);
 
         var _controller = new PatientController(_mock_repo.Object);
 
@@ -61,7 +61,7 @@ public class PatientControllerTest
         // Arrange
         var _mock_repo = new Mock<IPatientRepository>();
         var _fake_patient = new Patient { UserId = 2, BloodType = "A-", EmergencyContact = "Dad", Allergies = "cats, dogs", Weight = 92.6, Height = 199 };
-        _mock_repo.Setup(repo => repo.AddPatientAsync(_fake_patient)).Returns(Task.CompletedTask);
+        _mock_repo.Setup(repo => repo.addPatientAsync(_fake_patient)).Returns(Task.CompletedTask);
 
         var _controller = new PatientController(_mock_repo.Object);
 
@@ -82,7 +82,7 @@ public class PatientControllerTest
         int _patient_id = 1;
 
         // No setup needed if the method succeeds (completes without exception)
-        _mock_repo.Setup(_repo => _repo.DeletePatientAsync(_patient_id)).Returns(Task.CompletedTask);
+        _mock_repo.Setup(_repo => _repo.deletePatientAsync(_patient_id)).Returns(Task.CompletedTask);
 
         var _controller = new PatientController(_mock_repo.Object);
 
@@ -91,6 +91,6 @@ public class PatientControllerTest
 
         // Assert
         Assert.IsInstanceOfType(_result, typeof(NoContentResult));
-        _mock_repo.Verify(_repo => _repo.DeletePatientAsync(_patient_id), Times.Once);
+        _mock_repo.Verify(_repo => _repo.deletePatientAsync(_patient_id), Times.Once);
     }
 }

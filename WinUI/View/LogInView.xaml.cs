@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -18,6 +19,7 @@ using WinUI.Proxy;
 using WinUI.Repository;
 using WinUI.Service;
 using WinUI.ViewModel;
+using IPatientRepository = ClassLibrary.IRepository.IPatientRepository;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -70,7 +72,7 @@ namespace WinUI.View
         }
 
         /// <summary>
-        /// It gets the text inside the Username Text Block and the Password Text Block,
+        /// It gets the text inside the username Text Block and the password Text Block,
         /// and if the user is not existent it shows an error, otherwise:
         /// Depending on the user, if it is patient or not, it sends the user to the Patient Window
         /// or to the Doctor Window.
@@ -99,15 +101,16 @@ namespace WinUI.View
                 await _debug_dialog.ShowAsync();
 
                 // TODO: UPDATE
-                //if (this._login_page_view_model.getUserRole() == "Patient")
-                //{
-                //    PatientService patientService = new PatientService();
-                //    PatientViewModel patientViewModel = new PatientViewModel(patientService, this.loginPageViewModel.AuthService.allUserInformation.user_id);
+                if (this._login_page_view_model.getUserRole() == "Patient")
+                {
+                    IPatientRepository patientRepository = new PatientProxy(new HttpClient());
+                    IPatientService patientService = new PatientService(patientRepository);
+                    PatientViewModel patientViewModel = new PatientViewModel(patientService, this._login_page_view_model.auth_service.all_user_information.user_id);
 
-                //    var parameters = new Tuple<IPatientViewModel, IAuthViewModel>(patientViewModel, this.loginPageViewModel);
-                //    this.mainFrame.navigate(typeof(PatientDashboardPage), parameters);
-                //    return;
-                //}
+                    var parameters = new Tuple<IPatientViewModel, IAuthViewModel>(patientViewModel, this._login_page_view_model);
+                    NavigationService.navigate(typeof(PatientDashboardView), parameters);
+                    return;
+                }
                 //else if (this.loginPageViewModel.GetUserRole() == "Doctor")
                 //{
                 //    IDoctorRepository doctorRepository = new DoctorRepository();
@@ -120,7 +123,7 @@ namespace WinUI.View
                 //}
                 
                 //  Admin Dashboard is done
-                if (this._login_page_view_model.getUserRole() == "Admin")
+                else if (this._login_page_view_model.getUserRole() == "Admin")
                 {
                        ILoggerRepository _logger_repository = new LoggerProxy();
                        Tuple<IAuthViewModel, ILoggerRepository> _parameters = new Tuple<IAuthViewModel, ILoggerRepository>(this._login_page_view_model, _logger_repository);
