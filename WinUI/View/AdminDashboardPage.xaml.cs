@@ -20,8 +20,8 @@ namespace WinUI.View
     /// </summary>
     public sealed partial class AdminDashboardPage : Page
     {
-        private IAuthViewModel authViewModel;
-        private ILoggerViewModel loggerViewModel;
+        private IAuthViewModel _auth_view_model;
+        private ILoggerViewModel _logger_view_model;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminDashboardPage"/> class.
@@ -35,14 +35,14 @@ namespace WinUI.View
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminDashboardPage"/> class.
         /// </summary>
-        /// <param name="authViewModel">Authentication service for user operations.</param>
-        /// <param name="loggerRepository">Logger service for auditing.</param>
+        /// <param name="_auth_view_model">Authentication service for user operations.</param>
+        /// <param name="_logger_repository">Logger service for auditing.</param>
         /// <exception cref="ArgumentNullException">Thrown if auth service is null.</exception>
-        public AdminDashboardPage(IAuthViewModel authViewModel, ILoggerRepository loggerRepository)
+        public AdminDashboardPage(IAuthViewModel _auth_view_model, ILoggerRepository _logger_repository)
         {
             this.InitializeComponent();
-            this.authViewModel = authViewModel ?? throw new ArgumentNullException(nameof(authViewModel));
-            InitializeLogger(loggerRepository ?? throw new ArgumentNullException(nameof(loggerRepository)));
+            this._auth_view_model = _auth_view_model ?? throw new ArgumentNullException(nameof(_auth_view_model));
+            initializeLogger(_logger_repository ?? throw new ArgumentNullException(nameof(_logger_repository)));
         }
 
         /// <summary>
@@ -54,95 +54,95 @@ namespace WinUI.View
 
             if (e.Parameter is Tuple<IAuthViewModel, ILoggerRepository> parameters)
             {
-                this.authViewModel = parameters.Item1;
-                InitializeLogger(parameters.Item2);
+                this._auth_view_model = parameters.Item1;
+                initializeLogger(parameters.Item2);
             }
-            else if (e.Parameter is ValueTuple<IAuthViewModel, ILoggerRepository> valueTuple)
+            else if (e.Parameter is ValueTuple<IAuthViewModel, ILoggerRepository> value_tuple)
             {
-                this.authViewModel = valueTuple.Item1;
-                InitializeLogger(valueTuple.Item2);
+                this._auth_view_model = value_tuple.Item1;
+                initializeLogger(value_tuple.Item2);
             }
         }
 
-        private void InitializeLogger(ILoggerRepository loggerRepository)
+        private void initializeLogger(ILoggerRepository _logger_repository)
         {
             // Initialize LoggerViewModel with LoggerService
-            var loggerManagerModel = new LoggerService(loggerRepository);
-            this.loggerViewModel = new LoggerViewModel(loggerManagerModel);
+            LoggerService logger_manager_model = new LoggerService(_logger_repository);
+            this._logger_view_model = new LoggerViewModel(logger_manager_model);
 
             // Load all logs initially
-            this.LoadInitialLogData();
+            this.loadInitialLogData();
 
             // Set up UI bindings
-            this.ConfigureUserInterface();
+            this.configureUserInterface();
         }
 
-        private void LoadInitialLogData()
+        private void loadInitialLogData()
         {
-            this.loggerViewModel.LoadAllLogsCommand.Execute(null);
+            this._logger_view_model.load_all_logs_command.Execute(null);
         }
 
-        private void ConfigureUserInterface()
+        private void configureUserInterface()
         {
             // Set the item source for ListView
-            this.LogListView.ItemsSource = this.loggerViewModel.Logs;
+            this.LogListView.ItemsSource = this._logger_view_model.logs;
 
             // Set up ComboBox for action types
-            this.ActionTypeComboBox.ItemsSource = this.loggerViewModel.ActionTypes;
+            this.ActionTypeComboBox.ItemsSource = this._logger_view_model.action_types;
 
             // Bind TextBox for user ID filtering
             this.UserIdTextBox.SetBinding(TextBox.TextProperty, new Binding
             {
-                Path = new PropertyPath("UserIdInput"),
-                Source = this.loggerViewModel,
+                Path = new PropertyPath("user_id_input"),
+                Source = this._logger_view_model,
                 Mode = BindingMode.TwoWay,
             });
 
             // Bind ComboBox for action type filtering
             this.ActionTypeComboBox.SetBinding(ComboBox.SelectedItemProperty, new Binding
             {
-                Path = new PropertyPath("SelectedActionType"),
-                Source = this.loggerViewModel,
+                Path = new PropertyPath("selected_action_type"),
+                Source = this._logger_view_model,
                 Mode = BindingMode.TwoWay,
             });
 
             // Bind DatePicker for timestamp filtering
             this.TimestampDatePicker.SetBinding(DatePicker.DateProperty, new Binding
             {
-                Path = new PropertyPath("SelectedTimestamp"),
-                Source = this.loggerViewModel,
+                Path = new PropertyPath("selected_timestamp"),
+                Source = this._logger_view_model,
                 Mode = BindingMode.TwoWay,
                 Converter = new Helpers.DateTimeToDateTimeOffsetConverter(),
             });
 
             // Bind the buttons directly to commands in the ViewModel
-            this.LoadAllLogsButton.Command = this.loggerViewModel.LoadAllLogsCommand;
-            this.LoadLogsByUserIdButton.Command = this.loggerViewModel.FilterLogsByUserIdCommand;
-            this.LoadLogsByActionTypeButton.Command = this.loggerViewModel.FilterLogsByActionTypeCommand;
-            this.LoadLogsBeforeTimestampButton.Command = this.loggerViewModel.FilterLogsByTimestampCommand;
-            this.ApplyFiltersButton.Command = this.loggerViewModel.ApplyAllFiltersCommand;
+            this.LoadAllLogsButton.Command = this._logger_view_model.load_all_logs_command;
+            this.LoadLogsByUserIdButton.Command = this._logger_view_model.filter_logs_by_user_id_command;
+            this.LoadLogsByActionTypeButton.Command = this._logger_view_model.filter_logs_by_action_type_command;
+            this.LoadLogsBeforeTimestampButton.Command = this._logger_view_model.filter_logs_by_timestamp_command;
+            this.ApplyFiltersButton.Command = this._logger_view_model.apply_all_filters_command;
         }
 
-        private async void LogoutButton_Click(object sender, RoutedEventArgs e)
+        private async void logoutButton_Click(object sender, RoutedEventArgs e)
         {
-            await this.PerformLogoutAsync();
+            await this.performLogoutAsync();
         }
 
-        private async Task PerformLogoutAsync()
+        private async Task performLogoutAsync()
         {
             try
             {
-                await this.authViewModel.logout();
-                NavigationService.NavigateToLogin();
+                await this._auth_view_model.logout();
+                NavigationService.navigateToLogin();
             }
             catch (Exception exception)
             {
-                await this.DisplayErrorDialogAsync($"Logout error: {exception.Message}");
+                await this.displayErrorDialogAsync($"Logout error: {exception.Message}");
             }
         }
 
 
-        private async Task DisplayErrorDialogAsync(string errorMessage)
+        private async Task displayErrorDialogAsync(string errorMessage)
         {
             ContentDialog errorDialog = new ContentDialog
             {

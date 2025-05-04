@@ -39,7 +39,7 @@
 
             <!-- Timestamp filter -->
             <StackPanel Orientation="Horizontal" Spacing="10">
-                <TextBlock Text="Timestamp:" VerticalAlignment="Center" Width="100"/>
+                <TextBlock Text="timestamp:" VerticalAlignment="Center" Width="100"/>
                 <DatePicker x:Name="TimestampDatePicker" Width="200"/>
             </StackPanel>
         </StackPanel>
@@ -49,7 +49,7 @@
             <Button Content="Load All Logs" x:Name="LoadAllLogsButton" Margin="5"/>
             <Button Content="Filter by User" x:Name="LoadLogsByUserIdButton" Margin="5"/>
             <Button Content="Filter by Action" x:Name="LoadLogsByActionTypeButton" Margin="5"/>
-            <Button Content="Filter before Timestamp" x:Name="LoadLogsBeforeTimestampButton" Margin="5"/>
+            <Button Content="Filter before timestamp" x:Name="LoadLogsBeforeTimestampButton" Margin="5"/>
             <Button Content="Filter by All Parameters" x:Name="LoadLogsWithAllParametersButton" Margin="5"/>
         </StackPanel>
 
