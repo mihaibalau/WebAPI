@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets or sets the unique identifier for the action type fot the log entry.
         /// </summary>
-        public string ActionType{ get; set; }
+        public string ActionType { get; set; }
 
         /// <summary>
         /// Gets or sets the timestemp of the log entry.
