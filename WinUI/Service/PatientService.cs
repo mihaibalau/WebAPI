@@ -18,11 +18,20 @@ namespace WinUI.Service
         public PatientJointModel _patient_info { get; private set; } = PatientJointModel.Default;
         public List<PatientJointModel> _patient_list { get; private set; } = new List<PatientJointModel>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PatientService"/> class with the specified patient repository.
+        /// </summary>
+        /// <param name="_patient_repository">The patient repository to use for data access.</param>
         public PatientService(IPatientRepository _patient_repository)
         {
             this._patient_repository = _patient_repository;
         }
 
+        /// <summary>
+        /// Loads patient information for the specified user ID.
+        /// </summary>
+        /// <param name="_user_id">The user ID for which to load patient information.</param>
+        /// <returns>True if the patient was found and loaded; otherwise, false.</returns>
         public async Task<bool> loadPatientInfoByUserId(int _user_id)
         {
             Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
@@ -37,6 +46,10 @@ namespace WinUI.Service
             return true;
         }
 
+        /// <summary>
+        /// Loads all patient records into the service.
+        /// </summary>
+        /// <returns>True if the operation succeeded.</returns>
         public async Task<bool> loadAllPatients()
         {
             List<Patient> domain_patients = await this._patient_repository.getAllPatientsAsync();
@@ -79,6 +92,12 @@ namespace WinUI.Service
             throw new NotSupportedException("updatePhoneNumber is not supported in IPatientRepository from ClassLibrary.");
         }
 
+        /// <summary>
+        /// Updates the emergency contact information for the specified user.
+        /// </summary>
+        /// <param name="_user_id">The user ID whose emergency contact will be updated.</param>
+        /// <param name="_emergency_contact">The new emergency contact information.</param>
+        /// <returns>True if the update was successful; otherwise, false.</returns>
         public virtual async Task<bool> updateEmergencyContact(int _user_id, string _emergency_contact)
         {
             // This one is supported
@@ -89,6 +108,12 @@ namespace WinUI.Service
             return true;
         }
 
+        /// <summary>
+        /// Updates the weight for the specified user.
+        /// </summary>
+        /// <param name="_user_id">The user ID whose weight will be updated.</param>
+        /// <param name="weight">The new weight value.</param>
+        /// <returns>True if the update was successful; otherwise, false.</returns>
         public virtual async Task<bool> updateWeight(int _user_id, double weight)
         {
             Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
@@ -98,6 +123,12 @@ namespace WinUI.Service
             return true;
         }
 
+        /// <summary>
+        /// Updates the height for the specified user.
+        /// </summary>
+        /// <param name="_user_id">The user ID whose height will be updated.</param>
+        /// <param name="height">The new height value.</param>
+        /// <returns>True if the update was successful; otherwise, false.</returns>
         public virtual async Task<bool> updateHeight(int _user_id, int height)
         {
             Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);

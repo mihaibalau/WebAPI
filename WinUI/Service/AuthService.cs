@@ -261,9 +261,9 @@ namespace WinUI.Service
             }
 
             // check if model is at least 14 years old
-            DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now);
-            DateOnly minValidDate = todayDate.AddYears((int)NumbersForValidationsWhenCreatingAnAccount.MINIMUM_AGE_FOR_USER);
-            if (_model_for_creating_user_account.birth_date > minValidDate)
+            DateOnly today_date = DateOnly.FromDateTime(DateTime.Now);
+            DateOnly min_valid_date = today_date.AddYears((int)NumbersForValidationsWhenCreatingAnAccount.MINIMUM_AGE_FOR_USER);
+            if (_model_for_creating_user_account.birth_date > min_valid_date)
             {
                 throw new AuthenticationException("Invalid Date\nPatient must be at least 14 years old!");
             }
