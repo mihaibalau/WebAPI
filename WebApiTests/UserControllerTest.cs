@@ -10,85 +10,86 @@ namespace WebApiTests;
 public class UserControllerTest
 {
     [TestMethod]
-    public async Task GetAllUsers_ReturnsListOfUsers()
+    public async Task GetAllUsers_WithValidController_ReturnsListOfUsers()
     {
         // Arrange
-        var mockRepo = new Mock<IUserRepository>();
-        var fakeUsers = new List<User>
+        var _mock_repo = new Mock<IUserRepository>();
+        var _fake_users = new List<User>
         {
             new User { UserId = 1, Username = "john_sickko", Password = "123456789", Mail = "john@yahoo.com", Role = "Patient", Name = "John", BirthDate = new DateOnly(1999, 03, 29), CNP = "1234567890123", Address = "acasa locuiesc domle", PhoneNumber = "07n-am cartela", RegistrationDate = new DateTime(2024, 03, 08, 19, 32, 0) },
             new User { UserId = 2, Username = "_xXx_paul_xXx_", Password = "123456789", Mail = "paul@yahoo.com", Role = "Doctor", Name = "John", BirthDate = new DateOnly(2000, 02, 29), CNP = "1234567890123", Address = "acasa locuiesc domle", PhoneNumber = "07n-am cartela", RegistrationDate = new DateTime(2024, 03, 08, 19, 32, 0) }
         };
-        mockRepo.Setup(repo => repo.GetAllUsersAsync()).ReturnsAsync(fakeUsers);
+        _mock_repo.Setup(_repo => _repo.GetAllUsersAsync()).ReturnsAsync(_fake_users);
 
-        var controller = new UserController(mockRepo.Object);
+        var _controller = new UserController(_mock_repo.Object);
 
         // Act
-        var result = await controller.GetAllUsers();
-        var okResult = result.Result as OkObjectResult;
+        var _result = await _controller.GetAllUsers();
+        var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(okResult);
-        var returnedUsers = okResult.Value as List<User>;
-        Assert.AreEqual(2, returnedUsers.Count);
+        Assert.IsNotNull(_ok_result);
+        var _returned_users = _ok_result.Value as List<User>;
+        Assert.AreEqual(2, _returned_users.Count);
     }
 
     [TestMethod]
-    public async Task GetUserById_ReturnsUser()
+    public async Task GetUserById_WithValidUserId_ReturnsUser()
     {
         // Arrange
-        var mockRepo = new Mock<IUserRepository>();
-        var fakeUser = new User { UserId = 1, Username = "john__sickko", Password = "123456789", Mail = "john@yahoo.com", Role = "Patient", Name = "John", BirthDate = new DateOnly(1999, 03, 29), CNP = "1234567890123", Address = "acasa locuiesc domle", PhoneNumber = "07n-am cartela", RegistrationDate = new DateTime(2024, 03, 08, 19, 32, 0) };
-        mockRepo.Setup(repo => repo.GetUserByIdAsync(1)).ReturnsAsync(fakeUser);
+        var _user_id = 1;
+        var _mock_repo = new Mock<IUserRepository>();
+        var _fake_user = new User { UserId = 1, Username = "john__sickko", Password = "123456789", Mail = "john@yahoo.com", Role = "Patient", Name = "John", BirthDate = new DateOnly(1999, 03, 29), CNP = "1234567890123", Address = "acasa locuiesc domle", PhoneNumber = "07n-am cartela", RegistrationDate = new DateTime(2024, 03, 08, 19, 32, 0) };
+        _mock_repo.Setup(_repo => _repo.GetUserByIdAsync(1)).ReturnsAsync(_fake_user);
 
-        var controller = new UserController(mockRepo.Object);
+        var _controller = new UserController(_mock_repo.Object);
 
         // Act
-        var result = await controller.GetUserById(1);
-        var okResult = result.Result as OkObjectResult;
+        var _result = await _controller.GetUserById(_user_id);
+        var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(okResult);
-        var returnedUser = okResult.Value as User;
-        Assert.AreEqual(1, returnedUser.UserId);
+        Assert.IsNotNull(_ok_result);
+        var _returned_user = _ok_result.Value as User;
+        Assert.AreEqual(_user_id, _returned_user.UserId);
     }
 
     [TestMethod]
-    public async Task CreateUser_ReturnsCreatedAtAction()
+    public async Task CreateUser_WithValidUser_ReturnsCreatedAtAction()
     {
         // Arrange
-        var mockRepo = new Mock<IUserRepository>();
-        var fakeUser = new User { UserId = 1, Username = "john__sickko", Password = "123456789", Mail = "john@yahoo.com", Role = "Patient", Name = "John", BirthDate = new DateOnly(1999, 03, 29), CNP = "1234567890123", Address = "acasa locuiesc domle", PhoneNumber = "07n-am cartela", RegistrationDate = new DateTime(2024, 03, 08, 19, 32, 0) };
-        mockRepo.Setup(repo => repo.AddUserAsync(fakeUser)).Returns(Task.CompletedTask);
+        var _mock_repo = new Mock<IUserRepository>();
+        var _fake_user = new User { UserId = 1, Username = "john__sickko", Password = "123456789", Mail = "john@yahoo.com", Role = "Patient", Name = "John", BirthDate = new DateOnly(1999, 03, 29), CNP = "1234567890123", Address = "acasa locuiesc domle", PhoneNumber = "07n-am cartela", RegistrationDate = new DateTime(2024, 03, 08, 19, 32, 0) };
+        _mock_repo.Setup(_repo => _repo.AddUserAsync(_fake_user)).Returns(Task.CompletedTask);
 
-        var controller = new UserController(mockRepo.Object);
+        var _controller = new UserController(_mock_repo.Object);
 
         // Act
-        var result = await controller.CreateUser(fakeUser);
-        var createdAt = result as CreatedAtActionResult;
+        var _result = await _controller.CreateUser(_fake_user);
+        var _created_at = _result as CreatedAtActionResult;
 
         // Assert
-        Assert.IsNotNull(createdAt);
-        Assert.AreEqual(fakeUser.UserId, ((User)createdAt.Value).UserId);
+        Assert.IsNotNull(_created_at);
+        Assert.AreEqual(_fake_user.UserId, ((User)_created_at.Value).UserId);
     }
 
     [TestMethod]
-    public async Task DeleteUser_ReturnsNoContent()
+    public async Task DeleteUser_WithValidUserId_ReturnsNoContent()
     {
         // Arrange
-        var mockRepo = new Mock<IUserRepository>();
-        int UserId = 1;
+        var _mock_repo = new Mock<IUserRepository>();
+        int _user_id = 1;
 
         // No setup needed if the method succeeds (completes without exception)
-        mockRepo.Setup(repo => repo.DeleteUserAsync(UserId)).Returns(Task.CompletedTask);
+        _mock_repo.Setup(_repo => _repo.DeleteUserAsync(_user_id)).Returns(Task.CompletedTask);
 
-        var controller = new UserController(mockRepo.Object);
+        var _controller = new UserController(_mock_repo.Object);
 
         // Act
-        var result = await controller.DeleteUser(UserId);
+        var _result = await _controller.DeleteUser(_user_id);
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(NoContentResult));
-        mockRepo.Verify(repo => repo.DeleteUserAsync(UserId), Times.Once);
+        Assert.IsInstanceOfType(_result, typeof(NoContentResult));
+        _mock_repo.Verify(_repo => _repo.DeleteUserAsync(_user_id), Times.Once);
     }
 }
