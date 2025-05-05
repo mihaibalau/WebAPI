@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
-using Domain;
+using ClassLibrary.Domain;
 
 namespace WinUI.Service.NotificationServiceFile
 {
@@ -81,3 +81,4 @@ namespace WinUI.Service.NotificationServiceFile
         }
     }
 }
+ 
