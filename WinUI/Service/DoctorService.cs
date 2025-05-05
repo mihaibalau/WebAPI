@@ -4,12 +4,15 @@ using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using WinUI.Model;
 using WinUI.Proxy;
+using Domain;
+using WinUI.Model;
 
 namespace WinUI.Service
 {
     public class DoctorService : IDoctorService
     {
         private readonly DoctorsProxy _doctorRepository;
+        private readonly IDoctorRepository _doctorRepository;
         private readonly IUserRepository _userRepository;
         private readonly IDepartmentRepository _departmentRepository;
 

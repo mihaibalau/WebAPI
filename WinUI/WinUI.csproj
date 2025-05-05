@@ -13,6 +13,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Page Remove="View\DoctorDashboardControl.xaml" />
+    <Page Remove="View\DoctorDashboardPage.xaml" />
+    <Page Remove="View\SearchDoctorsView.xaml" />
     <None Remove="View\PatientDashboardControl.xaml" />
     <None Remove="View\PatientDashboardView.xaml" />
   </ItemGroup>
@@ -51,6 +54,17 @@
   <ItemGroup>
     <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="View\DoctorDashboardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="View\DoctorDashboardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="View\SearchDoctorsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
 
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
@@ -67,6 +81,7 @@
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 	   
 	<ItemGroup>
