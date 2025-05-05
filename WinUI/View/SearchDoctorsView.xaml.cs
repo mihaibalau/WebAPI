@@ -1,7 +1,3 @@
-using Hospital.DatabaseServices;
-using Hospital.Managers;
-using Hospital.Models;
-using Hospital.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -9,9 +5,11 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Hospital.Services;
+using WinUI.Model;
+using WinUI.Service;
+using WinUI.ViewModel;
 
-namespace Hospital.Views
+namespace WinUI.View
 {
     public sealed partial class SearchDoctorsView : UserControl
     {
@@ -20,7 +18,6 @@ namespace Hospital.Views
         private CancellationTokenSource? _searchDebounceTokenSource;
         private const int SearchDebounceDelayMilliseconds = 300;
         private const string DefaultProfileImagePath = "ms-appx:///Assets/default-profile.png";
-
         public SearchDoctorsView()
         {
             this.InitializeComponent();
