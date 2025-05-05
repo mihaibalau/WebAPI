@@ -33,6 +33,7 @@
             -->
             </Canvas>
             <Button Content="Home" Width="80" Margin="5" VerticalAlignment="Top"/>
+            <Button x:Name="NotificationsButton" Click="NotificationsButton_Click" Content="Notifications" Width="150" Margin="5" VerticalAlignment="Top"/>
             <Button Content="Profile" Width="80" Margin="5" VerticalAlignment="Top"/>
             <Button Content="Appointments" Width="120" Margin="5" VerticalAlignment="Top"/>
             <Button Content="Medical History" Width="120" Margin="5" VerticalAlignment="Top"/>

@@ -23,6 +23,10 @@ namespace WinUI.View
             this._patient_view_model = _patient_view_model;
             DataContext = this._patient_view_model;
         }
+        public void NotificationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new Exception("test");
+        }
 
         private async void OnUpdateButtonClick(object sender, RoutedEventArgs e)
         {
