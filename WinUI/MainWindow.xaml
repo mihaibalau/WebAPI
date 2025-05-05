@@ -9,8 +9,19 @@
     mc:Ignorable="d"
     Title="WinUI">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-        <TextBlock x:Name="responseText" Margin="10" />
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top panel with button -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10">
+            <Button x:Name="notificationButton" Click="notificationButton_Click">Notification Section</Button>
+            <TextBlock x:Name="responseText" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <!-- Frame for page navigation -->
+        <Frame x:Name="MainFrame" Grid.Row="1"/>
+    </Grid>
 </Window>

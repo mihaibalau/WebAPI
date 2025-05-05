@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using ClassLibrary.IRepository;
 using WinUI.Proxy;
+using WinUI.View;
 
 namespace WinUI
 {
@@ -20,23 +21,9 @@ namespace WinUI
         }
 
         // Button click event to make the GET request and update the button's content
-        private async void myButton_Click(object sender, RoutedEventArgs e)
+        private async void notificationButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                INotificationRepository NotificationProxy = new NotificationProxy(new HttpClient());
-                // Make the GET request to your WebAPI
-                var response = await NotificationProxy.GetAllNotificationsAsync();
-
-                // Update the Button content with the response
-                myButton.Content = response[0]; // should print Domain.Notification since we dont have a ToString() method;
-            }
-            catch (Exception ex)
-            {
-                // Handle error (e.g., if the server is not running or there's no internet connection)
-                myButton.Content = "Failed to load data";
-                responseText.Text = $"Error: {ex.Message}";
-            }
+            this.MainFrame.Navigate(typeof(UserView));
         }
     }
 }
