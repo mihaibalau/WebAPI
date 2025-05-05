@@ -16,6 +16,11 @@
     <None Remove="View\PatientDashboardControl.xaml" />
     <None Remove="View\PatientDashboardView.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Remove="View\DoctorDashboardControl.xaml" />
+    <Page Remove="View\DoctorDashboardPage.xaml" />
+    <Page Remove="View\SearchDoctorsView.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -66,6 +71,18 @@
 	   
 	<ItemGroup>
 		<ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
+	</ItemGroup>
+	   
+	<ItemGroup>
+	  <None Update="View\DoctorDashboardControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\DoctorDashboardPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\SearchDoctorsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
 	</ItemGroup>
 	   
 	<ItemGroup>
