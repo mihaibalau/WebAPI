@@ -9,6 +9,7 @@
     using Data;
     using ClassLibrary.Domain;
     using Entity;
+    using global::Data;
 
     /// <summary>
     /// Repository class for managing department-related database operations.

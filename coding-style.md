@@ -9,7 +9,7 @@
 8. We use language keywords instead of BCL types (e.g. `int, string, float` instead of `Int32, String, Single`, etc) for both type references as well as method calls (e.g. `int.Parse` instead of `Int32.Parse`).
 9. Use `readonly` where possible. When used on static fields, `readonly` should come after `static` (e.g. `static readonly`).
 9. Use `snake_case` for all fields and variables.
-10. Prefix internal and private fields with `_` and static fields with `s_`.
+10. Prefix internal and private fields and local variables with `_` and static fields with `s_`.
 11. Use `camelCase` for all method names, including local functions. 
 12. Use `PascalCase` for all class and interface names.
 13. Fields should be specified at the top within type declarations.
