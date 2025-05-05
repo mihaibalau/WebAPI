@@ -10,7 +10,7 @@ namespace WebApiTests;
 public class LogControllerTest
 {
     [TestMethod]
-    public async Task GetAllLogs_WithValidController_ReturnsListOfLogs()
+    public async Task getAllLogs_WithValidController_ReturnsListOfLogs()
     {
         // Arrange
         var _mock_repo = new Mock<ILogRepository>();
@@ -34,7 +34,7 @@ public class LogControllerTest
     }
 
     [TestMethod]
-    public async Task GetLogById_WithValidLogId_ReturnsLog()
+    public async Task getLogById_WithValidLogId_ReturnsLog()
     {
         // Arrange
         var _mock_repo = new Mock<ILogRepository>();
@@ -55,7 +55,7 @@ public class LogControllerTest
     }
 
     [TestMethod]
-    public async Task CreateLog_WithValidLog_ReturnsCreatedAtAction()
+    public async Task createLog_WithValidLog_ReturnsCreatedAtAction()
     {
         // Arrange
         var _mock_repo = new Mock<ILogRepository>();
@@ -74,7 +74,7 @@ public class LogControllerTest
     }
 
     [TestMethod]
-    public async Task DeleteLog_WithValidLogId_ReturnsNoContent()
+    public async Task deleteLog_WithValidLogId_ReturnsNoContent()
     {
         // Arrange
         var _mock_repo = new Mock<ILogRepository>();
