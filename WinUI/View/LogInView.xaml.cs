@@ -111,9 +111,9 @@ namespace WinUI.View
                     NavigationService.navigate(typeof(PatientDashboardView), parameters);
                     return;
                 }
-                else if (this.loginPageViewModel.GetUserRole() == "Doctor")
+                else if (this._login_page_view_model.getUserRole() == "Doctor")
                 {
-                    IDoctorRepository doctorRepository = new DoctorRepository();
+                    IDoctorRepository doctorRepository = new DoctorsProxy();
                     IDoctorService doctorService = new DoctorService(doctorRepository);
                     IDoctorViewModel doctorViewModel = new DoctorViewModel(doctorService, this.loginPageViewModel.AuthService.allUserInformation.user_id);
 
