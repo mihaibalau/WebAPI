@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using ClassLibrary.Domain;
 
-namespace WinUI.Service.NotificationServiceFile
+namespace WinUI.Service
 {
     /// <summary>
     /// Provides high-level notification operations on top of the _notification_repositorysitory.
