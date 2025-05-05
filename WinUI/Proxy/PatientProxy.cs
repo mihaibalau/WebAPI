@@ -77,7 +77,7 @@ namespace WinUI.Proxy
             {
                 userId = _http_model.user_id,
                 bloodType = _http_model.blood_type,
-                EmergencyContact = _http_model.emergency_contact,
+                emergencyContact = _http_model.emergency_contact,
                 allergies = _http_model.allergies,
                 weight = _http_model.weight,
                 height = _http_model.height
@@ -90,7 +90,7 @@ namespace WinUI.Proxy
             {
                 user_id = _domain_model.userId,
                 blood_type = _domain_model.bloodType,
-                emergency_contact = _domain_model.EmergencyContact,
+                emergency_contact = _domain_model.emergencyContact,
                 allergies = _domain_model.allergies,
                 weight = _domain_model.weight,
                 height = _domain_model.height

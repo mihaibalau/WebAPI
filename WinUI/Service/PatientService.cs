@@ -103,7 +103,7 @@ namespace WinUI.Service
             // This one is supported
             Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(_user_id);
             if (domain_patient == null) return false;
-            domain_patient.EmergencyContact = _emergency_contact;
+            domain_patient.emergencyContact = _emergency_contact;
             await this._patient_repository.addPatientAsync(domain_patient);
             return true;
         }
@@ -151,7 +151,7 @@ namespace WinUI.Service
                 _domain_patient.userId, // using _user_id as patient_id if not available
                 $"Patient {_domain_patient.userId}", // placeholder
                 _domain_patient.bloodType ?? string.Empty,
-                _domain_patient.EmergencyContact ?? string.Empty,
+                _domain_patient.emergencyContact ?? string.Empty,
                 _domain_patient.allergies ?? string.Empty,
                 _domain_patient.weight,
                 _domain_patient.height,
