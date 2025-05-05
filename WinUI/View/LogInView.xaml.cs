@@ -58,10 +58,10 @@ namespace WinUI.View
         /// <summary>
         /// Called when navigated to this page.
         /// </summary>
-        /// <param name="e">Navigation event arguments</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        /// <param name="_navigation_evnt_args">Navigation event arguments</param>
+        protected override void OnNavigatedTo(NavigationEventArgs _navigation_evnt_args)
         {
-            base.OnNavigatedTo(e);
+            base.OnNavigatedTo(_navigation_evnt_args);
 
             // Reset UI state
             this.UsernameTextField.Text = string.Empty;

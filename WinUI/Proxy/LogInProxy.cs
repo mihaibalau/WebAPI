@@ -67,7 +67,7 @@ namespace WinUI.Proxy
                 username = _model_for_creating_user_account.username,
                 password = _model_for_creating_user_account.password,
                 mail = _model_for_creating_user_account.mail,
-                role = "USER",
+                role = "Patient",
                 name = _model_for_creating_user_account.name,
                 birth_date = _model_for_creating_user_account.birth_date,
                 cnp = _model_for_creating_user_account.cnp,
