@@ -118,7 +118,7 @@ namespace WinUI.Service
         {
             Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
             if (domain_patient == null) return false;
-            domain_patient.Weight = weight;
+            domain_patient.weight = weight;
             await this._patient_repository.addPatientAsync(domain_patient);
             return true;
         }
@@ -133,7 +133,7 @@ namespace WinUI.Service
         {
             Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
             if (domain_patient == null) return false;
-            domain_patient.Height = height;
+            domain_patient.height = height;
             await this._patient_repository.addPatientAsync(domain_patient); // ← assumes Add is Upsert
             return true;
         }
@@ -147,17 +147,17 @@ namespace WinUI.Service
         private PatientJointModel mapToJointModel(Patient _domain_patient)
         {
             return new PatientJointModel(
-                _domain_patient.UserId,
-                _domain_patient.UserId, // using _user_id as patient_id if not available
-                $"Patient {_domain_patient.UserId}", // placeholder
-                _domain_patient.BloodType ?? string.Empty,
+                _domain_patient.userId,
+                _domain_patient.userId, // using _user_id as patient_id if not available
+                $"Patient {_domain_patient.userId}", // placeholder
+                _domain_patient.bloodType ?? string.Empty,
                 _domain_patient.EmergencyContact ?? string.Empty,
-                _domain_patient.Allergies ?? string.Empty,
-                _domain_patient.Weight,
-                _domain_patient.Height,
-                $"user{_domain_patient.UserId}", // placeholder
+                _domain_patient.allergies ?? string.Empty,
+                _domain_patient.weight,
+                _domain_patient.height,
+                $"user{_domain_patient.userId}", // placeholder
                 string.Empty, // placeholder
-                $"patient{_domain_patient.UserId}@example.com", // placeholder
+                $"patient{_domain_patient.userId}@example.com", // placeholder
                 DateOnly.FromDateTime(DateTime.Now), // placeholder
                 string.Empty, // placeholder
                 string.Empty, // placeholder
