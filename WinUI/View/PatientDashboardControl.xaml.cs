@@ -4,7 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using WinUI.Model;
+using WinUI.View;
 using WinUI.ViewModel;
+using WinUI.Proxy;
+using WinUI.Service;
 
 namespace WinUI.View
 {
@@ -26,6 +29,13 @@ namespace WinUI.View
 
             // Add logging to confirm if the DataContext is set correctly
             Debug.WriteLine($"DataContext set to: {_patient_view_model?.GetType().Name}");
+        }
+        public void NotificationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var notificationWindow = new NotificationWindow(new NotificationViewModel(new NotificationService(new NotificationProxy(new System.Net.Http.HttpClient())), this._patient_view_model.user_id));
+
+            // Show the window
+            notificationWindow.Activate();  // Activate the window to display it
         }
 
         private async void OnUpdateButtonClick(object sender, RoutedEventArgs e)
