@@ -102,12 +102,12 @@ namespace WinUI.Model
 
 
         /// <summary>
-        /// Gets user's Username.
+        /// Gets user's username.
         /// </summary>
         public string username { get; private set; } = _username;
 
         /// <summary>
-        /// Gets user's Password.
+        /// Gets user's password.
         /// </summary>
         public string password { get; private set; } = _password;
 

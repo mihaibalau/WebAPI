@@ -38,17 +38,17 @@ namespace WinUI.Model
         public string mail { get; private set; } = _mail;
 
         /// <summary>
-        /// Gets Name.
+        /// Gets name.
         /// </summary>
         public string name { get; private set; } = _name;
 
         /// <summary>
-        /// Gets BirthDate.
+        /// Gets birth_date.
         /// </summary>
         public DateOnly birth_date { get; private set; } = _birth_date;
 
         /// <summary>
-        /// Gets CNP.
+        /// Gets cnp.
         /// </summary>
         public string cnp { get; private set; } = _cnp;
 
