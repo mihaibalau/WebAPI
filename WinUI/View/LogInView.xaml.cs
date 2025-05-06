@@ -114,7 +114,7 @@ namespace WinUI.View
                 else if (this._login_page_view_model.getUserRole() == "Doctor")
                 {
                     IDoctorRepository doctorRepository = new DoctorsProxy(new HttpClient());
-                    ILogInRepository userRepository = new LogInProxy(new HttpClient());
+                    IUserRepository userRepository = new UserProxy(new HttpClient());
                     IDoctorService doctorService = new DoctorService(doctorRepository, userRepository);
                     IDoctorViewModel doctorViewModel = new DoctorViewModel(doctorService, this._login_page_view_model.auth_service.all_user_information.user_id);
 
