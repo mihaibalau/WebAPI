@@ -47,16 +47,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\NotificationDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\NotificationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
 
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
