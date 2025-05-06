@@ -108,5 +108,32 @@ namespace Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting notification: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Retrieves a notification by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the notification.</param>
+        /// <returns>The notification with the specified ID.</returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Notification), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Notification>> GetNotificationById(int id)
+        {
+            try
+            {
+                var notification = await this.notificationRepository.GetNotificationByIdAsync(id);
+                return this.Ok(notification);
+            }
+            catch (KeyNotFoundException)
+            {
+                return this.NotFound($"Notification with ID {id} not found.");
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving notification: {ex.Message}");
+            }
+        }
+
     }
 }

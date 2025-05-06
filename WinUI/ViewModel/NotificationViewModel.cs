@@ -28,5 +28,23 @@ namespace WinUI.ViewModel
             foreach (var n in notifications)
                 notifications_collection.Add(n);
         }
+
+        public async Task DeleteNotificationAsync(int notificationId, int userId)
+        {
+                await notification_service.DeleteNotificationAsync(notificationId, userId);
+                var item = FindNotificationById(notificationId);
+                if (item != null)
+                    notifications_collection.Remove(item);
+        }
+
+        private Notification FindNotificationById(int id)
+        {
+            foreach (var notification in notifications_collection)
+            {
+                if (notification.NotificationId == id)
+                    return notification;
+            }
+            return null;
+        }
     }
 }

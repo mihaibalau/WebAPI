@@ -1,5 +1,7 @@
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using WinUI.ViewModel;
+using ClassLibrary.Domain;
 
 namespace WinUI.View
 {
@@ -20,6 +22,19 @@ namespace WinUI.View
         {
             // Call the viewmodel method to load notifications for the current user
             await ViewModel.LoadNotificationsAsync(ViewModel._user_id);
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs error)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var notification = button.DataContext as Notification;
+                if (notification != null)
+                {
+                    await this.ViewModel.DeleteNotificationAsync(notification.NotificationId, ViewModel._user_id);
+                }
+            }
         }
     }
 }

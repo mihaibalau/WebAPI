@@ -9,6 +9,7 @@
     mc:Ignorable="d"
     Title="WinUI">
 
+
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Frame x:Name="root_frame" NavigationFailed="onNavigationFailed"></Frame>
     </StackPanel>
