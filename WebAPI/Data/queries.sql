@@ -50,10 +50,15 @@ CREATE TABLE Doctors (
 
 INSERT INTO Doctors (UserId, DepartmentId, LicenseNumber)
 VALUES
-    (1, 1, '696969'),   -- DoctorId = 1, Dept = Cardiology
-    (2, 1, '3222'),  -- DoctorId = 2, Dept = Cardiology
-    (3, 2, '231231'), -- DoctorId = 3, Dept = Neurology
-    (4, 3, '124211');   -- DoctorId = 4, Dept = Pediatrics
+     (1, 1, '696969'),   -- DoctorId = 1, Dept = Cardiology
+     (2, 1, '322223'),  -- DoctorId = 2, Dept = Cardiology
+     (3, 2, '231231'), -- DoctorId = 3, Dept = Neurology
+     (4, 3, '124211');   -- DoctorId = 4, Dept = Pediatrics
+     (5, 1, 'LIC1001'),  -- Michael Brown → Cardiology
+     (6, 2, 'LIC1002'),  -- Sarah Wilson → Neurology
+     (7, 3, 'LIC1003'),  -- David Martinez → Pediatrics
+     (8, 1, 'LIC1004');  -- Emily Davis → Cardiology
+
 
 CREATE TABLE Patients (
     UserId INT NOT NULL, -- Foreign key reference to Users table
