@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Hospital.Managers;
 using WinUI.Model;
 
 namespace WinUI.Service

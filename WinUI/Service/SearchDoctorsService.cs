@@ -5,19 +5,21 @@ using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using ClassLibrary.Domain;
 using WinUI.Model;
+using WinUI.Proxy;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml;
 
 namespace WinUI.Service
 {
     public class SearchDoctorsService : ISearchDoctorsService
     {
-        private readonly IDoctorRepository _doctorsRepository;
-        private readonly IDepartmentRepository _departmentRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly DoctorsProxy _doctorsRepository;
+        private readonly LogInProxy _userRepository;
         public List<DoctorModel> AvailableDoctors { get; private set; }
 
-        public SearchDoctorsService(IDoctorRepository doctorsDatabaseHelper)
+        public SearchDoctorsService(IDoctorRepository doctorsRepository)
         {
-            _doctorsRepository = doctorsDatabaseHelper;
+            _doctorsRepository = (DoctorsProxy?)doctorsRepository;
             AvailableDoctors = new List<DoctorModel>();
         }
 
@@ -69,7 +71,7 @@ namespace WinUI.Service
                 var filteredDoctors = allDoctors
                     .Where(doctor =>
                     {
-                        var department = _departmentRepository.GetDepartmentByIdAsync(doctor.DepartmentId).Result;
+                        var department = _doctorsRepository.GetDepartmentByIdAsync(doctor.DepartmentId).Result;
                         return department?.Name?.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0;
                     })
                     .Select(doctor => new DoctorModel
@@ -79,7 +81,6 @@ namespace WinUI.Service
                         DepartmentId = doctor.DepartmentId,
                         DepartmentName = GetDepartmentName(doctor.DepartmentId), 
                         Rating = doctor.DoctorRating,
-                        PhoneNumber = GetUserPhoneNumber(doctor.UserId),
                         Mail = GetUserEmail(doctor.UserId)
                     })
                     .ToList();
@@ -111,8 +112,8 @@ namespace WinUI.Service
                 var filteredDoctors = allDoctors
                     .Where(doctor =>
                     {
-                        var user = _userRepository.GetUserByIdAsync(doctor.UserId).Result;
-                        return user?.Name?.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0;
+                        var user = _userRepository.getUserById(doctor.UserId).Result;
+                        return user?.username?.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0;
                     })
                     .Select(doctor => new DoctorModel
                     {
@@ -121,7 +122,6 @@ namespace WinUI.Service
                         DepartmentId = doctor.DepartmentId,
                         DepartmentName = GetDepartmentName(doctor.DepartmentId), 
                         Rating = doctor.DoctorRating, 
-                        PhoneNumber = GetUserPhoneNumber(doctor.UserId),
                         Mail = GetUserEmail(doctor.UserId)
                     })
                     .ToList();
@@ -137,26 +137,21 @@ namespace WinUI.Service
 
         private string GetUserName(int userId)
         {
-            var user = _userRepository.GetUserByIdAsync(userId).Result;
-            return user?.Name ?? DoctorModel.DefaultName;
+            var user = _userRepository.getUserById(userId).Result;
+            return user?.username ?? DoctorModel.DefaultName;
         }
 
         private string GetDepartmentName(int departmentId)
         {
-            var department = _departmentRepository.GetDepartmentByIdAsync(departmentId).Result;
+            var department = _doctorsRepository.GetDepartmentByIdAsync(departmentId).Result;
             return department?.Name ?? DoctorModel.DefaultDepartmentName;
         }
 
-        private string GetUserPhoneNumber(int userId)
-        {
-            var user = _userRepository.GetUserByIdAsync(userId).Result;
-            return user?.PhoneNumber ?? DoctorModel.DefaultPhone;
-        }
 
         private string GetUserEmail(int userId)
         {
-            var user = _userRepository.GetUserByIdAsync(userId).Result;
-            return user?.Mail ?? DoctorModel.DefaultEmail;
+            var user = _userRepository.getUserById(userId).Result;
+            return user?.mail ?? DoctorModel.DefaultEmail;
         }
 
         public List<DoctorModel> GetSearchedDoctors()
@@ -203,5 +198,41 @@ namespace WinUI.Service
         NameDescending,
         DepartmentAscending,
         RatingThenNameThenDepartment
+    }
+}
+
+public class InverseBoolToVisibilityConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        if (value is bool boolValue)
+        {
+            return boolValue ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        return Visibility.Visible;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        if (value is Visibility visibility)
+        {
+            return visibility == Visibility.Collapsed;
+        }
+
+        return false;
+    }
+}
+
+public class BooleanToVisibilityConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        return (value is bool && (bool)value) ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        return value is Visibility && (Visibility)value == Visibility.Visible;
     }
 }

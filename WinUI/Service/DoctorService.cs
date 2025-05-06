@@ -4,25 +4,22 @@ using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using WinUI.Model;
 using WinUI.Proxy;
-using Domain;
 using WinUI.Model;
+using WinUI.Repository;
 
 namespace WinUI.Service
 {
     public class DoctorService : IDoctorService
     {
         private readonly DoctorsProxy _doctorRepository;
-        private readonly IDoctorRepository _doctorRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly LogInProxy _userRepository;
 
         public DoctorModel DoctorInformation { get; private set; } = DoctorModel.Default;
 
-        public DoctorService(IDoctorRepository doctorRepository, IUserRepository userRepository, IDepartmentRepository departmentRepository)
+        public DoctorService(IDoctorRepository doctorRepository, ILogInRepository userRepository)
         {
-            _doctorRepository = doctorRepository ?? throw new ArgumentNullException(nameof(doctorRepository));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
+            _doctorRepository = (DoctorsProxy?)(doctorRepository ?? throw new ArgumentNullException(nameof(doctorRepository)));
+            _userRepository = (LogInProxy?)(userRepository ?? throw new ArgumentNullException(nameof(userRepository)));
         }
 
         public async Task<bool> LoadDoctorInformationByUserId(int userId)
@@ -33,21 +30,20 @@ namespace WinUI.Service
                 if (doctor == null)
                     return false;
 
-                var user = await _userRepository.GetUserByIdAsync(userId);
-                var department = await _departmentRepository.GetDepartmentByIdAsync(doctor.DepartmentId);
+                var user = await _userRepository.getUserById(userId);
+                var department = await _doctorRepository.GetDepartmentByIdAsync(doctor.DepartmentId);
                 if (user == null || department == null)
                     return false;
 
                 DoctorInformation = new DoctorModel
                 {
-                    DoctorId = user.UserId,
-                    DoctorName = user.Name,
+                    DoctorId = user.user_id,
+                    DoctorName = user.username,
                     DepartmentId = department.Id,
                     DepartmentName = department.Name,
                     Rating = doctor.DoctorRating,
-                    PhoneNumber = user.PhoneNumber,
-                    Mail = user.Mail,
-                    CareerInfo = user.Role, // Placeholder if CareerInfo is not defined elsewhere
+                    Mail = user.mail,
+                    CareerInfo = user.role, // Placeholder if CareerInfo is not defined elsewhere
                     AvatarUrl = "" // Placeholder; update if this exists in your model
                 };
 
@@ -60,14 +56,17 @@ namespace WinUI.Service
             }
         }
         
-        public async Task<bool> UpdateDoctorName(int userId, string newName)
+public async Task<bool> UpdateDoctorName(int userId, string newName)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var user = await _userRepository.getUserById(userId);
             if (user == null) return false;
 
-            user.Name = newName;
-            await _userRepository.DeleteUserAsync(userId);
-            await _userRepository.AddUserAsync(user);
+            // Create a new instance of UserAuthModel with updated username since the property is read-only  
+            var updatedUser = new UserAuthModel(user.user_id, newName, user.password, user.mail, user.role);
+
+            //await _userRepository.createAccount(User);
+            //await _userRepository.DeleteUserAsync(userId);
+            //await _userRepository.AddUserAsync(updatedUser);
             return true;
         }
 
@@ -84,45 +83,45 @@ namespace WinUI.Service
 
         public async Task<bool> UpdateCareerInfo(int userId, string careerInfo)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var user = await _userRepository.getUserById(userId);
             if (user == null) return false;
 
-            user.Role = careerInfo;
-            await _userRepository.DeleteUserAsync(userId);
-            await _userRepository.AddUserAsync(user);
+            var updatedUser = new UserAuthModel(user.user_id, careerInfo, user.password, user.mail, user.role);
+            //await _userRepository.DeleteUserAsync(userId);
+            //await _userRepository.AddUserAsync(user);
             return true;
         }
 
         public async Task<bool> UpdateAvatarUrl(int userId, string avatarUrl)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var user = await _userRepository.getUserById(userId);
             if (user == null) return false;
 
-            user.Address = avatarUrl; 
-            await _userRepository.DeleteUserAsync(userId);
-            await _userRepository.AddUserAsync(user);
+            //user.Address = avatarUrl; 
+            //await _userRepository.DeleteUserAsync(userId);
+            //await _userRepository.AddUserAsync(user);
             return true;
         }
 
         public async Task<bool> UpdatePhoneNumber(int userId, string phoneNumber)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var user = await _userRepository.getUserById(userId);
             if (user == null) return false;
 
-            user.PhoneNumber = phoneNumber;
-            await _userRepository.DeleteUserAsync(userId);
-            await _userRepository.AddUserAsync(user);
+            //user.PhoneNumber = phoneNumber;
+            //await _userRepository.DeleteUserAsync(userId);
+            //await _userRepository.AddUserAsync(user);
             return true;
         }
 
         public async Task<bool> UpdateEmail(int userId, string email)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var user = await _userRepository.getUserById(userId);
             if (user == null) return false;
 
-            user.Mail = email;
-            await _userRepository.DeleteUserAsync(userId);
-            await _userRepository.AddUserAsync(user);
+            //user.Mail = email;
+            //await _userRepository.DeleteUserAsync(userId);
+            //await _userRepository.AddUserAsync(user);
             return true;
         }
         

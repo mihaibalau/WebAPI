@@ -33,17 +33,17 @@ namespace WinUI
             {
                 INotificationRepository NotificationProxy = new NotificationProxy(new HttpClient());
                 // Make the GET request to your WebAPI
-                var response = await NotificationProxy.GetAllNotificationsAsync();
+                var response = NotificationProxy.GetAllNotificationsAsync();
 
 
                 // Update the Button content with the response
-                myButton.Content = response[0]; // should print Domain.Notification since we dont have a ToString() method;
+                //myButton.Content = response[0]; // should print Domain.Notification since we dont have a ToString() method;
             }
             catch (Exception ex)
             {
                 // Handle error (e.g., if the server is not running or there's no internet connection)
-                myButton.Content = "Failed to load data";
-                responseText.Text = $"Error: {ex.Message}";
+                //myButton.Content = "Failed to load data";
+                //responseText.Text = $"Error: {ex.Message}";
             }
             throw new Exception("Failed to load Page: " + _nav_failed_event_args.SourcePageType.FullName);
         }

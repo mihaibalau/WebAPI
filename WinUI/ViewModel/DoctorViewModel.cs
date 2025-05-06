@@ -300,10 +300,6 @@ namespace WinUI.ViewModel
             );
         }
 
-        public async Task<bool> LogDoctorUpdateAsync(ActionType action)
-        {
-            return await _doctorService.LogUpdate(UserId, action);
-        }
 
         public void RevertChanges()
         {
@@ -342,10 +338,6 @@ namespace WinUI.ViewModel
                 if (Mail != OriginalDoctor.Mail)
                     changeMade |= await UpdateMailAsync(Mail);
 
-                if (changeMade)
-                {
-                    await LogDoctorUpdateAsync(Models.ActionType.UPDATE_PROFILE);
-                }
 
                 return (changeMade, null);
             }

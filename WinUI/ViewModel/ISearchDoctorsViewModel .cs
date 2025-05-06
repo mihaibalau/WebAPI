@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Domain;
 using WinUI.Model;
 
 public interface ISearchDoctorsViewModel
