@@ -105,5 +105,28 @@ namespace WebApi.Repository
             dbContext.Users.Remove(userEntity);
             await dbContext.SaveChangesAsync();
         }
+
+        /// <inheritdoc/>
+        public async Task<List<User>> GetUsersByRoleAsync(string role)
+        {
+            var userEntities = await dbContext.Users
+                .Where(u => u.Role.ToLower() == role.ToLower())
+                .ToListAsync();
+
+            return userEntities.Select(u => new User
+            {
+                UserId = u.UserId,
+                Username = u.Username,
+                Password = u.Password,
+                Mail = u.Mail,
+                Role = u.Role,
+                Name = u.Name,
+                BirthDate = u.BirthDate,
+                CNP = u.CNP,
+                Address = u.Address,
+                PhoneNumber = u.PhoneNumber,
+                RegistrationDate = u.RegistrationDate
+            }).ToList();
+        }
     }
 }

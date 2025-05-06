@@ -35,5 +35,13 @@ namespace ClassLibrary.IRepository
         /// <param name="id"> The id of the user</param>
         /// <returns> task representing the asynchronous operation.</returns>
         Task DeleteUserAsync(int id);
+
+        /// <summary>
+        /// Retrieves all users that match the specified role.
+        /// </summary>
+        /// <param name="role">The role used to filter users (e.g., "Admin", "User").</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the list of users with the specified role.</returns>
+        Task<List<User>> GetUsersByRoleAsync(string role);
+
     }
 }

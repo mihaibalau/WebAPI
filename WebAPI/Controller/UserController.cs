@@ -115,5 +115,35 @@ namespace Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting user. Error: {ex.Message}");
             }
         }
+
+
+        /// <summary>
+        /// Retrieves all users by role.
+        /// </summary>
+        /// <param name="role">The role to filter users by.</param>
+        /// <returns>An ActionResult containing a list of users.</returns>
+        [HttpGet("role/{role}")]
+        [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<User>>> GetUsersByRole(string role)
+        {
+            try
+            {
+                List<User> users = await this.userRepository.GetUsersByRoleAsync(role);
+
+                if (users == null || users.Count == 0)
+                {
+                    return this.NotFound($"No users found with role '{role}'.");
+                }
+
+                return this.Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving users by role. Error: {ex.Message}");
+            }
+        }
+
     }
 }
