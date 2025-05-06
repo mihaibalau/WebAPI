@@ -44,6 +44,8 @@ namespace WinUI.ViewModel
             _ = LoadDoctorInformationAsync(userId);
         }
 
+        public DoctorViewModel(){}
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public DoctorModel OriginalDoctor { get; set; }

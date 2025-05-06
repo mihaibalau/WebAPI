@@ -36,6 +36,7 @@ namespace WinUI.View
         public DoctorDashboard()
         {
             this.InitializeComponent();
+            ViewModel = new DoctorViewModel();
         }
 
         private void OnRevertChanges(object sender, RoutedEventArgs e)
