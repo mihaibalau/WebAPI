@@ -31,7 +31,7 @@ namespace WinUI.ViewModel
 
         public async Task DeleteNotificationAsync(int notificationId, int userId)
         {
-                await notification_service.DeleteAsync(notificationId, userId);
+                await notification_service.DeleteNotificationAsync(notificationId, userId);
                 var item = FindNotificationById(notificationId);
                 if (item != null)
                     notifications_collection.Remove(item);
