@@ -7,8 +7,9 @@
     using Microsoft.EntityFrameworkCore;
     using ClassLibrary.IRepository;
     using Data;
-    using Domain;
+    using ClassLibrary.Domain;
     using Entity;
+    using global::Data;
 
     /// <summary>
     /// Repository class for managing department-related database operations.

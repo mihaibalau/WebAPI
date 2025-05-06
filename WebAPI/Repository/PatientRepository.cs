@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using Data;
-using Domain;
+using ClassLibrary.Domain;
 using Entity;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +23,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<List<Patient>> GetAllPatientsAsync()
+        public async Task<List<Patient>> getAllPatientsAsync()
         {
             var patientEntities = await dbContext.Patients.ToListAsync();
 
@@ -39,7 +39,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<Patient> GetPatientByUserIdAsync(int id)
+        public async Task<Patient> getPatientByUserIdAsync(int id)
         {
             var patientEntity = await dbContext.Patients.FindAsync(id);
 
@@ -60,7 +60,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task AddPatientAsync(Patient patient)
+        public async Task addPatientAsync(Patient patient)
         {
             var existingDoctor = await dbContext.Doctors.FindAsync(patient.UserId);
             if (existingDoctor != null)
@@ -83,7 +83,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task DeletePatientAsync(int id)
+        public async Task deletePatientAsync(int id)
         {
             var patientEntity = await dbContext.Patients.FindAsync(id);
             if (patientEntity == null)

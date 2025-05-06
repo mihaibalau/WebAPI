@@ -4,6 +4,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Microsoft.UI.Xaml.Navigation;
 using ClassLibrary.IRepository;
 using WinUI.Proxy;
 using WinUI.View;
@@ -12,18 +13,16 @@ namespace WinUI
 {
     public sealed partial class MainWindow : Window
     {
-        // HttpClient instance to make HTTP requests
-        private static readonly HttpClient client = new HttpClient();
-        
         public MainWindow()
         {
             this.InitializeComponent();
+
+            root_frame.Navigate(typeof(LogInView), null);
         }
 
-        // Button click event to make the GET request and update the button's content
-        private async void notificationButton_Click(object sender, RoutedEventArgs e)
+        void onNavigationFailed(object _sender, NavigationFailedEventArgs _nav_failed_event_args)
         {
-            this.MainFrame.Navigate(typeof(UserView));
+            throw new Exception("Failed to load Page: " + _nav_failed_event_args.SourcePageType.FullName);
         }
     }
 }

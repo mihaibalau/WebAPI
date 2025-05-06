@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using Data;
-using Domain;
+using ClassLibrary.Domain;
 using Entity;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +27,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<List<Log>> GetAllLogsAsync()
+        public async Task<List<Log>> getAllLogsAsync()
         {
             List<LogEntity> logEntities = await dbContext.Logs.ToListAsync();
 
@@ -41,7 +41,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<Log> GetLogByIdAsync(int id)
+        public async Task<Log> getLogByIdAsync(int id)
         {
             var logEntity = await dbContext.Logs.FindAsync(id);
             if (logEntity == null)
@@ -59,7 +59,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<Log> GetLogByUserIdAsync(int userId)
+        public async Task<Log> getLogByUserIdAsync(int userId)
         {
             var logEntity = await dbContext.Logs
                 .FirstOrDefaultAsync(log => log.UserId == userId);
@@ -79,7 +79,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task AddLogAsync(Log log)
+        public async Task addLogAsync(Log log)
         {
             var logEntity = new LogEntity
             {
@@ -95,7 +95,7 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task DeleteLogAsync(int id)
+        public async Task deleteLogAsync(int id)
         {
             var logEntity = await dbContext.Logs.FindAsync(id);
             if (logEntity == null)
