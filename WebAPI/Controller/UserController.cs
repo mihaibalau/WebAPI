@@ -144,6 +144,25 @@ namespace Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving users by role. Error: {ex.Message}");
             }
         }
-
+        /// <summary>
+        /// Retrieves all users that match a given name.
+        /// </summary>
+        /// <param name="name">The name to search for.</param>
+        /// <returns>List of users with the specified name.</returns>
+        [HttpGet("by-name/{name}")]
+        [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<User>>> GetUsersByName(string name)
+        {
+            try
+            {
+                var users = await this.userRepository.GetUsersByNameAsync(name);
+                return this.Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving users by name. Error: {ex.Message}");
+            }
+        }
     }
 }

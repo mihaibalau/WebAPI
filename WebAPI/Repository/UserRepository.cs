@@ -128,5 +128,27 @@ namespace WebApi.Repository
                 RegistrationDate = u.RegistrationDate
             }).ToList();
         }
+
+        /// <inheritdoc/>
+        public async Task<List<User>> GetUsersByNameAsync(string name)
+        {
+            var userEntities = await dbContext.Users
+                .Where(u => u.Name.ToLower().Contains(name.ToLower()))
+                .ToListAsync();
+            return userEntities.Select(u => new User
+            {
+                UserId = u.UserId,
+                Username = u.Username,
+                Password = u.Password,
+                Mail = u.Mail,
+                Role = u.Role,
+                Name = u.Name,
+                BirthDate = u.BirthDate,
+                CNP = u.CNP,
+                Address = u.Address,
+                PhoneNumber = u.PhoneNumber,
+                RegistrationDate = u.RegistrationDate
+            }).ToList();
+        }
     }
 }
