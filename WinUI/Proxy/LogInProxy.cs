@@ -77,22 +77,24 @@ namespace WinUI.Proxy
             if (exists) throw new AuthenticationException("User already exists!");
             if (exists) return false;
 
-            string _user_json = JsonSerializer.Serialize(new UserHttpModel
+            UserHttpModel _user_json = new UserHttpModel
             {
                 user_id = 0,
                 username = _model_for_creating_user_account.username,
                 password = _model_for_creating_user_account.password,
                 mail = _model_for_creating_user_account.mail,
-                role = "USER",
+                role = "Patient",
                 name = _model_for_creating_user_account.name,
-                birth_date = _model_for_creating_user_account.birth_date.ToDateTime(new TimeOnly(0, 0)),
+                birth_date = _model_for_creating_user_account.birth_date,
                 cnp = _model_for_creating_user_account.cnp,
                 address = "",
-                phone_number = "",
+                phone_number = "0711111111",
                 registration_date = DateTime.UtcNow
-            });
-            StringContent _content = new StringContent(_user_json, Encoding.UTF8, "application/json");
-            HttpResponseMessage _post_response = await this._http_client.PostAsync(this._base_url + "api/user", _content);
+            };
+
+            var _json = JsonSerializer.Serialize(_user_json);
+            HttpContent _content = new StringContent(_json, Encoding.UTF8, "application/json");
+            HttpResponseMessage _post_response = await this._httpClient.PostAsync(this._baseUrl + "api/user", _content);
             _post_response.EnsureSuccessStatusCode();
 
             return true;
@@ -148,7 +150,7 @@ namespace WinUI.Proxy
             public string name { get; set; }
 
             [JsonPropertyName("birthDate")]
-            public DateTime birth_date { get; set; }
+            public DateOnly birth_date { get; set; }
 
             [JsonPropertyName("cnp")]
             public string cnp { get; set; }

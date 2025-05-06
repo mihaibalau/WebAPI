@@ -58,10 +58,10 @@ namespace WinUI.View
         /// <summary>
         /// Called when navigated to this page.
         /// </summary>
-        /// <param name="e">Navigation event arguments</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        /// <param name="_navigation_evnt_args">Navigation event arguments</param>
+        protected override void OnNavigatedTo(NavigationEventArgs _navigation_evnt_args)
         {
-            base.OnNavigatedTo(e);
+            base.OnNavigatedTo(_navigation_evnt_args);
 
             // Reset UI state
             this.UsernameTextField.Text = string.Empty;
@@ -148,8 +148,7 @@ namespace WinUI.View
         private void createAccountButtonClick(object _sender, RoutedEventArgs _route_event_args)
         {
             this.LoginPanel.Visibility = Visibility.Collapsed;
-            //example usage of NavigationService
-            //NavigationService.navigate(typeof(CreateAccountPage), this.loginPageViewModel);
+            NavigationService.navigate(typeof(CreateAccountView), this._login_page_view_model);
         }
     }
 }
