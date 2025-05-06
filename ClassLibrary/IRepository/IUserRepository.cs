@@ -50,5 +50,11 @@ namespace ClassLibrary.IRepository
         /// <returns>A list of users with the specified name.</returns>
         Task<List<User>> GetUsersByNameAsync(string name);
 
+        /// <summary>
+        /// Retrieves a user by their CNP.
+        /// </summary>
+        /// <param name="cnp">The CNP of the user to search for.</param>
+        /// <returns>The user with the specified CNP.</returns>
+        Task<User> GetUserByCNPAsync(string cnp);
     }
 }

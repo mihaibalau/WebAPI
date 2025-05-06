@@ -164,5 +164,31 @@ namespace Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving users by name. Error: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Retrieves a user by their CNP.
+        /// </summary>
+        /// <param name="cnp">The CNP of the user to search for.</param>
+        /// <returns>A user with the specified CNP.</returns>
+        [HttpGet("by-cnp/{cnp}")]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<User>> GetUserByCNP(string cnp)
+        {
+            try
+            {
+                var user = await this.userRepository.GetUserByCNPAsync(cnp);
+                if (user == null)
+                {
+                    return this.NotFound($"User with CNP {cnp} not found.");
+                }
+                return this.Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving user by CNP. Error: {ex.Message}");
+            }
+        }
     }
 }

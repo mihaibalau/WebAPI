@@ -150,5 +150,30 @@ namespace WebApi.Repository
                 RegistrationDate = u.RegistrationDate
             }).ToList();
         }
+
+        /// <inheritdoc/>
+        public async Task<User> GetUserByCNPAsync(string cnp)
+        {
+            var userEntity = await dbContext.Users
+                .FirstOrDefaultAsync(u => u.CNP == cnp);
+            if (userEntity == null)
+            {
+                return null;
+            }
+            return new User
+            {
+                UserId = userEntity.UserId,
+                Username = userEntity.Username,
+                Password = userEntity.Password,
+                Mail = userEntity.Mail,
+                Role = userEntity.Role,
+                Name = userEntity.Name,
+                BirthDate = userEntity.BirthDate,
+                CNP = userEntity.CNP,
+                Address = userEntity.Address,
+                PhoneNumber = userEntity.PhoneNumber,
+                RegistrationDate = userEntity.RegistrationDate
+            };
+        }
     }
 }
