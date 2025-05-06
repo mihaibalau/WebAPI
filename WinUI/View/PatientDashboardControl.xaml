@@ -9,137 +9,115 @@
     xmlns:views="using:WinUI.View"
     mc:Ignorable="d">
 
-    <Grid Padding="20" Background="Black">
+>
 
-        <!-- Top Nav Buttons -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Row for navigation buttons -->
-            <RowDefinition Height="400"/>
-            <!-- Row for the image -->
-            <RowDefinition Height="*"/>
-            <!-- Remaining space for form controls -->
-            <RowDefinition Height="Auto"/>
-            <!-- Row for the Update Button -->
-        </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Padding="20" Background="Black">
 
-        <!-- Nav Buttons in the Top Row -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,10">
-            <Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" ZIndex="2">
-                <!--
-                
-                <views:SearchDoctorsView x:Name="searchDoctorsView" Width="600" Height="400" Canvas.Left="-620" Canvas.Top="0" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Visible"/>
-                
-            -->
-            </Canvas>
-            <Button Content="Home" Width="80" Margin="5" VerticalAlignment="Top"/>
-            <Button x:Name="NotificationsButton" Click="NotificationsButton_Click" Content="Notifications" Width="150" Margin="5" VerticalAlignment="Top"/>
-            <Button Content="Profile" Width="80" Margin="5" VerticalAlignment="Top"/>
-            <Button Content="Appointments" Width="120" Margin="5" VerticalAlignment="Top"/>
-            <Button Content="Medical History" Width="120" Margin="5" VerticalAlignment="Top"/>
-            <Button Content="Billing" Width="80" Margin="5" VerticalAlignment="Top"/>
-            <Button Content="Logout" Width="80" Margin="5" VerticalAlignment="Top" Click="OnLogoutButtonClick"/>
-            <Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" ZIndex="2">
-                <!--
-                
-                <views:RecommendationView x:Name="recommendationView" Width="600" Height="400" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Visible" Canvas.Top="-20" Canvas.Left="140"/>
-            
-            -->
-            </Canvas>
-        </StackPanel>
-
-        <!-- Image Row: Profile Image or Placeholder -->
-        <Grid Grid.Row="1">
-            <Image Source="/Assets/default-profile.png"
-           Width="100" Height="100" 
-           HorizontalAlignment="Center" 
-           VerticalAlignment="Center" 
-           Margin="0,0,0,20"/>
-        </Grid>
-
-        <!-- Patient Info Grid (Fields) -->
-        <Grid Grid.Row="2" HorizontalAlignment="Center">
-            <!-- Define the grid columns (4 columns for titles and input fields) -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <!-- Define row heights -->
+            <!-- Define Grid Rows -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- ROW 1 -->
-            <TextBlock Text="name" Foreground="White" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding name}" IsReadOnly="True" Width="300" Grid.Row="1" Grid.Column="0" Margin="30,0,30,30"/>
+            <!-- Nav Buttons -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+                <Button Content="Home" Width="80" Margin="5" VerticalAlignment="Top"/>
+                <Button x:Name="NotificationsButton" Click="NotificationsButton_Click" Content="Notifications" Width="150" Margin="5" VerticalAlignment="Top"/>
+                <Button Content="Profile" Width="80" Margin="5" VerticalAlignment="Top"/>
+                <Button Content="Appointments" Width="120" Margin="5" VerticalAlignment="Top"/>
+                <Button Content="Medical History" Width="120" Margin="5" VerticalAlignment="Top"/>
+                <Button Content="Billing" Width="80" Margin="5" VerticalAlignment="Top"/>
+                <Button Content="Logout" Width="80" Margin="5" VerticalAlignment="Top" Click="OnLogoutButtonClick"/>
+            </StackPanel>
 
-            <TextBlock Text="Mail" Foreground="White" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding email}" IsReadOnly="True" Width="400" Grid.Row="1" Grid.Column="1" Margin="30,0,30,30"/>
+            <!-- Profile Image -->
+            <Grid Grid.Row="1" Margin="0,20">
+                <Image Source="/Assets/default-profile.png"
+                       Width="100" Height="100" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" />
+            </Grid>
 
-            <TextBlock Text="password" Foreground="White" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding password}" IsReadOnly="True" Width="400" Grid.Row="1" Grid.Column="2" Margin="30,0,30,30"/>
+            <!-- Patient Info -->
+            <Grid Grid.Row="2" Margin="0,20" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Text="username" Foreground="White" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding username}" IsReadOnly="True" Width="300" Grid.Row="1" Grid.Column="3" Margin="30,0,30,30"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <!-- ROW 2 -->
-            <TextBlock Text="address" Foreground="White" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding address}" IsReadOnly="True" Width="300" Grid.Row="3" Grid.Column="0" Margin="30,0,30,30"/>
+                <!-- Row 1 -->
+                <TextBlock Text="Name" Foreground="White" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding name}" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Margin="10"/>
 
-            <TextBlock Text="Phone Number" Foreground="White" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding phone_number}" IsReadOnly="True" Width="400" Grid.Row="3" Grid.Column="1" Margin="30,0,30,30"/>
+                <TextBlock Text="Mail" Foreground="White" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding email}" IsReadOnly="True" Grid.Row="0" Grid.Column="3" Margin="10"/>
 
-            <TextBlock Text="Emergency Contact" Foreground="White" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding emergency_contact, Mode=TwoWay}" Width="400" MaxLength="10" Grid.Row="3" Grid.Column="2" Margin="30,0,30,30"/>
+                <!-- Row 2 -->
+                <TextBlock Text="Password" Foreground="White" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding password}" IsReadOnly="True" Grid.Row="1" Grid.Column="1" Margin="10"/>
 
-            <TextBlock Text="weight" Foreground="White" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding weight, Mode=TwoWay}" Width="300" Grid.Row="3" Grid.Column="3" Margin="30,0,30,30"/>
+                <TextBlock Text="Username" Foreground="White" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding username}" IsReadOnly="True" Grid.Row="1" Grid.Column="3" Margin="10"/>
 
-            <!-- ROW 3 -->
-            <TextBlock Text="height" Foreground="White" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding height, Mode=TwoWay}" Width="300" Grid.Row="5" Grid.Column="0" Margin="30,0,30,30"/>
+                <!-- Row 3 -->
+                <TextBlock Text="Address" Foreground="White" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding address}" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Margin="10"/>
 
-            <TextBlock Text="Blood Type" Foreground="White" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding blood_type}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="1" Margin="30,0,30,30"/>
+                <TextBlock Text="Phone Number" Foreground="White" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding phone_number}" IsReadOnly="True" Grid.Row="2" Grid.Column="3" Margin="10"/>
 
-            <TextBlock Text="allergies" Foreground="White" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding allergies}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="2" Margin="30,0,30,30"/>
+                <!-- Row 4 -->
+                <TextBlock Text="Emergency Contact" Foreground="White" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding emergency_contact, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Margin="10" MaxLength="10"/>
 
-            <TextBlock Text="Birth Date" Foreground="White" Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding birth_date}" IsReadOnly="True" Width="300" Grid.Row="5" Grid.Column="3" Margin="30,0,30,30"/>
+                <TextBlock Text="Weight" Foreground="White" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding weight, Mode=TwoWay}" Grid.Row="3" Grid.Column="3" Margin="10"/>
 
-            <!-- ROW 4 -->
-            <TextBlock Text="cnp" Foreground="White" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding cnp}" IsReadOnly="True" Width="400" Grid.Row="7" Grid.Column="0" Margin="30,0,30,30"/>
+                <!-- Row 5 -->
+                <TextBlock Text="Height" Foreground="White" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding height, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" Margin="10"/>
 
-            <TextBlock Text="Registration Date" Foreground="White" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Margin="30,0,30,0"/>
-            <TextBox Text="{Binding registration_date}" IsReadOnly="True" Width="300" Grid.Row="7" Grid.Column="1" Margin="30,0,30,0"/>
+                <TextBlock Text="Blood Type" Foreground="White" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding blood_type}" IsReadOnly="True" Grid.Row="4" Grid.Column="3" Margin="10"/>
 
+                <!-- Row 6 -->
+                <TextBlock Text="Allergies" Foreground="White" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding allergies}" IsReadOnly="True" Grid.Row="5" Grid.Column="1" Margin="10"/>
+
+                <TextBlock Text="Birth Date" Foreground="White" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding birth_date}" IsReadOnly="True" Grid.Row="5" Grid.Column="3" Margin="10"/>
+
+                <!-- Row 7 -->
+                <TextBlock Text="CNP" Foreground="White" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding cnp}" IsReadOnly="True" Grid.Row="6" Grid.Column="1" Margin="10"/>
+
+                <TextBlock Text="Registration Date" Foreground="White" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Text="{Binding registration_date}" IsReadOnly="True" Grid.Row="6" Grid.Column="3" Margin="10"/>
+            </Grid>
+
+            <!-- Update Button -->
+            <Button Content="Update Patient Info"
+                    Grid.Row="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnUpdateButtonClick"
+                    Margin="0,20"/>
         </Grid>
-
-        <!-- Update Button -->
-        <Button Content="Update Patient Info" 
-        HorizontalAlignment="Center" 
-        VerticalAlignment="Center" 
-        Grid.Row="3" Grid.ColumnSpan="8"
-        Click="OnUpdateButtonClick" 
-        Margin="0,20"/>
-
-    </Grid>
+    </ScrollViewer>
 </UserControl>

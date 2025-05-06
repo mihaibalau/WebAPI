@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,6 +26,9 @@ namespace WinUI.View
             InitializeComponent();
             this._patient_view_model = _patient_view_model;
             DataContext = this._patient_view_model;
+
+            // Add logging to confirm if the DataContext is set correctly
+            Debug.WriteLine($"DataContext set to: {_patient_view_model?.GetType().Name}");
         }
         public void NotificationsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -43,6 +47,7 @@ namespace WinUI.View
 
                 bool has_changes = false;
 
+                // Check if data is different before updating
                 if (this._patient_view_model.emergency_contact != this._patient_view_model._original_patient.emergency_contact)
                 {
                     bool emergencyUpdated = await this._patient_view_model.updateEmergencyContact(this._patient_view_model.emergency_contact);
@@ -77,6 +82,11 @@ namespace WinUI.View
                 {
                     restoreOriginalPatientData();
                     await ShowDialogAsync("Error", exception.Message);
+
+                    // Log the error to debug
+                    Debug.WriteLine($"Error: {exception.Message}");
+
+                    // Re-load patient data in case of failure
                     await this._patient_view_model.loadPatientInfoByUserIdAsync(this._patient_view_model.user_id);
                 }
             }
@@ -84,10 +94,14 @@ namespace WinUI.View
 
         private void restoreOriginalPatientData()
         {
+            // Ensure the restored data comes from the original patient data
             PatientJointModel? original = this._patient_view_model!._original_patient;
             this._patient_view_model!.emergency_contact = original.emergency_contact;
             this._patient_view_model.weight = original.weight;
             this._patient_view_model.height = original.height;
+
+            // Log restoration to verify
+            Debug.WriteLine("Restored original patient data.");
         }
 
         private async Task ShowDialogAsync(string _title, string _message)
