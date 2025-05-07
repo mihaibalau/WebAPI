@@ -93,6 +93,25 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
+        public async Task UpdateUserAsync(User user)
+        {
+            var userEntity = await dbContext.Users.FindAsync(user.UserId);
+
+            if (userEntity == null)
+            {
+                throw new KeyNotFoundException($"User with ID {user.UserId} not found.");
+            }
+
+            userEntity.Name = user.Name;
+            userEntity.Password = user.Password;
+            userEntity.Address = user.Address;
+            userEntity.PhoneNumber = user.PhoneNumber;
+            userEntity.BirthDate = user.BirthDate;
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        /// <inheritdoc/>
         public async Task DeleteUserAsync(int id)
         {
             var userEntity = await dbContext.Users.FindAsync(id);

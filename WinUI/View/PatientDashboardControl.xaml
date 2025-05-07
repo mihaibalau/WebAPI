@@ -61,21 +61,21 @@
 
                 <!-- Row 1 -->
                 <TextBlock Text="Name" Foreground="White" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
-                <TextBox Text="{Binding name}" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Margin="10"/>
+                <TextBox Text="{Binding name, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Margin="10"/>
                 <TextBlock Text="Mail" Foreground="White" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
                 <TextBox Text="{Binding email}" IsReadOnly="True" Grid.Row="0" Grid.Column="3" Margin="10"/>
 
                 <!-- Row 2 -->
                 <TextBlock Text="Password" Foreground="White" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
-                <TextBox Text="{Binding password}" IsReadOnly="True" Grid.Row="1" Grid.Column="1" Margin="10"/>
+                <TextBox Text="{Binding password, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Margin="10"/>
                 <TextBlock Text="Username" Foreground="White" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
                 <TextBox Text="{Binding username}" IsReadOnly="True" Grid.Row="1" Grid.Column="3" Margin="10"/>
 
                 <!-- Row 3 -->
                 <TextBlock Text="Address" Foreground="White" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
-                <TextBox Text="{Binding address}" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Margin="10"/>
+                <TextBox Text="{Binding address, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Margin="10"/>
                 <TextBlock Text="Phone Number" Foreground="White" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
-                <TextBox Text="{Binding phone_number}" IsReadOnly="True" Grid.Row="2" Grid.Column="3" Margin="10"/>
+                <TextBox Text="{Binding phone_number, Mode=TwoWay}" Grid.Row="2" Grid.Column="3" Margin="10"/>
 
                 <!-- Row 4 -->
                 <TextBlock Text="Emergency Contact" Foreground="White" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
@@ -87,11 +87,11 @@
                 <TextBlock Text="Height" Foreground="White" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
                 <TextBox Text="{Binding height, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" Margin="10"/>
                 <TextBlock Text="Blood Type" Foreground="White" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
-                <TextBox Text="{Binding blood_type}" IsReadOnly="True" Grid.Row="4" Grid.Column="3" Margin="10"/>
+                <TextBox Text="{Binding blood_type, Mode=TwoWay}" Grid.Row="4" Grid.Column="3" Margin="10"/>
 
                 <!-- Row 6 -->
                 <TextBlock Text="Allergies" Foreground="White" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="10"/>
-                <TextBox Text="{Binding allergies}" IsReadOnly="True" Grid.Row="5" Grid.Column="1" Margin="10"/>
+                <TextBox Text="{Binding allergies, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Margin="10"/>
                 <TextBlock Text="Birth Date" Foreground="White" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
                 <TextBox Text="{Binding birth_date}" IsReadOnly="True" Grid.Row="5" Grid.Column="3" Margin="10"/>
 

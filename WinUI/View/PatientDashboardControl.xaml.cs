@@ -66,6 +66,30 @@ namespace WinUI.View
                     has_changes |= height_updated;
                 }
 
+                if (this._patient_view_model.password != this._patient_view_model._original_patient.password)
+                {
+                    bool password_updated = await this._patient_view_model.updatePassword(this._patient_view_model.password);
+                    has_changes |= password_updated;
+                }
+
+                if (this._patient_view_model.name != this._patient_view_model._original_patient.patient_name)
+                {
+                    bool name_updated = await this._patient_view_model.updateName(this._patient_view_model.name);
+                    has_changes |= name_updated;
+                }
+
+                if (this._patient_view_model.address != this._patient_view_model._original_patient.address)
+                {
+                    bool address_updated = await this._patient_view_model.updateAddress(this._patient_view_model.address);
+                    has_changes |= address_updated;
+                }
+
+                if (this._patient_view_model.phone_number != this._patient_view_model._original_patient.phone_number)
+                {
+                    bool phone_number_updated = await this._patient_view_model.updatePhoneNumber(this._patient_view_model.phone_number);
+                    has_changes |= phone_number_updated;
+                }
+
                 if (has_changes)
                 {
                     await this._patient_view_model.logUpdate(this._patient_view_model.user_id, ActionType.UPDATE_PROFILE);

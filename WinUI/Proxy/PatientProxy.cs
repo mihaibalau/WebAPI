@@ -6,8 +6,10 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using ClassLibrary.IRepository;
+using WinUI.Repository;
 using ClassLibrary.Domain;
+using WinUI.Model;
+using static WinUI.Proxy.LogInProxy;
 
 namespace WinUI.Proxy
 {
@@ -20,6 +22,47 @@ namespace WinUI.Proxy
         {
             this._http_client = _http_client;
         }
+
+        public async Task<List<User>> getAllUserAsync()
+        {
+            HttpResponseMessage response = await this._http_client.GetAsync(this._base_api_url + "api/user");
+            response.EnsureSuccessStatusCode();
+
+            string response_body = await response.Content.ReadAsStringAsync();
+
+            List<UserHttpModel> users = JsonSerializer.Deserialize<List<UserHttpModel>>(response_body, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            //filter Patients
+            List<UserHttpModel> filtered_users = users.FindAll(user => user.role == "Patient");
+            return convertToUser(filtered_users);
+        }
+
+        private List<User> convertToUser(List<UserHttpModel> http_users)
+        {
+            List<User> users = new List<User>();
+
+            foreach (var httpUser in http_users)
+            {
+                users.Add(new User
+                {
+                    UserId = httpUser.user_id,
+                    Username = httpUser.username,
+                    Password = httpUser.password,
+                    Mail = httpUser.mail,
+                    Role = httpUser.role,
+                    Name = httpUser.name,
+                    BirthDate = httpUser.birth_date,
+                    CNP = httpUser.cnp,
+                    Address = httpUser.address,
+                    PhoneNumber = httpUser.phone_number,
+                    RegistrationDate = httpUser.registration_date
+                });
+            }
+
+            return users;
+        } 
 
         public async Task<List<Patient>> getAllPatientsAsync()
         {
@@ -63,6 +106,50 @@ namespace WinUI.Proxy
 
             HttpResponseMessage response = await this._http_client.PostAsync(this._base_api_url + "api/patient", content);
             response.EnsureSuccessStatusCode();
+        }
+
+        public async Task updatePatientAsync(Patient patient, User user)
+        {
+            try
+            {
+                PatientHttpModel patient_http = mapToHttpModel(patient);
+                string patient_json = JsonSerializer.Serialize(patient_http);
+                StringContent patient_content = new StringContent(patient_json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage patient_response = await this._http_client.PostAsync($"{this._base_api_url}api/patient", patient_content);
+                patient_response.EnsureSuccessStatusCode();
+
+                // skip user updates entirely for now
+                UserHttpModel user_http = mapUserToHttpModel(user);
+                string user_json = JsonSerializer.Serialize(user_http);
+                StringContent user_content = new StringContent(user_json, Encoding.UTF8, "application/json");
+
+                // Use PUT for updating existing user data
+                HttpResponseMessage user_response = await this._http_client.PutAsync($"{this._base_api_url}api/user/{user.UserId}", user_content);
+                user_response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error updating patient data: {ex.Message}", ex);
+            }
+        }
+
+        private UserHttpModel mapUserToHttpModel(User user)
+        {
+            return new UserHttpModel
+            {
+                user_id = user.UserId,
+                username = user.Username,
+                password = user.Password,
+                mail = user.Mail,
+                role = user.Role,
+                name = user.Name,
+                birth_date = user.BirthDate,
+                cnp = user.CNP,
+                address = user.Address,
+                phone_number = user.PhoneNumber,
+                registration_date = user.RegistrationDate
+            };
         }
 
         public async Task deletePatientAsync(int id)

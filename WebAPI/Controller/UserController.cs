@@ -91,6 +91,44 @@ namespace Controllers
         }
 
         /// <summary>
+        /// Updates an existing user.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="user">The updated user data.</param>
+        /// <returns>An ActionResult indicating success or failure.</returns>
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
+        {
+            if (user == null)
+            {
+                return this.BadRequest("Valid user entity is required.");
+            }
+
+            if (id != user.UserId)
+            {
+                return this.BadRequest("User ID in the URL must match the ID in the request body.");
+            }
+
+            try
+            {
+                await this.userRepository.UpdateUserAsync(user);
+                return this.NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return this.NotFound($"User with ID {id} was not found.");
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while updating user. Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// Deletes a user by ID.
         /// </summary>
         /// <param name="id">The ID of the user to delete.</param>
