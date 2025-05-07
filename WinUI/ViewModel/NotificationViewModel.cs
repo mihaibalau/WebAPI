@@ -23,7 +23,7 @@ namespace WinUI.ViewModel
 
         public async Task LoadNotificationsAsync(int userId)
         {
-            List<Notification> notifications = await this.notification_service.GetNotificationsByUserIdAsync(userId);
+            List<Notification> notifications = await this.notification_service.getNotificationsByUserIdAsync(userId);
             notifications_collection.Clear();
             foreach (var n in notifications)
                 notifications_collection.Add(n);
@@ -31,7 +31,7 @@ namespace WinUI.ViewModel
 
         public async Task DeleteNotificationAsync(int notificationId, int userId)
         {
-                await notification_service.DeleteNotificationAsync(notificationId, userId);
+                await notification_service.deleteNotificationAsync(notificationId, userId);
                 var item = FindNotificationById(notificationId);
                 if (item != null)
                     notifications_collection.Remove(item);

@@ -133,7 +133,7 @@ namespace WinUI.ViewModel
                 this.is_loading = true;
 
                 bool success = await this._patient_service.loadPatientInfoByUserId(_user_id);
-                PatientJointModel? patient = this._patient_service._patient_info;
+                PatientJointModel? patient = this._patient_service.patientInfo;
 
                 if (success && patient != PatientJointModel.Default)
                 {

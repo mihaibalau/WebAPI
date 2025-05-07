@@ -48,7 +48,7 @@ namespace WinUI.View
             IAuthService _service = new AuthService(_log_in_service);
             this._login_page_view_model = new AuthViewModel(_service);
 
-            NavigationService.s_main_frame = this.LoginFrame;
+            NavigationService.sMainFrame = this.LoginFrame;
 
             this.LoginPanel.Visibility = Visibility.Visible;
             // Create login form page and navigate to it
@@ -105,7 +105,7 @@ namespace WinUI.View
                 {
                     WinUI.Repository.IPatientRepository patientRepository = new WinUI.Proxy.PatientProxy(new HttpClient());
                     IPatientService patientService = new PatientService(patientRepository);
-                    PatientViewModel patientViewModel = new PatientViewModel(patientService, this._login_page_view_model.auth_service.all_user_information.userId);
+                    PatientViewModel patientViewModel = new PatientViewModel(patientService, this._login_page_view_model.auth_service.allUserInformation.userId);
 
                     var parameters = new Tuple<IPatientViewModel, IAuthViewModel>(patientViewModel, this._login_page_view_model);
                     NavigationService.navigate(typeof(PatientDashboardView), parameters);

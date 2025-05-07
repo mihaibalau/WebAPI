@@ -19,10 +19,10 @@ namespace WinUI.Service
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationService"/> class.
         /// </summary>
-        /// <param name="_notification_repository">The notification _notification_repositorysitory used for data access.</param>
-        public NotificationService(INotificationRepository _notification_repository)
+        /// <param name="notification_repository">The notification _notification_repositorysitory used for data access.</param>
+        public NotificationService(INotificationRepository notification_repository)
         {
-            this._notification_repository = _notification_repository;
+            this._notification_repository = notification_repository;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace WinUI.Service
         /// A task representing the asynchronous operation, 
         /// containing the list of all notifications.
         /// </returns>
-        public Task<List<Notification>> GetAllNotificationsAsync()
+        public Task<List<Notification>> getAllNotificationsAsync()
         {
             return _notification_repository.getAllNotificationsAsync();
         }
@@ -40,21 +40,21 @@ namespace WinUI.Service
         /// <summary>
         /// Retrieves all notifications for a specific user.
         /// </summary>
-        /// <param name="userId">The unique identifier of the user.</param>
+        /// <param name="user_id">The unique identifier of the user.</param>
         /// <returns>
         /// A task representing the asynchronous operation, 
         /// containing the list of notifications for the given user.
         /// </returns>
-        public Task<List<Notification>> GetNotificationsByUserIdAsync(int userId)
+        public Task<List<Notification>> getNotificationsByUserIdAsync(int user_id)
         {
-            return _notification_repository.getNotificationsByUserIdAsync(userId);
+            return _notification_repository.getNotificationsByUserIdAsync(user_id);
         }
 
         /// <summary>
         /// Deletes a single notification if it belongs to the specified user.
         /// </summary>
         /// <param name="notificationId">The unique identifier of the notification.</param>
-        /// <param name="userId">The unique identifier of the user attempting the deletion.</param>
+        /// <param name="user_id">The unique identifier of the user attempting the deletion.</param>
         /// <returns>A task representing the asynchronous delete operation.</returns>
         /// <exception cref="KeyNotFoundException">
         /// Thrown when no notification with the specified ID exists.
@@ -62,7 +62,7 @@ namespace WinUI.Service
         /// <exception cref="UnauthorizedAccessException">
         /// Thrown when the notification does not belong to the given user.
         /// </exception>
-        public async Task DeleteNotificationAsync(int notificationId, int userId)
+        public async Task deleteNotificationAsync(int notificationId, int user_id)
         {
             // Fetch the notification to verify ownership
             var notification = await _notification_repository.getNotificationByIdAsync(notificationId);
@@ -72,9 +72,9 @@ namespace WinUI.Service
                     $"Notification with ID {notificationId} not found.");
 
             // Ensure the user owns this notification
-            if (notification.userId != userId)
+            if (notification.userId != user_id)
                 throw new UnauthorizedAccessException(
-                    $"User {userId} is not allowed to delete notification {notificationId}.");
+                    $"User {user_id} is not allowed to delete notification {notificationId}.");
 
             // Proceed with deletion
             await _notification_repository.deleteNotificationAsync(notificationId);

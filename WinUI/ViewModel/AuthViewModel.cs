@@ -73,7 +73,7 @@ namespace WinUI.ViewModel
         /// <returns>user's role.</returns>
         public string getUserRole()
         {
-            return _user_service_model.all_user_information.role;
+            return _user_service_model.allUserInformation.role;
         }
     }
 }
