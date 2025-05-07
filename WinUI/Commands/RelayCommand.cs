@@ -3,23 +3,23 @@ using System.Windows.Input;
 
 public class RelayCommand : ICommand
 {
-    private readonly Action execute;
-    private readonly Func<bool> canExecute;
+    private readonly Action _execute;
+    private readonly Func<bool> _can_execute;
 
     // Constructor for command with execution logic and optional CanExecute logic
     public RelayCommand(Action execute) : this(execute, null) { }
 
     public RelayCommand(Action execute, Func<bool> canExecute)
     {
-        this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-        this.canExecute = canExecute;
+        this._execute = execute ?? throw new ArgumentNullException(nameof(execute));
+        this._can_execute = canExecute;
     }
 
     // Determines if the command can execute
-    public bool CanExecute(object parameter) => canExecute == null || canExecute();
+    public bool CanExecute(object parameter) => _can_execute == null || _can_execute();
 
     // Executes the command
-    public void Execute(object parameter) => execute();
+    public void Execute(object parameter) => _execute();
 
     // Event for handling when CanExecute changes
     public event EventHandler CanExecuteChanged;
