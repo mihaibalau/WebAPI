@@ -115,5 +115,80 @@ namespace Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting user. Error: {ex.Message}");
             }
         }
+
+
+        /// <summary>
+        /// Retrieves all users by role.
+        /// </summary>
+        /// <param name="role">The role to filter users by.</param>
+        /// <returns>An ActionResult containing a list of users.</returns>
+        [HttpGet("role/{role}")]
+        [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<User>>> GetUsersByRole(string role)
+        {
+            try
+            {
+                List<User> users = await this.userRepository.GetUsersByRoleAsync(role);
+
+                if (users == null || users.Count == 0)
+                {
+                    return this.NotFound($"No users found with role '{role}'.");
+                }
+
+                return this.Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving users by role. Error: {ex.Message}");
+            }
+        }
+        /// <summary>
+        /// Retrieves all users that match a given name.
+        /// </summary>
+        /// <param name="name">The name to search for.</param>
+        /// <returns>List of users with the specified name.</returns>
+        [HttpGet("by-name/{name}")]
+        [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<User>>> GetUsersByName(string name)
+        {
+            try
+            {
+                var users = await this.userRepository.GetUsersByNameAsync(name);
+                return this.Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving users by name. Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a user by their CNP.
+        /// </summary>
+        /// <param name="cnp">The CNP of the user to search for.</param>
+        /// <returns>A user with the specified CNP.</returns>
+        [HttpGet("by-cnp/{cnp}")]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<User>> GetUserByCNP(string cnp)
+        {
+            try
+            {
+                var user = await this.userRepository.GetUserByCNPAsync(cnp);
+                if (user == null)
+                {
+                    return this.NotFound($"User with CNP {cnp} not found.");
+                }
+                return this.Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving user by CNP. Error: {ex.Message}");
+            }
+        }
     }
 }
