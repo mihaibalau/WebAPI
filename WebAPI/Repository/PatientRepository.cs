@@ -15,19 +15,19 @@ namespace WebApi.Repository
     /// </summary>
     public class PatientRepository : IPatientRepository
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext _db_context;
 
-        public PatientRepository(ApplicationDbContext dbContext)
+        public PatientRepository(ApplicationDbContext db_context)
         {
-            this.dbContext = dbContext;
+            this._db_context = db_context;
         }
 
         /// <inheritdoc/>
         public async Task<List<Patient>> getAllPatientsAsync()
         {
-            var patientEntities = await dbContext.Patients.ToListAsync();
+            var patient_entities = await _db_context.Patients.ToListAsync();
 
-            return patientEntities.Select(p => new Patient
+            return patient_entities.Select(p => new Patient
             {
                 userId = p.userId,
                 bloodType = p.bloodType,
@@ -41,34 +41,34 @@ namespace WebApi.Repository
         /// <inheritdoc/>
         public async Task<Patient> getPatientByUserIdAsync(int id)
         {
-            var patientEntity = await dbContext.Patients.FindAsync(id);
+            var patient_entity = await _db_context.Patients.FindAsync(id);
 
-            if (patientEntity == null)
+            if (patient_entity == null)
             {
                 throw new Exception($"Patient with User ID {id} not found.");
             }
 
             return new Patient
             {
-                userId = patientEntity.userId,
-                bloodType = patientEntity.bloodType,
-                EmergencyContact = patientEntity.emergencyContact,
-                allergies = patientEntity.allergies,
-                weight = patientEntity.weight,
-                height = patientEntity.height
+                userId = patient_entity.userId,
+                bloodType = patient_entity.bloodType,
+                EmergencyContact = patient_entity.emergencyContact,
+                allergies = patient_entity.allergies,
+                weight = patient_entity.weight,
+                height = patient_entity.height
             };
         }
 
         /// <inheritdoc/>
         public async Task addPatientAsync(Patient patient)
         {
-            var existingDoctor = await dbContext.Doctors.FindAsync(patient.userId);
-            if (existingDoctor != null)
+            var existing_doctor = await _db_context.Doctors.FindAsync(patient.userId);
+            if (existing_doctor != null)
             {
                 throw new InvalidOperationException("User is already registered as a doctor and cannot be a patient.");
             }
 
-            var patientEntity = new PatientEntity
+            var patient_entity = new PatientEntity
             {
                 userId = patient.userId,
                 bloodType = patient.bloodType,
@@ -78,21 +78,21 @@ namespace WebApi.Repository
                 height = patient.height
             };
 
-            dbContext.Patients.Add(patientEntity);
-            await dbContext.SaveChangesAsync();
+            _db_context.Patients.Add(patient_entity);
+            await _db_context.SaveChangesAsync();
         }
 
         /// <inheritdoc/>
         public async Task deletePatientAsync(int id)
         {
-            var patientEntity = await dbContext.Patients.FindAsync(id);
-            if (patientEntity == null)
+            var patient_entity = await _db_context.Patients.FindAsync(id);
+            if (patient_entity == null)
             {
                 throw new Exception($"Patient with User ID {id} not found.");
             }
 
-            dbContext.Patients.Remove(patientEntity);
-            await dbContext.SaveChangesAsync();
+            _db_context.Patients.Remove(patient_entity);
+            await _db_context.SaveChangesAsync();
         }
     }
 }

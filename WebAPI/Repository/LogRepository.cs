@@ -15,23 +15,23 @@ namespace WebApi.Repository
     /// </summary>
     public class LogRepository : ILogRepository
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext _db_context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LogRepository"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
-        public LogRepository(ApplicationDbContext dbContext)
+        /// <param name="db_context">The database context.</param>
+        public LogRepository(ApplicationDbContext db_context)
         {
-            this.dbContext = dbContext;
+            this._db_context = db_context;
         }
 
         /// <inheritdoc/>
         public async Task<List<Log>> getAllLogsAsync()
         {
-            List<LogEntity> logEntities = await dbContext.Logs.ToListAsync();
+            List<LogEntity> log_entities = await _db_context.Logs.ToListAsync();
 
-            return logEntities.Select(log => new Log
+            return log_entities.Select(log => new Log
             {
                 logId = log.logId,
                 userId = (int)log.userId,
@@ -43,68 +43,68 @@ namespace WebApi.Repository
         /// <inheritdoc/>
         public async Task<Log> getLogByIdAsync(int id)
         {
-            var logEntity = await dbContext.Logs.FindAsync(id);
-            if (logEntity == null)
+            var log_entity = await _db_context.Logs.FindAsync(id);
+            if (log_entity == null)
             {
                 throw new Exception($"Log with ID {id} not found.");
             }
 
             return new Log
             {
-                logId = logEntity.logId,
-                userId = (int)logEntity.userId,
-                actionType = logEntity.actionType,
-                timestamp = logEntity.timestamp
+                logId = log_entity.logId,
+                userId = (int)log_entity.userId,
+                actionType = log_entity.actionType,
+                timestamp = log_entity.timestamp
             };
         }
 
         /// <inheritdoc/>
-        public async Task<Log> getLogByUserIdAsync(int userId)
+        public async Task<Log> getLogByUserIdAsync(int user_id)
         {
-            var logEntity = await dbContext.Logs
-                .FirstOrDefaultAsync(log => log.userId == userId);
+            var log_entity = await _db_context.Logs
+                .FirstOrDefaultAsync(log => log.userId == user_id);
 
-            if (logEntity == null)
+            if (log_entity == null)
             {
-                throw new Exception($"Log for user ID {userId} not found.");
+                throw new Exception($"Log for user ID {user_id} not found.");
             }
 
             return new Log
             {
-                logId = logEntity.logId,
-                userId = (int)logEntity.userId,
-                actionType = logEntity.actionType,
-                timestamp = logEntity.timestamp
+                logId = log_entity.logId,
+                userId = (int)log_entity.userId,
+                actionType = log_entity.actionType,
+                timestamp = log_entity.timestamp
             };
         }
 
         /// <inheritdoc/>
         public async Task addLogAsync(Log log)
         {
-            var logEntity = new LogEntity
+            var log_entity = new LogEntity
             {
                 userId = log.userId,
                 actionType = log.actionType,
                 timestamp = log.timestamp
             };
 
-            dbContext.Logs.Add(logEntity);
-            await dbContext.SaveChangesAsync();
+            _db_context.Logs.Add(log_entity);
+            await _db_context.SaveChangesAsync();
 
-            log.logId = logEntity.logId;
+            log.logId = log_entity.logId;
         }
 
         /// <inheritdoc/>
         public async Task deleteLogAsync(int id)
         {
-            var logEntity = await dbContext.Logs.FindAsync(id);
-            if (logEntity == null)
+            var log_entity = await _db_context.Logs.FindAsync(id);
+            if (log_entity == null)
             {
                 throw new Exception($"Log with ID {id} not found.");
             }
 
-            dbContext.Logs.Remove(logEntity);
-            await dbContext.SaveChangesAsync();
+            _db_context.Logs.Remove(log_entity);
+            await _db_context.SaveChangesAsync();
         }
     }
 }

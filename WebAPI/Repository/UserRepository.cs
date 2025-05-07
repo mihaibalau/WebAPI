@@ -15,19 +15,19 @@ namespace WebApi.Repository
     /// </summary>
     public class UserRepository : IUserRepository
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext _db_context;
 
-        public UserRepository(ApplicationDbContext dbContext)
+        public UserRepository(ApplicationDbContext db_context)
         {
-            this.dbContext = dbContext;
+            this._db_context = db_context;
         }
 
         /// <inheritdoc/>
         public async Task<List<User>> getAllUsersAsync()
         {
-            var userEntities = await dbContext.Users.ToListAsync();
+            var user_entities = await _db_context.Users.ToListAsync();
 
-            return userEntities.Select(u => new User
+            return user_entities.Select(u => new User
             {
                 userId = u.userId,
                 username = u.username,
@@ -46,33 +46,33 @@ namespace WebApi.Repository
         /// <inheritdoc/>
         public async Task<User> getUserByIdAsync(int id)
         {
-            var userEntity = await dbContext.Users.FindAsync(id);
+            var user_entity = await _db_context.Users.FindAsync(id);
 
-            if (userEntity == null)
+            if (user_entity == null)
             {
                 throw new Exception($"User with ID {id} not found.");
             }
 
             return new User
             {
-                userId = userEntity.userId,
-                username = userEntity.username,
-                password = userEntity.password,
-                mail = userEntity.mail,
-                role = userEntity.role,
-                name = userEntity.name,
-                birthDate = userEntity.birthDate,
-                cnp = userEntity.cnp,
-                address = userEntity.address,
-                phoneNumber = userEntity.phoneNumber,
-                registrationDate = userEntity.registrationDate
+                userId = user_entity.userId,
+                username = user_entity.username,
+                password = user_entity.password,
+                mail = user_entity.mail,
+                role = user_entity.role,
+                name = user_entity.name,
+                birthDate = user_entity.birthDate,
+                cnp = user_entity.cnp,
+                address = user_entity.address,
+                phoneNumber = user_entity.phoneNumber,
+                registrationDate = user_entity.registrationDate
             };
         }
 
         /// <inheritdoc/>
         public async Task addUserAsync(User user)
         {
-            var userEntity = new UserEntity
+            var user_entity = new UserEntity
             {
                 username = user.username,
                 password = user.password,
@@ -86,43 +86,43 @@ namespace WebApi.Repository
                 registrationDate = user.registrationDate
             };
 
-            dbContext.Users.Add(userEntity);
-            await dbContext.SaveChangesAsync();
+            _db_context.Users.Add(user_entity);
+            await _db_context.SaveChangesAsync();
 
-            user.userId = userEntity.userId;
+            user.userId = user_entity.userId;
         }
 
         /// <inheritdoc/>
         public async Task updateUserAsync(User user)
         {
-            var userEntity = await dbContext.Users.FindAsync(user.userId);
+            var user_entity = await _db_context.Users.FindAsync(user.userId);
 
-            if (userEntity == null)
+            if (user_entity == null)
             {
                 throw new KeyNotFoundException($"User with ID {user.userId} not found.");
             }
 
-            userEntity.name = user.name;
-            userEntity.password = user.password;
-            userEntity.address = user.address;
-            userEntity.phoneNumber = user.phoneNumber;
-            userEntity.birthDate = user.birthDate;
+            user_entity.name = user.name;
+            user_entity.password = user.password;
+            user_entity.address = user.address;
+            user_entity.phoneNumber = user.phoneNumber;
+            user_entity.birthDate = user.birthDate;
 
-            await dbContext.SaveChangesAsync();
+            await _db_context.SaveChangesAsync();
         }
 
         /// <inheritdoc/>
         public async Task deleteUserAsync(int id)
         {
-            var userEntity = await dbContext.Users.FindAsync(id);
+            var user_entity = await _db_context.Users.FindAsync(id);
 
-            if (userEntity == null)
+            if (user_entity == null)
             {
                 throw new Exception($"User with ID {id} not found.");
             }
 
-            dbContext.Users.Remove(userEntity);
-            await dbContext.SaveChangesAsync();
+            _db_context.Users.Remove(user_entity);
+            await _db_context.SaveChangesAsync();
         }
     }
 }
