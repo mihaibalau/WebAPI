@@ -1,3 +1,9 @@
+-- DEBUGGING DO NOT RUN
+DROP DATABASE HospitalDb
+SELECT * FROM Users;
+DROP TABLE Users;
+-- END DEBUGGING
+
 CREATE DATABASE HospitalDb
 USE HospitalDb
 
@@ -37,6 +43,10 @@ VALUES
 ('david_martinez', 'hashed_password_7', 'david@example.com', 'Doctor', 'David Martinez', '1987-09-21', '7555523456789', '369 Cedar St', '9632581470'),
 ('emily_davis', 'hashed_password_8', 'emily@example.com', 'Doctor', 'Emily Davis', '1994-06-30', '8901234544490', '951 Redwood St', '7418529630');
 
+INSERT INTO Users (Username, Password, Mail, Role, Name, BirthDate, Cnp, Address, PhoneNumber)
+VALUES 
+('tung', 'sahur', 'tung@sahur.com', 'Patient', 'Tung Sahur', '1982-11-05', '5678944434444', '159 Maple St', '7894561220');
+
 CREATE TABLE Doctors (
 	UserId INT,
     DepartmentId INT NOT NULL,
@@ -53,7 +63,7 @@ VALUES
      (1, 1, '696969'),   -- DoctorId = 1, Dept = Cardiology
      (2, 1, '322223'),  -- DoctorId = 2, Dept = Cardiology
      (3, 2, '231231'), -- DoctorId = 3, Dept = Neurology
-     (4, 3, '124211');   -- DoctorId = 4, Dept = Pediatrics
+     (4, 3, '124211'),   -- DoctorId = 4, Dept = Pediatrics
      (5, 1, 'LIC1001'),  -- Michael Brown → Cardiology
      (6, 2, 'LIC1002'),  -- Sarah Wilson → Neurology
      (7, 3, 'LIC1003'),  -- David Martinez → Pediatrics
@@ -74,9 +84,7 @@ CREATE TABLE Patients (
 
 INSERT INTO Patients (UserId, BloodType, EmergencyContact, Allergies, Weight, Height)
 VALUES 
-(5, 'A+', '1112223333', 'Peanuts', 60.5, 165),  -- Jane Doe
-(6, 'O-', '2223334444', 'None', 80.0, 175),     -- Mike Davis
-(7, 'B+', '3334445555', 'Pollen', 70.2, 170);   -- Sarah Miller
+(9, 'A+', '1112223333', 'Bombardilo Crocodilo', 60.5, 165); 
 
 CREATE TABLE Logs (
     LogId INT IDENTITY(1,1) PRIMARY KEY,
@@ -101,6 +109,6 @@ CREATE TABLE Notifications(
 )
 
 INSERT INTO notifications (UserId, DeliveryDateTime, Message) VALUES
-(7, '2025-03-31 10:00:00', 'Tomorrow 2025-04-01 10:00:00, you have an appointment with Dr. Bogdan at location City Clinic.'),
-(6, '2025-04-05 11:30:00', 'Tomorrow 2025-04-06 11:30:00, you have an appointment with Dr. Maria at location City Clinic.'),
-(7, '2025-04-04 11:30:00', 'Tomorrow 2025-04-05 11:30:00, you have an appointment with Dr. Bogdan at location City Clinic.')
+(9, '2025-03-31 10:00:00', 'Tomorrow 2025-04-01 10:00:00, you have an appointment with Dr. Bogdan at location City Clinic.'),
+(9, '2025-04-05 11:30:00', 'Tomorrow 2025-04-06 11:30:00, you have an appointment with Dr. Maria at location City Clinic.'),
+(9, '2025-04-04 11:30:00', 'Tomorrow 2025-04-05 11:30:00, you have an appointment with Dr. Bogdan at location City Clinic.')
