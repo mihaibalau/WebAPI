@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets or sets the emergency contact information of the patient.
         /// </summary>
-        public string emergencyContace { get; set; }
+        public string EmergencyContact { get; set; }
 
         /// <summary>
         /// Gets or sets the allergies of the patient.

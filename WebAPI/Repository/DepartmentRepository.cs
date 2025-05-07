@@ -37,8 +37,8 @@
             List<Department> departments = departmentEntities
                 .Select(departmentEntity => new Department
                 {
-                    id = departmentEntity.Id,
-                    name = departmentEntity.Name
+                    id = departmentEntity.id,
+                    name = departmentEntity.name
                 })
                 .ToList();
 
@@ -59,8 +59,8 @@
             // Return a new Department object (mapping from Entity to Domain model).
             return new Department
             {
-                id = departmentEntity.Id,
-                name = departmentEntity.Name
+                id = departmentEntity.id,
+                name = departmentEntity.name
             };
         }
 
@@ -70,7 +70,7 @@
             // Map the Department model to the DepartmentEntity.
             var departmentEntity = new DepartmentEntity
             {
-                Name = department.name
+                name = department.name
             };
 
             // Add the department to the database.
@@ -78,7 +78,7 @@
             await this.dbContext.SaveChangesAsync();
 
             // Set the department's Id after it's saved.
-            department.id = departmentEntity.Id;
+            department.id = departmentEntity.id;
         }
 
         /// <inheritdoc/>

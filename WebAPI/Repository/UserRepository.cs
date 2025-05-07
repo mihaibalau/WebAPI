@@ -29,17 +29,17 @@ namespace WebApi.Repository
 
             return userEntities.Select(u => new User
             {
-                userId = u.UserId,
-                username = u.Username,
-                password = u.Password,
-                mail = u.Mail,
-                role = u.Role,
-                name = u.Name,
-                birthDate = u.BirthDate,
-                cnp = u.CNP,
-                address = u.Address,
-                phoneNumber = u.PhoneNumber,
-                registrationDate = u.RegistrationDate
+                userId = u.userId,
+                username = u.username,
+                password = u.password,
+                mail = u.mail,
+                role = u.role,
+                name = u.name,
+                birthDate = u.birthDate,
+                cnp = u.cnp,
+                address = u.address,
+                phoneNumber = u.phoneNumber,
+                registrationDate = u.registrationDate
             }).ToList();
         }
 
@@ -55,17 +55,17 @@ namespace WebApi.Repository
 
             return new User
             {
-                userId = userEntity.UserId,
-                username = userEntity.Username,
-                password = userEntity.Password,
-                mail = userEntity.Mail,
-                role = userEntity.Role,
-                name = userEntity.Name,
-                birthDate = userEntity.BirthDate,
-                cnp = userEntity.CNP,
-                address = userEntity.Address,
-                phoneNumber = userEntity.PhoneNumber,
-                registrationDate = userEntity.RegistrationDate
+                userId = userEntity.userId,
+                username = userEntity.username,
+                password = userEntity.password,
+                mail = userEntity.mail,
+                role = userEntity.role,
+                name = userEntity.name,
+                birthDate = userEntity.birthDate,
+                cnp = userEntity.cnp,
+                address = userEntity.address,
+                phoneNumber = userEntity.phoneNumber,
+                registrationDate = userEntity.registrationDate
             };
         }
 
@@ -74,22 +74,22 @@ namespace WebApi.Repository
         {
             var userEntity = new UserEntity
             {
-                Username = user.username,
-                Password = user.password,
-                Mail = user.mail,
-                Role = user.role,
-                Name = user.name,
-                BirthDate = user.birthDate,
-                CNP = user.cnp,
-                Address = user.address,
-                PhoneNumber = user.phoneNumber,
-                RegistrationDate = user.registrationDate
+                username = user.username,
+                password = user.password,
+                mail = user.mail,
+                role = user.role,
+                name = user.name,
+                birthDate = user.birthDate,
+                cnp = user.cnp,
+                address = user.address,
+                phoneNumber = user.phoneNumber,
+                registrationDate = user.registrationDate
             };
 
             dbContext.Users.Add(userEntity);
             await dbContext.SaveChangesAsync();
 
-            user.userId = userEntity.UserId;
+            user.userId = userEntity.userId;
         }
 
         /// <inheritdoc/>
@@ -102,11 +102,11 @@ namespace WebApi.Repository
                 throw new KeyNotFoundException($"User with ID {user.userId} not found.");
             }
 
-            userEntity.Name = user.name;
-            userEntity.Password = user.password;
-            userEntity.Address = user.address;
-            userEntity.PhoneNumber = user.phoneNumber;
-            userEntity.BirthDate = user.birthDate;
+            userEntity.name = user.name;
+            userEntity.password = user.password;
+            userEntity.address = user.address;
+            userEntity.phoneNumber = user.phoneNumber;
+            userEntity.birthDate = user.birthDate;
 
             await dbContext.SaveChangesAsync();
         }

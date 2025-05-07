@@ -33,10 +33,10 @@ namespace WebApi.Repository
 
             return logEntities.Select(log => new Log
             {
-                logId = log.LogId,
-                userId = (int)log.UserId,
-                actionType = log.ActionType,
-                timestamp = log.Timestamp
+                logId = log.logId,
+                userId = (int)log.userId,
+                actionType = log.actionType,
+                timestamp = log.timestamp
             }).ToList();
         }
 
@@ -51,10 +51,10 @@ namespace WebApi.Repository
 
             return new Log
             {
-                logId = logEntity.LogId,
-                userId = (int)logEntity.UserId,
-                actionType = logEntity.ActionType,
-                timestamp = logEntity.Timestamp
+                logId = logEntity.logId,
+                userId = (int)logEntity.userId,
+                actionType = logEntity.actionType,
+                timestamp = logEntity.timestamp
             };
         }
 
@@ -62,7 +62,7 @@ namespace WebApi.Repository
         public async Task<Log> getLogByUserIdAsync(int userId)
         {
             var logEntity = await dbContext.Logs
-                .FirstOrDefaultAsync(log => log.UserId == userId);
+                .FirstOrDefaultAsync(log => log.userId == userId);
 
             if (logEntity == null)
             {
@@ -71,10 +71,10 @@ namespace WebApi.Repository
 
             return new Log
             {
-                logId = logEntity.LogId,
-                userId = (int)logEntity.UserId,
-                actionType = logEntity.ActionType,
-                timestamp = logEntity.Timestamp
+                logId = logEntity.logId,
+                userId = (int)logEntity.userId,
+                actionType = logEntity.actionType,
+                timestamp = logEntity.timestamp
             };
         }
 
@@ -83,15 +83,15 @@ namespace WebApi.Repository
         {
             var logEntity = new LogEntity
             {
-                UserId = log.userId,
-                ActionType = log.actionType,
-                Timestamp = log.timestamp
+                userId = log.userId,
+                actionType = log.actionType,
+                timestamp = log.timestamp
             };
 
             dbContext.Logs.Add(logEntity);
             await dbContext.SaveChangesAsync();
 
-            log.logId = logEntity.LogId;
+            log.logId = logEntity.logId;
         }
 
         /// <inheritdoc/>

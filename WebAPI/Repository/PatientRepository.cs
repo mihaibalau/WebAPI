@@ -29,12 +29,12 @@ namespace WebApi.Repository
 
             return patientEntities.Select(p => new Patient
             {
-                userId = p.UserId,
-                bloodType = p.BloodType,
-                EmergencyContact = p.EmergencyContact,
-                allergies = p.Allergies,
-                weight = p.Weight,
-                height = p.Height
+                userId = p.userId,
+                bloodType = p.bloodType,
+                EmergencyContact = p.emergencyContact,
+                allergies = p.allergies,
+                weight = p.weight,
+                height = p.height
             }).ToList();
         }
 
@@ -50,12 +50,12 @@ namespace WebApi.Repository
 
             return new Patient
             {
-                userId = patientEntity.UserId,
-                bloodType = patientEntity.BloodType,
-                EmergencyContact = patientEntity.EmergencyContact,
-                allergies = patientEntity.Allergies,
-                weight = patientEntity.Weight,
-                height = patientEntity.Height
+                userId = patientEntity.userId,
+                bloodType = patientEntity.bloodType,
+                EmergencyContact = patientEntity.emergencyContact,
+                allergies = patientEntity.allergies,
+                weight = patientEntity.weight,
+                height = patientEntity.height
             };
         }
 
@@ -70,12 +70,12 @@ namespace WebApi.Repository
 
             var patientEntity = new PatientEntity
             {
-                UserId = patient.userId,
-                BloodType = patient.bloodType,
-                EmergencyContact = patient.EmergencyContact,
-                Allergies = patient.allergies,
-                Weight = patient.weight,
-                Height = patient.height
+                userId = patient.userId,
+                bloodType = patient.bloodType,
+                emergencyContact = patient.EmergencyContact,
+                allergies = patient.allergies,
+                weight = patient.weight,
+                height = patient.height
             };
 
             dbContext.Patients.Add(patientEntity);
