@@ -13,7 +13,7 @@ namespace WebApiTests
     public class DoctorControllerTests
     {
         [TestMethod]
-        public async Task GetAllDoctors_WithValidController_ReturnsListOfDoctors()
+        public async Task getAllDoctors_withValidController_returnsListOfDoctors()
         {
             // Arrange
             var _mock_repo = new Mock<IDoctorRepository>();
@@ -37,7 +37,7 @@ namespace WebApiTests
         }
 
         [TestMethod]
-        public async Task GetDoctorByUserId_WithValidUserId_ReturnsDoctor()
+        public async Task getDoctorByUserId_withValidUserId_returnsDoctor()
         {
             // Arrange
             var _mock_repo = new Mock<IDoctorRepository>();
@@ -58,7 +58,7 @@ namespace WebApiTests
         }
 
         [TestMethod]
-        public async Task GetDoctorsByDepartmentId_ReturnsListOfDoctors()
+        public async Task getDoctorsByDepartmentId_returnsListOfDoctors()
         {
             // Arrange
             var _mock_repo = new Mock<IDoctorRepository>();
@@ -83,7 +83,7 @@ namespace WebApiTests
         }
 
         [TestMethod]
-        public async Task CreateDoctor_WithValidDoctor_ReturnsCreatedAtAction()
+        public async Task createDoctor_withValidDoctor_returnsCreatedAtAction()
         {
             // Arrange
             var _mock_repo = new Mock<IDoctorRepository>();
@@ -107,7 +107,7 @@ namespace WebApiTests
         }
 
         [TestMethod]
-        public async Task DeleteDoctor_WithValidDoctorId_ReturnsNoContent()
+        public async Task deleteDoctor_withValidDoctorId_returnsNoContent()
         {
             // Arrange
             var _mock_repo = new Mock<IDoctorRepository>();

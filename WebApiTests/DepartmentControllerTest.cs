@@ -13,7 +13,7 @@ namespace WebApiTests
     public class DepartmentControllerTest
     {
         [TestMethod]
-        public async Task GetAllDepartments_WiithValidDoctorDepartments_ReturnsListOfDepartments()
+        public async Task getAllDepartments_withValidDoctorDepartments_returnsListOfDepartments()
         {
             // Arrange
             var _mock_repo = new Mock<IDepartmentRepository>();
@@ -37,7 +37,7 @@ namespace WebApiTests
         }
 
         [TestMethod]
-        public async Task CreateDepartment_WithValidDepartmentInput_ReturnsCreatedAtActionResult()
+        public async Task createDepartment_withValidDepartmentInput_returnsCreatedAtActionResult()
         {
             // Arrange
             var _mock_repo = new Mock<IDepartmentRepository>();
@@ -56,7 +56,7 @@ namespace WebApiTests
         }
 
         [TestMethod]
-        public async Task DeleteDepartment_WithValidDoctorID_ReturnsNoContent()
+        public async Task deleteDepartment_withValidDoctorID_returnsNoContent()
         {
             // Arrange
             var _mock_repo = new Mock<IDepartmentRepository>();

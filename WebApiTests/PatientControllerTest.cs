@@ -10,7 +10,7 @@ namespace WebApiTests;
 public class PatientControllerTest
 {
     [TestMethod]
-    public async Task GetAllPatients_WithValidController_ReturnsListOfPatients()
+    public async Task getAllPatients_withValidController_returnsListOfPatients()
     {
         // Arrange
         var _mock_repo = new Mock<IPatientRepository>();
@@ -34,7 +34,7 @@ public class PatientControllerTest
     }
 
     [TestMethod]
-    public async Task GetPatientById_WithValidPatientId_ReturnsPatient()
+    public async Task getPatientById_withValidPatientId_returnsPatient()
     {
         // Arrange
         var _patient_id = 2;
@@ -56,7 +56,7 @@ public class PatientControllerTest
     }
 
     [TestMethod]
-    public async Task CreatePatient_WithValidPatient_ReturnsCreatedAtAction()
+    public async Task createPatient_withValidPatient_returnsCreatedAtAction()
     {
         // Arrange
         var _mock_repo = new Mock<IPatientRepository>();
@@ -75,7 +75,7 @@ public class PatientControllerTest
     }
 
     [TestMethod]
-    public async Task DeletePatient_WithValidPatientId_ReturnsNoContent()
+    public async Task deletePatient_withValidPatientId_returnsNoContent()
     {
         // Arrange
         var _mock_repo = new Mock<IPatientRepository>();

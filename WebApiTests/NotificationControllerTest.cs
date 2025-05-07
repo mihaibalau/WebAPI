@@ -10,7 +10,7 @@ namespace WebApiTests;
 public class NotificationControllerTest
 {
     [TestMethod]
-    public async Task GetAllNotifications_WithValidController_ReturnsListOfNotification()
+    public async Task getAllNotifications_withValidController_returnsListOfNotification()
     {
         // Arrange
         var _mock_repo = new Mock<INotificationRepository>();
@@ -34,7 +34,7 @@ public class NotificationControllerTest
     }
 
     [TestMethod]
-    public async Task GetNotificationByUserId_WithValidUserId_ReturnsListOfNotifications()
+    public async Task getNotificationByUserId_withValidUserId_returnsListOfNotifications()
     {
         // Arrange
         var _valid_notification_id = 1;
@@ -59,7 +59,7 @@ public class NotificationControllerTest
     }
 
     [TestMethod]
-    public async Task CreateNotification_WithValidNotification_ReturnsCreatedAtAction()
+    public async Task createNotification_withValidNotification_returnsCreatedAtAction()
     {
         // Arrange
         var _mock_repo = new Mock<INotificationRepository>();
@@ -78,7 +78,7 @@ public class NotificationControllerTest
     }
 
     [TestMethod]
-    public async Task DeleteNotification_WithValidNotificationId_ReturnsNoContent()
+    public async Task deleteNotification_withValidNotificationId_returnsNoContent()
     {
         // Arrange
         var _mock_repo = new Mock<INotificationRepository>();

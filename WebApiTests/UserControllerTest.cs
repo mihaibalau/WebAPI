@@ -10,7 +10,7 @@ namespace WebApiTests;
 public class UserControllerTest
 {
     [TestMethod]
-    public async Task GetAllUsers_WithValidController_ReturnsListOfUsers()
+    public async Task getAllUsers_withValidController_returnsListOfUsers()
     {
         // Arrange
         var _mock_repo = new Mock<IUserRepository>();
@@ -34,7 +34,7 @@ public class UserControllerTest
     }
 
     [TestMethod]
-    public async Task GetUserById_WithValidUserId_ReturnsUser()
+    public async Task getUserById_withValidUserId_returnsUser()
     {
         // Arrange
         var _user_id = 1;
@@ -55,7 +55,7 @@ public class UserControllerTest
     }
 
     [TestMethod]
-    public async Task CreateUser_WithValidUser_ReturnsCreatedAtAction()
+    public async Task createUser_withValidUser_returnsCreatedAtAction()
     {
         // Arrange
         var _mock_repo = new Mock<IUserRepository>();
@@ -74,7 +74,7 @@ public class UserControllerTest
     }
 
     [TestMethod]
-    public async Task DeleteUser_WithValidUserId_ReturnsNoContent()
+    public async Task deleteUser_withValidUserId_returnsNoContent()
     {
         // Arrange
         var _mock_repo = new Mock<IUserRepository>();
