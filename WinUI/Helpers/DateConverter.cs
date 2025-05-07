@@ -9,17 +9,17 @@ namespace WinUI.Helpers
 {
     public class DateTimeToDateTimeOffsetConverter : IValueConverter
     {
-        public object Convert(object _value, Type _target_type, object _parameter, string _language)
+        public object Convert(object value, Type target_type, object parameter, string language)
         {
-            if (_value is DateTime date_time)
+            if (value is DateTime date_time)
             {
                 return new DateTimeOffset(date_time);
             }
             return DateTimeOffset.Now;
         }
-        public object ConvertBack(object _value, Type _target_type, object _parameter, string _language)
+        public object ConvertBack(object value, Type target_type, object parameter, string language)
         {
-            if (_value is DateTimeOffset date_time_offset)
+            if (value is DateTimeOffset date_time_offset)
             {
                 return date_time_offset.DateTime;
             }
