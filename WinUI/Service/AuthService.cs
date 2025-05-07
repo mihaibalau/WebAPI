@@ -247,12 +247,12 @@ namespace WinUI.Service
                 }
             }
 
-            if (_model_for_creating_user_account.emergency_contact.Length != (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_EMERGENCY_CONTACT_LENGTH)
+            if (_model_for_creating_user_account.emergencyContact.Length != (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_EMERGENCY_CONTACT_LENGTH)
             {
                 throw new AuthenticationException("Invalid emergency contact!\nIt must have length 10");
             }
 
-            foreach (char oneCharacterFromEmergencyContact in _model_for_creating_user_account.emergency_contact)
+            foreach (char oneCharacterFromEmergencyContact in _model_for_creating_user_account.emergencyContact)
             {
                 if (!char.IsDigit(oneCharacterFromEmergencyContact))
                 {
@@ -263,13 +263,13 @@ namespace WinUI.Service
             // check if model is at least 14 years old
             DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now);
             DateOnly minValidDate = todayDate.AddYears((int)NumbersForValidationsWhenCreatingAnAccount.MINIMUM_AGE_FOR_USER);
-            if (_model_for_creating_user_account.birth_date > minValidDate)
+            if (_model_for_creating_user_account.birthDate > minValidDate)
             {
                 throw new AuthenticationException("Invalid Date\nPatient must be at least 14 years old!");
             }
 
             // check if valid gender
-            switch (_model_for_creating_user_account.birth_date.Year <= (int)NumbersForValidationsWhenCreatingAnAccount.AGE_FOR_CHANGING_FIRST_DIGIT_OF_THE_CNP)
+            switch (_model_for_creating_user_account.birthDate.Year <= (int)NumbersForValidationsWhenCreatingAnAccount.AGE_FOR_CHANGING_FIRST_DIGIT_OF_THE_CNP)
             {
                 case true:
                     if (_model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_THE_CNP] != '1' && _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_THE_CNP] != '2')
@@ -287,21 +287,21 @@ namespace WinUI.Service
                     break;
             }
 
-            if (_model_for_creating_user_account.birth_date.Year.ToString().Length != (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_YEAR_LENGTH)
+            if (_model_for_creating_user_account.birthDate.Year.ToString().Length != (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_YEAR_LENGTH)
             {
                 throw new AuthenticationException("cnp birth year errorYou may be old, but you surely aren't this old :)!");
             }
 
             // check if valid match between birth date and cnp birth date
-            if (_model_for_creating_user_account.birth_date.Year.ToString().Substring((int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP)
+            if (_model_for_creating_user_account.birthDate.Year.ToString().Substring((int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP)
                 != _model_for_creating_user_account.cnp.Substring((int)NumbersForValidationsWhenCreatingAnAccount.SECOND_DIGIT_FROM_CNP_OR_BIRTH_DATE, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP))
             {
                 throw new AuthenticationException("Mismatch between Birth year and cnp birth year");
             }
 
-            if (_model_for_creating_user_account.birth_date.Month.ToString().Length == (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_MONTH_LENGTH)
+            if (_model_for_creating_user_account.birthDate.Month.ToString().Length == (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_MONTH_LENGTH)
             {
-                if (_model_for_creating_user_account.birth_date.Month.ToString()[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_BIRTH_DATE]
+                if (_model_for_creating_user_account.birthDate.Month.ToString()[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_BIRTH_DATE]
                     != _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FIFTH_DIGIT_OF_THE_CNP]
                     || _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.FOURTH_DIGIT_FROM_CNP] != '0')
                 {
@@ -309,21 +309,21 @@ namespace WinUI.Service
                 }
             }
             else
-                if (_model_for_creating_user_account.birth_date.Month.ToString() !=
+                if (_model_for_creating_user_account.birthDate.Month.ToString() !=
                 _model_for_creating_user_account.cnp.Substring((int)NumbersForValidationsWhenCreatingAnAccount.FOURTH_DIGIT_FROM_BIRTH_DATE, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP))
             {
                 throw new AuthenticationException("Mismatch between Birth Month and cnp birth month");
             }
 
-            if (_model_for_creating_user_account.birth_date.Day.ToString().Length == (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_MONTH_LENGTH)
+            if (_model_for_creating_user_account.birthDate.Day.ToString().Length == (int)NumbersForValidationsWhenCreatingAnAccount.LIMIT_FOR_BIRTH_DATE_MONTH_LENGTH)
             {
-                if (_model_for_creating_user_account.birth_date.Day.ToString()[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_BIRTH_DATE] != _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.SEVENTH_DIGIT_OF_THE_CNP] || _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.SIXTH_DIGIT_OF_THE_CNP] != '0')
+                if (_model_for_creating_user_account.birthDate.Day.ToString()[(int)NumbersForValidationsWhenCreatingAnAccount.FIRST_DIGIT_FROM_BIRTH_DATE] != _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.SEVENTH_DIGIT_OF_THE_CNP] || _model_for_creating_user_account.cnp[(int)NumbersForValidationsWhenCreatingAnAccount.SIXTH_DIGIT_OF_THE_CNP] != '0')
                 {
                     throw new AuthenticationException("Mismatch between Birth Day and cnp birth day");
                 }
             }
             else
-                if (_model_for_creating_user_account.birth_date.Day.ToString() != _model_for_creating_user_account.cnp.Substring((int)NumbersForValidationsWhenCreatingAnAccount.SIXTH_DIGIT_OF_THE_CNP, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP))
+                if (_model_for_creating_user_account.birthDate.Day.ToString() != _model_for_creating_user_account.cnp.Substring((int)NumbersForValidationsWhenCreatingAnAccount.SIXTH_DIGIT_OF_THE_CNP, (int)NumbersForValidationsWhenCreatingAnAccount.THIRD_DIGIT_FROM_BIRTH_DATE_OR_CNP))
             {
                 throw new AuthenticationException("Mismatch between Birth Day and cnp birth day");
             }
@@ -348,7 +348,7 @@ namespace WinUI.Service
         /// <returns>The action setter.</returns>
         public async Task<bool> logAction(ActionType _action_type_login_or_logout)
         {
-            return await _log_in_repository.authenticationLogService(all_user_information.user_id, _action_type_login_or_logout);
+            return await _log_in_repository.authenticationLogService(all_user_information.userId, _action_type_login_or_logout);
         }
     }
 }

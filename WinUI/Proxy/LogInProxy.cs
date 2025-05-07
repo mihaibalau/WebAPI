@@ -69,7 +69,7 @@ namespace WinUI.Proxy
                 mail = _model_for_creating_user_account.mail,
                 role = "Patient",
                 name = _model_for_creating_user_account.name,
-                birth_date = _model_for_creating_user_account.birth_date,
+                birth_date = _model_for_creating_user_account.birthDate,
                 cnp = _model_for_creating_user_account.cnp,
                 address = "",
                 phone_number = "0711111111",

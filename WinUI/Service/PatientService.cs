@@ -39,7 +39,7 @@ namespace WinUI.Service
             }
 
             this._patient_info = mapToJointModel(domain_patient, filtered_user);
-            Debug.WriteLine($"Patient info loaded: {this._patient_info.patient_name}");
+            Debug.WriteLine($"Patient info loaded: {this._patient_info.patientName}");
             return true;
         }
 

@@ -137,23 +137,23 @@ namespace WinUI.ViewModel
 
                 if (success && patient != PatientJointModel.Default)
                 {
-                    this.name = patient.patient_name;
+                    this.name = patient.patientName;
                     this.email = patient.email;
                     this.username = patient.username;
                     this.address = patient.address;
-                    this.phone_number = patient.phone_number;
-                    this.emergency_contact = patient.emergency_contact;
-                    this.blood_type = patient.blood_type;
+                    this.phone_number = patient.phoneNumber;
+                    this.emergency_contact = patient.emergencyContact;
+                    this.blood_type = patient.bloodType;
                     this.allergies = patient.allergies;
-                    this.birth_date = patient.birth_date;
+                    this.birth_date = patient.birthDate;
                     this.cnp = patient.cnp;
-                    this.registration_date = patient.registration_date;
+                    this.registration_date = patient.registrationDate;
                     this.weight = patient.weight;
                     this.height = patient.height;
 
                     this._original_patient = new PatientJointModel(
                         this._user_id,
-                        patient.patient_id,
+                        patient.patientId,
                         this.name,
                         this.blood_type,
                         this.emergency_contact,
@@ -163,7 +163,7 @@ namespace WinUI.ViewModel
                         this.username,
                         "", // password unused now
                         this.email,
-                        patient.birth_date,
+                        patient.birthDate,
                         this.cnp,
                         this.address,
                         this.phone_number,
@@ -191,7 +191,7 @@ namespace WinUI.ViewModel
                 if (updated)
                 {
                     this.emergency_contact = _emergencyContact;
-                    this._original_patient.emergency_contact = _emergencyContact;
+                    this._original_patient.emergencyContact = _emergencyContact;
                 }
                 return updated;
             }
@@ -255,7 +255,7 @@ namespace WinUI.ViewModel
                 if (updated)
                 {
                     this.name = _name;
-                    this._original_patient.patient_name = _name;
+                    this._original_patient.patientName = _name;
                 }
                 return updated;
             }
@@ -287,7 +287,7 @@ namespace WinUI.ViewModel
                 if (updated)
                 {
                     this.phone_number = _phone_number;
-                    this._original_patient.phone_number = _phone_number;
+                    this._original_patient.phoneNumber = _phone_number;
                 }
                 return updated;
             }

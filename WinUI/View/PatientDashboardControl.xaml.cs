@@ -48,7 +48,7 @@ namespace WinUI.View
                 bool has_changes = false;
 
                 // Check if data is different before updating
-                if (this._patient_view_model.emergency_contact != this._patient_view_model._original_patient.emergency_contact)
+                if (this._patient_view_model.emergency_contact != this._patient_view_model._original_patient.emergencyContact)
                 {
                     bool emergencyUpdated = await this._patient_view_model.updateEmergencyContact(this._patient_view_model.emergency_contact);
                     has_changes |= emergencyUpdated;
@@ -72,7 +72,7 @@ namespace WinUI.View
                     has_changes |= password_updated;
                 }
 
-                if (this._patient_view_model.name != this._patient_view_model._original_patient.patient_name)
+                if (this._patient_view_model.name != this._patient_view_model._original_patient.patientName)
                 {
                     bool name_updated = await this._patient_view_model.updateName(this._patient_view_model.name);
                     has_changes |= name_updated;
@@ -84,7 +84,7 @@ namespace WinUI.View
                     has_changes |= address_updated;
                 }
 
-                if (this._patient_view_model.phone_number != this._patient_view_model._original_patient.phone_number)
+                if (this._patient_view_model.phone_number != this._patient_view_model._original_patient.phoneNumber)
                 {
                     bool phone_number_updated = await this._patient_view_model.updatePhoneNumber(this._patient_view_model.phone_number);
                     has_changes |= phone_number_updated;
@@ -120,7 +120,7 @@ namespace WinUI.View
         {
             // Ensure the restored data comes from the original patient data
             PatientJointModel? original = this._patient_view_model!._original_patient;
-            this._patient_view_model!.emergency_contact = original.emergency_contact;
+            this._patient_view_model!.emergency_contact = original.emergencyContact;
             this._patient_view_model.weight = original.weight;
             this._patient_view_model.height = original.height;
 
