@@ -15,6 +15,7 @@
   <ItemGroup>
     <None Remove="View\PatientDashboardControl.xaml" />
     <None Remove="View\PatientDashboardView.xaml" />
+    <None Remove="View\Windows\NotificationWindow.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,6 +82,18 @@
 	   
 	<ItemGroup>
 	  <Page Update="View\PatientDashboardControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	   
+	<ItemGroup>
+	  <Page Update="View\Window\NotificationWindow.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	   
+	<ItemGroup>
+	  <Page Update="View\Windows\NotificationWindow.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>
