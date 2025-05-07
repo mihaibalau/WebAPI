@@ -27,7 +27,7 @@ namespace WebApiTests
             var _controller = new DepartmentController(_mock_repo.Object);
 
             // Act
-            var _result = await _controller.GetAllDepartments();
+            var _result = await _controller.getAllDepartments();
             var _ok_result = _result.Result as OkObjectResult;
 
             // Assert
@@ -47,7 +47,7 @@ namespace WebApiTests
             var _controller = new DepartmentController(_mock_repo.Object);
 
             // Act
-            var _result = await _controller.CreateDepartment(_fake_department);
+            var _result = await _controller.createDepartment(_fake_department);
             var _created_at = _result as CreatedAtActionResult;
 
             // Assert
@@ -68,7 +68,7 @@ namespace WebApiTests
             var _controller = new DepartmentController(_mock_repo.Object);
 
             // Act
-            var _result = await _controller.DeleteDepartment(_doctor_id);
+            var _result = await _controller.deleteDepartment(_doctor_id);
 
             // Assert
             Assert.IsInstanceOfType(_result, typeof(NoContentResult));

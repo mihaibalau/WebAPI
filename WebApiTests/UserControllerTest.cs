@@ -24,7 +24,7 @@ public class UserControllerTest
         var _controller = new UserController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.GetAllUsers();
+        var _result = await _controller.getAllUsers();
         var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
@@ -45,7 +45,7 @@ public class UserControllerTest
         var _controller = new UserController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.GetUserById(_user_id);
+        var _result = await _controller.getUserById(_user_id);
         var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
@@ -86,7 +86,7 @@ public class UserControllerTest
         var _controller = new UserController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.DeleteUser(_user_id);
+        var _result = await _controller.deleteUser(_user_id);
 
         // Assert
         Assert.IsInstanceOfType(_result, typeof(NoContentResult));

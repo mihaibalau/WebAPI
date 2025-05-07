@@ -24,7 +24,7 @@ public class NotificationControllerTest
         var _controller = new NotificationController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.GetAllNotifications();
+        var _result = await _controller.getAllNotifications();
         var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
@@ -49,7 +49,7 @@ public class NotificationControllerTest
         var _controller = new NotificationController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.GetNotificationsByUserId(_valid_notification_id);
+        var _result = await _controller.getNotificationsByUserId(_valid_notification_id);
         var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
@@ -69,7 +69,7 @@ public class NotificationControllerTest
         var _controller = new NotificationController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.CreateNotification(_fake_notification);
+        var _result = await _controller.createNotification(_fake_notification);
         var _created_at = _result as CreatedAtActionResult;
 
         // Assert
@@ -90,7 +90,7 @@ public class NotificationControllerTest
         var _controller = new NotificationController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.DeleteNotification(_notification_id);
+        var _result = await _controller.deleteNotification(_notification_id);
 
         // Assert
         Assert.IsInstanceOfType(_result, typeof(NoContentResult));

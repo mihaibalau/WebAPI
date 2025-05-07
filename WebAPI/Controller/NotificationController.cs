@@ -8,11 +8,11 @@ namespace Controllers
     [ApiController]
     public class NotificationController : ControllerBase
     {
-        private readonly INotificationRepository notificationRepository;
+        private readonly INotificationRepository _notification_repository;
 
-        public NotificationController(INotificationRepository _notificationRepository)
+        public NotificationController(INotificationRepository notification_repository)
         {
-            this.notificationRepository = _notificationRepository;
+            this._notification_repository = notification_repository;
         }
 
         /// <summary>
@@ -22,11 +22,11 @@ namespace Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<Notification>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<Notification>>> GetAllNotifications()
+        public async Task<ActionResult<List<Notification>>> getAllNotifications()
         {
             try
             {
-                List<Notification> notifications = await this.notificationRepository.getAllNotificationsAsync();
+                List<Notification> notifications = await this._notification_repository.getAllNotificationsAsync();
                 return this.Ok(notifications);
             }
             catch (Exception ex)
@@ -38,16 +38,16 @@ namespace Controllers
         /// <summary>
         /// Retrieves notifications for a specific user.
         /// </summary>
-        /// <param name="userId">The user's ID.</param>
+        /// <param name="user_id">The user's ID.</param>
         /// <returns>List of notifications for the user.</returns>
         [HttpGet("user/{userId}")]
         [ProducesResponseType(typeof(List<Notification>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<Notification>>> GetNotificationsByUserId(int userId)
+        public async Task<ActionResult<List<Notification>>> getNotificationsByUserId(int user_id)
         {
             try
             {
-                var notifications = await this.notificationRepository.getNotificationsByUserIdAsync(userId);
+                var notifications = await this._notification_repository.getNotificationsByUserIdAsync(user_id);
                 return this.Ok(notifications);
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreateNotification([FromBody] Notification notification)
+        public async Task<ActionResult> createNotification([FromBody] Notification notification)
         {
             if (notification == null)
             {
@@ -74,8 +74,8 @@ namespace Controllers
 
             try
             {
-                await this.notificationRepository.addNotificationAsync(notification);
-                return this.CreatedAtAction(nameof(GetAllNotifications), new { id = notification.notificationId }, notification);
+                await this._notification_repository.addNotificationAsync(notification);
+                return this.CreatedAtAction(nameof(getAllNotifications), new { id = notification.notificationId }, notification);
             }
             catch (Exception ex)
             {
@@ -92,11 +92,11 @@ namespace Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteNotification(int id)
+        public async Task<ActionResult> deleteNotification(int id)
         {
             try
             {
-                await this.notificationRepository.deleteNotificationAsync(id);
+                await this._notification_repository.deleteNotificationAsync(id);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)
@@ -118,11 +118,11 @@ namespace Controllers
         [ProducesResponseType(typeof(Notification), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Notification>> GetNotificationById(int id)
+        public async Task<ActionResult<Notification>> getNotificationById(int id)
         {
             try
             {
-                var notification = await this.notificationRepository.getNotificationByIdAsync(id);
+                var notification = await this._notification_repository.getNotificationByIdAsync(id);
                 return this.Ok(notification);
             }
             catch (KeyNotFoundException)

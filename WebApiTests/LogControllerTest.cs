@@ -24,7 +24,7 @@ public class LogControllerTest
         var _controller = new LogController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.GetAllLogs();
+        var _result = await _controller.getAllLogs();
         var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
@@ -45,7 +45,7 @@ public class LogControllerTest
         var _controller = new LogController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.GetLogById(1);
+        var _result = await _controller.getLogById(1);
         var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
@@ -65,7 +65,7 @@ public class LogControllerTest
         var _controller = new LogController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.CreateLog(_fake_log);
+        var _result = await _controller.createLog(_fake_log);
         var _created_at = _result as CreatedAtActionResult;
 
         // Assert
@@ -86,7 +86,7 @@ public class LogControllerTest
         var _controller = new LogController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.DeleteLog(_log_id);
+        var _result = await _controller.deleteLog(_log_id);
 
         // Assert
         Assert.IsInstanceOfType(_result, typeof(NoContentResult));

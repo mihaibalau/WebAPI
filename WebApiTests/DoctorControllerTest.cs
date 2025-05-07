@@ -27,7 +27,7 @@ namespace WebApiTests
             var _controller = new DoctorController(_mock_repo.Object);
 
             // Act
-            var _result = await _controller.GetAllDoctors();
+            var _result = await _controller.getAllDoctors();
             var _ok_result = _result.Result as OkObjectResult;
 
             // Assert
@@ -48,7 +48,7 @@ namespace WebApiTests
             var _controller = new DoctorController(_mock_repo.Object);
 
             // Act
-            var _result = await _controller.GetDoctorByUserId(1);
+            var _result = await _controller.getDoctorByUserId(1);
             var _ok_result = _result.Result as OkObjectResult;
 
             // Assert
@@ -73,7 +73,7 @@ namespace WebApiTests
             var _controller = new DoctorController(_mock_repo.Object);
 
             // Act
-            var _result = await _controller.GetDoctorsByDepartmentId(1);
+            var _result = await _controller.getDoctorsByDepartmentId(1);
             var _ok_result = _result.Result as OkObjectResult;
 
             // Assert
@@ -94,12 +94,12 @@ namespace WebApiTests
             var _controller = new DoctorController(_mock_repo.Object);
 
             // Act
-            var _result = await _controller.CreateDoctor(_new_doctor);
+            var _result = await _controller.createDoctor(_new_doctor);
 
             // Assert
             var _created_at = _result as CreatedAtActionResult;
             Assert.IsNotNull(_created_at);
-            Assert.AreEqual(nameof(_controller.GetDoctorByUserId), _created_at.ActionName);
+            Assert.AreEqual(nameof(_controller.getDoctorByUserId), _created_at.ActionName);
             Assert.AreEqual(_new_doctor.userId, ((Doctor)_created_at.Value).userId);
 
             // Verify that AddDoctorAsync was called once
@@ -119,7 +119,7 @@ namespace WebApiTests
             var _controller = new DoctorController(_mock_repo.Object);
 
             // Act
-            var _result = await _controller.DeleteDoctor(_doctor_id);
+            var _result = await _controller.deleteDoctor(_doctor_id);
 
             // Assert
             Assert.IsInstanceOfType(_result, typeof(NoContentResult));

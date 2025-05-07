@@ -24,7 +24,7 @@ public class PatientControllerTest
         var _controller = new PatientController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.GetAllPatients();
+        var _result = await _controller.getAllPatients();
         var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
@@ -46,7 +46,7 @@ public class PatientControllerTest
         var _controller = new PatientController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.GetPatientById(_patient_id);
+        var _result = await _controller.getPatientById(_patient_id);
         var _ok_result = _result.Result as OkObjectResult;
 
         // Assert
@@ -66,7 +66,7 @@ public class PatientControllerTest
         var _controller = new PatientController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.CreatePatient(_fake_patient);
+        var _result = await _controller.createPatient(_fake_patient);
         var _created_at = _result as CreatedAtActionResult;
 
         // Assert
@@ -87,7 +87,7 @@ public class PatientControllerTest
         var _controller = new PatientController(_mock_repo.Object);
 
         // Act
-        var _result = await _controller.DeletePatient(_patient_id);
+        var _result = await _controller.deletePatient(_patient_id);
 
         // Assert
         Assert.IsInstanceOfType(_result, typeof(NoContentResult));
