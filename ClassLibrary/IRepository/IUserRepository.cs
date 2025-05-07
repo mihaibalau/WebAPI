@@ -30,6 +30,13 @@ namespace ClassLibrary.IRepository
         Task AddUserAsync(User user);
 
         /// <summary>
+        /// Updates an existing user.
+        /// </summary>
+        /// <param name="user">The user with updated information.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        Task UpdateUserAsync(User user);
+
+        /// <summary>
         /// Deletes a user by its unique identifier.
         /// </summary>
         /// <param name="id"> The id of the user</param>

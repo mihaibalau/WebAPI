@@ -107,7 +107,7 @@ namespace WinUI.Proxy
             throw new AuthenticationException("No user found with given username");
         }
 
-        private class UserHttpModel
+        public class UserHttpModel
         {
             [JsonPropertyName("userId")]
             public int user_id { get; set; }

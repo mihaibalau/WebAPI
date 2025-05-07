@@ -30,16 +30,68 @@ namespace WinUI.ViewModel
         }
 
         // These properties stay for binding/display
-        public string name { get; set; } = string.Empty;
-        public string email { get; set; } = string.Empty;
-        public string username { get; set; } = string.Empty;
-        public string address { get; set; } = string.Empty;
-        public string phone_number { get; set; } = string.Empty;
-        public string blood_type { get; set; } = string.Empty;
-        public string allergies { get; set; } = string.Empty;
-        public DateTime birth_date { get; set; }
-        public string cnp { get; set; } = string.Empty;
-        public DateTime registration_date { get; set; }
+        private string _name = string.Empty;
+        public string name
+        {
+            get => this._name;
+            set { if (this._name != value) { this._name = value; OnPropertyChanged(); } }
+        }
+
+        private string _email = string.Empty;
+        public string email
+        {
+            get => this._email;
+            set { if (this._email != value) { this._email = value; OnPropertyChanged(); } }
+        }
+        private string _username = string.Empty;
+        public string username
+        {
+            get => this._username;
+            set { if (this._username != value) { this._username = value; OnPropertyChanged(); } }
+        }
+
+        private string _address = string.Empty;
+        public string address
+        {
+            get => this._address;
+            set { if (this._address != value) { this._address = value; OnPropertyChanged(); } }
+        }
+        private string _phone_number = string.Empty;
+        public string phone_number
+        {
+            get => this._phone_number;
+            set { if (this._phone_number != value) { this._phone_number = value; OnPropertyChanged(); } }
+        }
+        private string _blood_type = string.Empty;
+        public string blood_type
+        {
+            get => this._blood_type;
+            set { if (this._blood_type != value) { this._blood_type = value; OnPropertyChanged(); } }
+        }
+        private string _allergies = string.Empty;
+        public string allergies
+        {
+            get => this._allergies;
+            set { if (this._allergies != value) { this._allergies = value; OnPropertyChanged(); } }
+        }
+        private DateOnly _birth_date;
+        public DateOnly birth_date
+        {
+            get => this._birth_date;
+            set { if (this._birth_date != value) { this._birth_date = value; OnPropertyChanged(); } }
+        }
+        private string _cnp = string.Empty;
+        public string cnp
+        {
+            get => this._cnp;
+            set { if (this._cnp != value) { this._cnp = value; OnPropertyChanged(); } }
+        }
+        private DateTime _registration_date;
+        public DateTime registration_date
+        {
+            get => this._registration_date;
+            set { if (this._registration_date != value) { this._registration_date = value; OnPropertyChanged(); } }
+        }
 
         private string _emergencyContact = string.Empty;
         public string emergency_contact
@@ -93,7 +145,7 @@ namespace WinUI.ViewModel
                     this.emergency_contact = patient.emergency_contact;
                     this.blood_type = patient.blood_type;
                     this.allergies = patient.allergies;
-                    this.birth_date = patient.birth_date.ToDateTime(TimeOnly.MinValue);
+                    this.birth_date = patient.birth_date;
                     this.cnp = patient.cnp;
                     this.registration_date = patient.registration_date;
                     this.weight = patient.weight;
@@ -172,6 +224,70 @@ namespace WinUI.ViewModel
                 {
                     this.height = _height;
                     this._original_patient.height = _height;
+                }
+                return updated;
+            }
+            finally { this.is_loading = false; }
+        }
+
+        public async Task<bool> updatePassword(string _password)
+        {
+            try
+            {
+                this.is_loading = true;
+                bool updated = await this._patient_service.updatePassword(user_id, _password);
+                if (updated)
+                {
+                    this.password = _password;
+                    this._original_patient.password = _password;
+                }
+                return updated;
+            }
+            finally { this.is_loading = false; }
+        }
+
+        public async Task<bool> updateName(string _name)
+        {
+            try
+            {
+                this.is_loading = true;
+                bool updated = await this._patient_service.updateName(user_id, _name);
+                if (updated)
+                {
+                    this.name = _name;
+                    this._original_patient.patient_name = _name;
+                }
+                return updated;
+            }
+            finally { this.is_loading = false; }
+        }
+
+        public async Task<bool> updateAddress(string _address)
+        {
+            try
+            {
+                this.is_loading = true;
+                bool updated = await this._patient_service.updateAddress(user_id, _address);
+                if (updated)
+                {
+                    this.address = _address;
+                    this._original_patient.address = _address;
+                }
+                return updated;
+            }
+            finally { this.is_loading = false; }
+        }
+
+        public async Task<bool> updatePhoneNumber(string _phone_number)
+        {
+            try
+            {
+                this.is_loading = true;
+                bool updated = await this._patient_service.updatePhoneNumber(user_id, _phone_number);
+                if (updated)
+                {
+                    this.phone_number = _phone_number;
+                    this._original_patient.phone_number = _phone_number;
                 }
                 return updated;
             }

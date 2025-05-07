@@ -17,7 +17,7 @@ namespace WinUI.ViewModel
         string emergency_contact { get; set; }
         string blood_type { get; set; }
         string allergies { get; set; }
-        DateTime birth_date { get; set; }
+        DateOnly birth_date { get; set; }
         string cnp { get; set; }
         DateTime registration_date { get; set; }
         double weight { get; set; }
@@ -30,7 +30,10 @@ namespace WinUI.ViewModel
         Task<bool> updateEmergencyContact(string _emergency_contact);
         Task<bool> updateWeight(double _weight);
         Task<bool> updateHeight(int _height);
-
+        Task<bool> updatePassword(string _password);
+        Task<bool> updateName(string _name);
+        Task<bool> updateAddress(string _address);
+        Task<bool> updatePhoneNumber(string _phone_number);
         Task<bool> logUpdate(int _user_id, ActionType _action);
     }
 }

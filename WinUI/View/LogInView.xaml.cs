@@ -103,7 +103,7 @@ namespace WinUI.View
                 // TODO: UPDATE
                 if (this._login_page_view_model.getUserRole() == "Patient")
                 {
-                    IPatientRepository patientRepository = new PatientProxy(new HttpClient());
+                    WinUI.Repository.IPatientRepository patientRepository = new WinUI.Proxy.PatientProxy(new HttpClient());
                     IPatientService patientService = new PatientService(patientRepository);
                     PatientViewModel patientViewModel = new PatientViewModel(patientService, this._login_page_view_model.auth_service.all_user_information.user_id);
 
