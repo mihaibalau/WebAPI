@@ -1,0 +1,109 @@
+# .editorconfig for C# Coding Style
+root = true
+
+[.cs]
+
+############ INDENTATION & WHITESPACE ############
+indent_style = tab
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+csharp_new_line_between_methods = true
+csharp_new_line_before_open_brace = all
+
+# No multiple blank lines
+dotnet_style_allow_multiple_blank_lines = falsesuggestion
+
+############ NAMING ############
+# Fields snake_case with _ prefix
+dotnet_naming_rule.private_fields_should_be_snake_case.severity = warning
+dotnet_naming_rule.private_fields_should_be_snake_case.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_snake_case.style = snake_case_prefix_underscore
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private, internal
+dotnet_naming_symbols.private_fields.required_modifiers = 
+
+dotnet_naming_style.snake_case_prefix_underscore.capitalization = lowercase
+dotnet_naming_style.snake_case_prefix_underscore.required_prefix = _
+dotnet_naming_style.snake_case_prefix_underscore.word_separator = _
+
+# Static fields snake_case with s_ prefix
+dotnet_naming_rule.static_fields_should_have_s_prefix.severity = warning
+dotnet_naming_rule.static_fields_should_have_s_prefix.symbols = static_fields
+dotnet_naming_rule.static_fields_should_have_s_prefix.style = snake_case_prefix_s_
+
+dotnet_naming_symbols.static_fields.applicable_kinds = field
+dotnet_naming_symbols.static_fields.applicable_accessibilities = 
+dotnet_naming_symbols.static_fields.required_modifiers = static
+
+dotnet_naming_style.snake_case_prefix_s_.capitalization = lowercase
+dotnet_naming_style.snake_case_prefix_s_.required_prefix = s_
+dotnet_naming_style.snake_case_prefix_s_.word_separator = _
+
+# Methods camelCase
+dotnet_naming_rule.methods_should_be_camel_case.severity = warning
+dotnet_naming_rule.methods_should_be_camel_case.symbols = methods
+dotnet_naming_rule.methods_should_be_camel_case.style = camel_case
+
+dotnet_naming_symbols.methods.applicable_kinds = method
+dotnet_naming_symbols.methods.applicable_accessibilities = 
+dotnet_naming_symbols.methods.required_modifiers = 
+
+dotnet_naming_style.camel_case.capitalization = camel_case
+
+# Classes and Interfaces PascalCase
+dotnet_naming_rule.types_should_be_pascal_case.severity = warning
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_symbols.types.applicable_kinds = class, interface
+dotnet_naming_symbols.types.applicable_accessibilities = 
+dotnet_naming_symbols.types.required_modifiers = 
+
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+############ CODE STYLES ############
+# this. everywhere
+dotnet_style_qualification_for_field = truewarning
+dotnet_style_qualification_for_property = truewarning
+dotnet_style_qualification_for_method = truewarning
+dotnet_style_qualification_for_event = truewarning
+
+# var only when type is evident
+dotnet_style_var_when_type_is_apparent = truewarning
+dotnet_style_var_elsewhere = falsewarning
+dotnet_style_var_for_built_in_types = falsewarning
+
+# Use language keywords (int, string) not BCL types (Int32, String)
+dotnet_style_predefined_type_for_locals_parameters_members = truewarning
+dotnet_style_predefined_type_for_member_access = truewarning
+
+# Visibility modifiers always
+dotnet_style_require_accessibility_modifiers = alwayswarning
+
+# Visibility should be the first modifier
+# StyleCop Analyzer SA1206
+
+############ OTHER STYLECOP RULES ############
+# Required StyleCop rules via SAxxxx IDs
+dotnet_diagnostic.SA1206.severity = warning   # Visibility modifiers first
+dotnet_diagnostic.SA1507.severity = warning   # Avoid multiple blank lines
+dotnet_diagnostic.SA1025.severity = warning   # Avoid multiple whitespace
+dotnet_diagnostic.SA1121.severity = warning   # Use built-in types
+dotnet_diagnostic.SA1101.severity = warning   # Use this.
+dotnet_diagnostic.SA1401.severity = warning   # Fields must have access modifier
+dotnet_diagnostic.SA1309.severity = none      # We override this to allow underscore prefixes
+
+############ MISC ############
+# Use braces always if multi-line or nested
+csharp_prefer_braces = truewarning
+
+# Use single-line `if` only when single-statement
+csharp_style_allow_embedded_statements_on_same_line = truewarning
+
+# Enums over magic numbers - use analyzer or manual enforcement
+# No direct StyleCop config, but consider using custom Roslyn analyzer or code review
+
+# Unicode escape instead of raw characters (e.g. uXXXX)
+# No direct StyleCop rule, use manual review or a source code sanitization step
