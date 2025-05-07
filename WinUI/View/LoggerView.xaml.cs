@@ -68,24 +68,24 @@ namespace WinUI.View
 
         private void loadInitialLogs()
         {
-            this._logger_view_model.load_all_logs_command.Execute(null);
+            this._logger_view_model.loadAllLogsCommand.Execute(null);
         }
 
         private void bindUserInterface()
         {
             this.LogListView.ItemsSource = this._logger_view_model.logs;
 
-            this.LoadAllLogsButton.Command = this._logger_view_model.load_all_logs_command;
+            this.LoadAllLogsButton.Command = this._logger_view_model.loadAllLogsCommand;
 
-            this.LoadLogsByUserIdButton.Command = this._logger_view_model.filter_logs_by_user_id_command;
+            this.LoadLogsByUserIdButton.Command = this._logger_view_model.filterLogsByUserIdCommand;
             this.UserIdTextBox.DataContext = this._logger_view_model;
 
-            this.LoadLogsByActionTypeButton.Command = this._logger_view_model.filter_logs_by_action_type_command;
-            this.ActionTypeComboBox.ItemsSource = this._logger_view_model.action_types;
+            this.LoadLogsByActionTypeButton.Command = this._logger_view_model.filterLogsByActionTypeCommand;
+            this.ActionTypeComboBox.ItemsSource = this._logger_view_model.actionTypes;
 
-            this.LoadLogsBeforeTimestampButton.Command = this._logger_view_model.filter_logs_by_timestamp_command;
+            this.LoadLogsBeforeTimestampButton.Command = this._logger_view_model.filterLogsByTimestampCommand;
 
-            this.LoadLogsWithAllParametersButton.Command = this._logger_view_model.apply_all_filters_command;
+            this.LoadLogsWithAllParametersButton.Command = this._logger_view_model.applyAllFiltersCommand;
 
             // Bind TextBox, ComboBox, and DatePicker to ViewModel properties
             this.UserIdTextBox.SetBinding(Microsoft.UI.Xaml.Controls.TextBox.TextProperty, new Microsoft.UI.Xaml.Data.Binding

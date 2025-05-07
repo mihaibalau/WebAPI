@@ -105,7 +105,7 @@ namespace WinUI.View
                 {
                     WinUI.Repository.IPatientRepository patientRepository = new WinUI.Proxy.PatientProxy(new HttpClient());
                     IPatientService patientService = new PatientService(patientRepository);
-                    PatientViewModel patientViewModel = new PatientViewModel(patientService, this._login_page_view_model.auth_service.allUserInformation.userId);
+                    PatientViewModel patientViewModel = new PatientViewModel(patientService, this._login_page_view_model.authService.allUserInformation.userId);
 
                     var parameters = new Tuple<IPatientViewModel, IAuthViewModel>(patientViewModel, this._login_page_view_model);
                     NavigationService.navigate(typeof(PatientDashboardView), parameters);

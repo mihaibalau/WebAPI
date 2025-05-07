@@ -56,6 +56,6 @@ namespace WinUI.Service
         /// <param name="user_id">The ID of the user who performed the action.</param>
         /// <param name="_action_type">The type of action performed.</param>
         /// <returns>A task representing the asynchronous operation with a boolean indicating success.</returns>
-        Task<bool> logAction(int user_id, ActionType _action_type);
+        Task<bool> logAction(int user_id, ActionType action_type);
     }
 }

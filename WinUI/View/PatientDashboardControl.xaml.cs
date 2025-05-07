@@ -32,7 +32,7 @@ namespace WinUI.View
         }
         public void NotificationsButton_Click(object sender, RoutedEventArgs e)
         {
-            var notificationWindow = new NotificationWindow(new NotificationViewModel(new NotificationService(new NotificationProxy(new System.Net.Http.HttpClient())), this._patient_view_model.user_id));
+            var notificationWindow = new NotificationWindow(new NotificationViewModel(new NotificationService(new NotificationProxy(new System.Net.Http.HttpClient())), this._patient_view_model.userId));
 
             // Show the window
             notificationWindow.Activate();  // Activate the window to display it
@@ -48,51 +48,51 @@ namespace WinUI.View
                 bool has_changes = false;
 
                 // Check if data is different before updating
-                if (this._patient_view_model.emergency_contact != this._patient_view_model._original_patient.emergencyContact)
+                if (this._patient_view_model.emergencyContact != this._patient_view_model.originalPatient.emergencyContact)
                 {
-                    bool emergencyUpdated = await this._patient_view_model.updateEmergencyContact(this._patient_view_model.emergency_contact);
+                    bool emergencyUpdated = await this._patient_view_model.updateEmergencyContact(this._patient_view_model.emergencyContact);
                     has_changes |= emergencyUpdated;
                 }
 
-                if (this._patient_view_model.weight != this._patient_view_model._original_patient.weight)
+                if (this._patient_view_model.weight != this._patient_view_model.originalPatient.weight)
                 {
                     bool weight_updated = await this._patient_view_model.updateWeight(this._patient_view_model.weight);
                     has_changes |= weight_updated;
                 }
 
-                if (this._patient_view_model.height != this._patient_view_model._original_patient.height)
+                if (this._patient_view_model.height != this._patient_view_model.originalPatient.height)
                 {
                     bool height_updated = await this._patient_view_model.updateHeight(this._patient_view_model.height);
                     has_changes |= height_updated;
                 }
 
-                if (this._patient_view_model.password != this._patient_view_model._original_patient.password)
+                if (this._patient_view_model.password != this._patient_view_model.originalPatient.password)
                 {
                     bool password_updated = await this._patient_view_model.updatePassword(this._patient_view_model.password);
                     has_changes |= password_updated;
                 }
 
-                if (this._patient_view_model.name != this._patient_view_model._original_patient.patientName)
+                if (this._patient_view_model.name != this._patient_view_model.originalPatient.patientName)
                 {
                     bool name_updated = await this._patient_view_model.updateName(this._patient_view_model.name);
                     has_changes |= name_updated;
                 }
 
-                if (this._patient_view_model.address != this._patient_view_model._original_patient.address)
+                if (this._patient_view_model.address != this._patient_view_model.originalPatient.address)
                 {
                     bool address_updated = await this._patient_view_model.updateAddress(this._patient_view_model.address);
                     has_changes |= address_updated;
                 }
 
-                if (this._patient_view_model.phone_number != this._patient_view_model._original_patient.phoneNumber)
+                if (this._patient_view_model.phoneNumber != this._patient_view_model.originalPatient.phoneNumber)
                 {
-                    bool phone_number_updated = await this._patient_view_model.updatePhoneNumber(this._patient_view_model.phone_number);
+                    bool phone_number_updated = await this._patient_view_model.updatePhoneNumber(this._patient_view_model.phoneNumber);
                     has_changes |= phone_number_updated;
                 }
 
                 if (has_changes)
                 {
-                    await this._patient_view_model.logUpdate(this._patient_view_model.user_id, ActionType.UPDATE_PROFILE);
+                    await this._patient_view_model.logUpdate(this._patient_view_model.userId, ActionType.UPDATE_PROFILE);
                     await ShowDialogAsync("Success", "Changes applied successfully.");
                 }
                 else
@@ -111,7 +111,7 @@ namespace WinUI.View
                     Debug.WriteLine($"Error: {exception.Message}");
 
                     // Re-load patient data in case of failure
-                    await this._patient_view_model.loadPatientInfoByUserIdAsync(this._patient_view_model.user_id);
+                    await this._patient_view_model.loadPatientInfoByUserIdAsync(this._patient_view_model.userId);
                 }
             }
         }
@@ -119,8 +119,8 @@ namespace WinUI.View
         private void restoreOriginalPatientData()
         {
             // Ensure the restored data comes from the original patient data
-            PatientJointModel? original = this._patient_view_model!._original_patient;
-            this._patient_view_model!.emergency_contact = original.emergencyContact;
+            PatientJointModel? original = this._patient_view_model!.originalPatient;
+            this._patient_view_model!.emergencyContact = original.emergencyContact;
             this._patient_view_model.weight = original.weight;
             this._patient_view_model.height = original.height;
 

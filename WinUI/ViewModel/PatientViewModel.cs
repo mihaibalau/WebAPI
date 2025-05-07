@@ -12,18 +12,18 @@ namespace WinUI.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
         public string password { get; set; } = string.Empty;
 
-        public PatientJointModel _original_patient { get; private set; }
+        public PatientJointModel originalPatient { get; private set; }
 
         public PatientViewModel(IPatientService patient_service, int user_id)
         {
             _patient_service = patient_service;
             _user_id = user_id;
-            _original_patient = PatientJointModel.Default;
+            originalPatient = PatientJointModel.Default;
             _ = loadPatientInfoByUserIdAsync(_user_id);
         }
 
         private int _user_id;
-        public int user_id
+        public int userId
         {
             get => this._user_id;
             set { if (this._user_id != value) { this._user_id = value; OnPropertyChanged(); } }
@@ -57,13 +57,13 @@ namespace WinUI.ViewModel
             set { if (this._address != value) { this._address = value; OnPropertyChanged(); } }
         }
         private string _phone_number = string.Empty;
-        public string phone_number
+        public string phoneNumber
         {
             get => this._phone_number;
             set { if (this._phone_number != value) { this._phone_number = value; OnPropertyChanged(); } }
         }
         private string _blood_type = string.Empty;
-        public string blood_type
+        public string bloodType
         {
             get => this._blood_type;
             set { if (this._blood_type != value) { this._blood_type = value; OnPropertyChanged(); } }
@@ -75,7 +75,7 @@ namespace WinUI.ViewModel
             set { if (this._allergies != value) { this._allergies = value; OnPropertyChanged(); } }
         }
         private DateOnly _birth_date;
-        public DateOnly birth_date
+        public DateOnly birthDate
         {
             get => this._birth_date;
             set { if (this._birth_date != value) { this._birth_date = value; OnPropertyChanged(); } }
@@ -87,14 +87,14 @@ namespace WinUI.ViewModel
             set { if (this._cnp != value) { this._cnp = value; OnPropertyChanged(); } }
         }
         private DateTime _registration_date;
-        public DateTime registration_date
+        public DateTime registrationDate
         {
             get => this._registration_date;
             set { if (this._registration_date != value) { this._registration_date = value; OnPropertyChanged(); } }
         }
 
         private string _emergencyContact = string.Empty;
-        public string emergency_contact
+        public string emergencyContact
         {
             get => this._emergencyContact;
             set { if (this._emergencyContact != value) { this._emergencyContact = value; OnPropertyChanged(); } }
@@ -115,7 +115,7 @@ namespace WinUI.ViewModel
         }
 
         private bool _is_loading;
-        public bool is_loading
+        public bool isLoading
         {
             get => this._is_loading;
             set { if (this._is_loading != value) { this._is_loading = value; OnPropertyChanged(); } }
@@ -126,13 +126,13 @@ namespace WinUI.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async Task<bool> loadPatientInfoByUserIdAsync(int _user_id)
+        public async Task<bool> loadPatientInfoByUserIdAsync(int user_id)
         {
             try
             {
-                this.is_loading = true;
+                this.isLoading = true;
 
-                bool success = await this._patient_service.loadPatientInfoByUserId(_user_id);
+                bool success = await this._patient_service.loadPatientInfoByUserId(user_id);
                 PatientJointModel? patient = this._patient_service.patientInfo;
 
                 if (success && patient != PatientJointModel.Default)
@@ -141,22 +141,22 @@ namespace WinUI.ViewModel
                     this.email = patient.email;
                     this.username = patient.username;
                     this.address = patient.address;
-                    this.phone_number = patient.phoneNumber;
-                    this.emergency_contact = patient.emergencyContact;
-                    this.blood_type = patient.bloodType;
+                    this.phoneNumber = patient.phoneNumber;
+                    this.emergencyContact = patient.emergencyContact;
+                    this.bloodType = patient.bloodType;
                     this.allergies = patient.allergies;
-                    this.birth_date = patient.birthDate;
+                    this.birthDate = patient.birthDate;
                     this.cnp = patient.cnp;
-                    this.registration_date = patient.registrationDate;
+                    this.registrationDate = patient.registrationDate;
                     this.weight = patient.weight;
                     this.height = patient.height;
 
-                    this._original_patient = new PatientJointModel(
+                    this.originalPatient = new PatientJointModel(
                         this._user_id,
                         patient.patientId,
                         this.name,
-                        this.blood_type,
-                        this.emergency_contact,
+                        this.bloodType,
+                        this.emergencyContact,
                         this.allergies,
                         this.weight,
                         this.height,
@@ -166,137 +166,137 @@ namespace WinUI.ViewModel
                         patient.birthDate,
                         this.cnp,
                         this.address,
-                        this.phone_number,
-                        this.registration_date
+                        this.phoneNumber,
+                        this.registrationDate
                     );
                 }
 
-                this.is_loading = false;
+                this.isLoading = false;
                 return success;
             }
             catch (Exception exception)
             {
-                this.is_loading = false;
+                this.isLoading = false;
                 Console.WriteLine($"Error loading patient info: {exception.Message}");
                 return false;
             }
         }
 
-        public async Task<bool> updateEmergencyContact(string _emergencyContact)
+        public async Task<bool> updateEmergencyContact(string emergencyContact)
         {
             try
             {
-                this.is_loading = true;
-                bool updated = await this._patient_service.updateEmergencyContact(user_id, _emergencyContact);
+                this.isLoading = true;
+                bool updated = await this._patient_service.updateEmergencyContact(userId, emergencyContact);
                 if (updated)
                 {
-                    this.emergency_contact = _emergencyContact;
-                    this._original_patient.emergencyContact = _emergencyContact;
+                    this.emergencyContact = emergencyContact;
+                    this.originalPatient.emergencyContact = emergencyContact;
                 }
                 return updated;
             }
-            finally { this.is_loading = false; }
+            finally { this.isLoading = false; }
         }
 
-        public async Task<bool> updateWeight(double _weight)
+        public async Task<bool> updateWeight(double weight)
         {
             try
             {
-                this.is_loading = true;
-                bool updated = await this._patient_service.updateWeight(user_id, _weight);
+                this.isLoading = true;
+                bool updated = await this._patient_service.updateWeight(userId, weight);
                 if (updated)
                 {
-                    this.weight = weight;
-                    this._original_patient.weight = weight;
+                    this.weight = this.weight;
+                    this.originalPatient.weight = this.weight;
                 }
                 return updated;
             }
-            finally { this.is_loading = false; }
+            finally { this.isLoading = false; }
         }
 
-        public async Task<bool> updateHeight(int _height)
+        public async Task<bool> updateHeight(int height)
         {
             try
             {
-                this.is_loading = true;
-                bool updated = await this._patient_service.updateHeight(user_id, _height);
+                this.isLoading = true;
+                bool updated = await this._patient_service.updateHeight(userId, height);
                 if (updated)
                 {
-                    this.height = _height;
-                    this._original_patient.height = _height;
+                    this.height = height;
+                    this.originalPatient.height = height;
                 }
                 return updated;
             }
-            finally { this.is_loading = false; }
+            finally { this.isLoading = false; }
         }
 
-        public async Task<bool> updatePassword(string _password)
+        public async Task<bool> updatePassword(string password)
         {
             try
             {
-                this.is_loading = true;
-                bool updated = await this._patient_service.updatePassword(user_id, _password);
+                this.isLoading = true;
+                bool updated = await this._patient_service.updatePassword(userId, password);
                 if (updated)
                 {
-                    this.password = _password;
-                    this._original_patient.password = _password;
+                    this.password = password;
+                    this.originalPatient.password = password;
                 }
                 return updated;
             }
-            finally { this.is_loading = false; }
+            finally { this.isLoading = false; }
         }
 
-        public async Task<bool> updateName(string _name)
+        public async Task<bool> updateName(string name)
         {
             try
             {
-                this.is_loading = true;
-                bool updated = await this._patient_service.updateName(user_id, _name);
+                this.isLoading = true;
+                bool updated = await this._patient_service.updateName(userId, name);
                 if (updated)
                 {
-                    this.name = _name;
-                    this._original_patient.patientName = _name;
+                    this.name = name;
+                    this.originalPatient.patientName = name;
                 }
                 return updated;
             }
-            finally { this.is_loading = false; }
+            finally { this.isLoading = false; }
         }
 
-        public async Task<bool> updateAddress(string _address)
+        public async Task<bool> updateAddress(string address)
         {
             try
             {
-                this.is_loading = true;
-                bool updated = await this._patient_service.updateAddress(user_id, _address);
+                this.isLoading = true;
+                bool updated = await this._patient_service.updateAddress(userId, address);
                 if (updated)
                 {
-                    this.address = _address;
-                    this._original_patient.address = _address;
+                    this.address = address;
+                    this.originalPatient.address = address;
                 }
                 return updated;
             }
-            finally { this.is_loading = false; }
+            finally { this.isLoading = false; }
         }
 
-        public async Task<bool> updatePhoneNumber(string _phone_number)
+        public async Task<bool> updatePhoneNumber(string phone_number)
         {
             try
             {
-                this.is_loading = true;
-                bool updated = await this._patient_service.updatePhoneNumber(user_id, _phone_number);
+                this.isLoading = true;
+                bool updated = await this._patient_service.updatePhoneNumber(userId, phone_number);
                 if (updated)
                 {
-                    this.phone_number = _phone_number;
-                    this._original_patient.phoneNumber = _phone_number;
+                    this.phoneNumber = phone_number;
+                    this.originalPatient.phoneNumber = phone_number;
                 }
                 return updated;
             }
-            finally { this.is_loading = false; }
+            finally { this.isLoading = false; }
         }
 
-        public async Task<bool> logUpdate(int _user_id, ActionType _action)
+        public async Task<bool> logUpdate(int user_id, ActionType action)
         {
-            return await this._patient_service.logUpdate(_user_id, _action);
+            return await this._patient_service.logUpdate(user_id, action);
         }
     }
 }
