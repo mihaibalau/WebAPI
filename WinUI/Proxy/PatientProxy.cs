@@ -18,9 +18,9 @@ namespace WinUI.Proxy
         private readonly HttpClient _http_client;
         private readonly string _base_api_url = "http://localhost:5005/";
 
-        public PatientProxy(HttpClient _http_client)
+        public PatientProxy(HttpClient http_client)
         {
-            this._http_client = _http_client;
+            this._http_client = http_client;
         }
 
         public async Task<List<User>> getAllUserAsync()
@@ -162,9 +162,9 @@ namespace WinUI.Proxy
         {
             return new Patient
             {
-                userId = _http_model.user_id,
-                bloodType = _http_model.blood_type,
-                EmergencyContact = _http_model.emergency_contact,
+                userId = _http_model.userId,
+                bloodType = _http_model.bloodType,
+                EmergencyContact = _http_model.emergencyContact,
                 allergies = _http_model.allergies,
                 weight = _http_model.weight,
                 height = _http_model.height
@@ -175,9 +175,9 @@ namespace WinUI.Proxy
         {
             return new PatientHttpModel
             {
-                user_id = _domain_model.userId,
-                blood_type = _domain_model.bloodType,
-                emergency_contact = _domain_model.EmergencyContact,
+                userId = _domain_model.userId,
+                bloodType = _domain_model.bloodType,
+                emergencyContact = _domain_model.EmergencyContact,
                 allergies = _domain_model.allergies,
                 weight = _domain_model.weight,
                 height = _domain_model.height
@@ -187,10 +187,10 @@ namespace WinUI.Proxy
         private class PatientHttpModel
         {
             [JsonPropertyName("userId")]
-            public int user_id { get; set; }
+            public int userId { get; set; }
 
             [JsonPropertyName("patientName")]
-            public string patient_name { get; set; }
+            public string patientName { get; set; }
 
             [JsonPropertyName("email")]
             public string email { get; set; }
@@ -202,28 +202,28 @@ namespace WinUI.Proxy
             public string address { get; set; }
 
             [JsonPropertyName("phoneNumber")]
-            public string phone_number { get; set; }
+            public string phoneNumber { get; set; }
 
             [JsonPropertyName("password")]
             public string password { get; set; }
 
             [JsonPropertyName("bloodType")]
-            public string blood_type { get; set; }
+            public string bloodType { get; set; }
 
             [JsonPropertyName("emergencyContact")]
-            public string emergency_contact { get; set; }
+            public string emergencyContact { get; set; }
 
             [JsonPropertyName("allergies")]
             public string allergies { get; set; }
 
             [JsonPropertyName("birthDate")]
-            public DateOnly birth_date { get; set; }
+            public DateOnly birthDate { get; set; }
 
             [JsonPropertyName("cnp")]
             public string cnp { get; set; }
 
             [JsonPropertyName("registrationDate")]
-            public DateTime registration_date { get; set; }
+            public DateTime registrationDate { get; set; }
 
             [JsonPropertyName("weight")]
             public double weight { get; set; }

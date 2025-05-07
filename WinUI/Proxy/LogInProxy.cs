@@ -15,48 +15,48 @@ namespace WinUI.Proxy
 {
     internal class LogInProxy : ILogInRepository
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "http://localhost:5005/";
+        private readonly HttpClient _http_client;
+        private readonly string _base_url = "http://localhost:5005/";
 
-        public LogInProxy(HttpClient httpClient)
+        public LogInProxy(HttpClient http_client)
         {
-            this._httpClient = httpClient;
+            this._http_client = http_client;
         }
 
-        public async Task<bool> authenticationLogService(int _user_id, ActionType _action_type_login_or_logout)
+        public async Task<bool> authenticationLogService(int user_id, ActionType action_type_login_or_logout)
         {
             UserLogHttpModel log = new UserLogHttpModel
             {
                 log_id = 0, // Assuming the server auto-generates this
-                user_id = _user_id,
-                action_type = _action_type_login_or_logout.convertToString(),
+                user_id = user_id,
+                action_type = action_type_login_or_logout.convertToString(),
                 timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")
             };
 
-            string logJson = JsonSerializer.Serialize(log);
-            StringContent content = new StringContent(logJson, Encoding.UTF8, "application/json");
+            string log_json = JsonSerializer.Serialize(log);
+            StringContent content = new StringContent(log_json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync(_baseUrl + "api/log", content);
+            HttpResponseMessage response = await _http_client.PostAsync(_base_url + "api/log", content);
             response.EnsureSuccessStatusCode();
 
             return true;
         }
 
-        public async Task<bool> createAccount(UserCreateAccountModel _model_for_creating_user_account)
+        public async Task<bool> createAccount(UserCreateAccountModel model_for_creating_user_account)
         {
-            HttpResponseMessage _response = await this._httpClient.GetAsync(this._baseUrl + "api/user");
-            _response.EnsureSuccessStatusCode();
+            HttpResponseMessage response = await this._http_client.GetAsync(this._base_url + "api/user");
+            response.EnsureSuccessStatusCode();
 
-            string _response_body = await _response.Content.ReadAsStringAsync();
+            string response_body = await response.Content.ReadAsStringAsync();
 
-            List<UserHttpModel> _users = JsonSerializer.Deserialize<List<UserHttpModel>>(_response_body, new JsonSerializerOptions
+            List<UserHttpModel> users = JsonSerializer.Deserialize<List<UserHttpModel>>(response_body, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            bool exists = _users.Any(u => u.username == _model_for_creating_user_account.username
-                                      || u.cnp == _model_for_creating_user_account.cnp
-                                      || u.mail == _model_for_creating_user_account.mail);
+            bool exists = users.Any(u => u.username == model_for_creating_user_account.username
+                                      || u.cnp == model_for_creating_user_account.cnp
+                                      || u.mail == model_for_creating_user_account.mail);
 
             if (exists) throw new AuthenticationException("User already exists!");
             if (exists) return false;
@@ -64,43 +64,43 @@ namespace WinUI.Proxy
             UserHttpModel _user_json = new UserHttpModel
             {
                 user_id = 0,
-                username = _model_for_creating_user_account.username,
-                password = _model_for_creating_user_account.password,
-                mail = _model_for_creating_user_account.mail,
+                username = model_for_creating_user_account.username,
+                password = model_for_creating_user_account.password,
+                mail = model_for_creating_user_account.mail,
                 role = "Patient",
-                name = _model_for_creating_user_account.name,
-                birth_date = _model_for_creating_user_account.birthDate,
-                cnp = _model_for_creating_user_account.cnp,
+                name = model_for_creating_user_account.name,
+                birth_date = model_for_creating_user_account.birthDate,
+                cnp = model_for_creating_user_account.cnp,
                 address = "",
                 phone_number = "0711111111",
                 registration_date = DateTime.UtcNow
             };
 
-            var _json = JsonSerializer.Serialize(_user_json);
-            HttpContent _content = new StringContent(_json, Encoding.UTF8, "application/json");
-            HttpResponseMessage _post_response = await this._httpClient.PostAsync(this._baseUrl + "api/user", _content);
+            var json = JsonSerializer.Serialize(_user_json);
+            HttpContent _content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage _post_response = await this._http_client.PostAsync(this._base_url + "api/user", _content);
             _post_response.EnsureSuccessStatusCode();
 
             return true;
         }
 
-        public async Task<UserAuthModel> getUserByUsername(string _username)
+        public async Task<UserAuthModel> getUserByUsername(string username)
         {
-            HttpResponseMessage _response = await this._httpClient.GetAsync(this._baseUrl + "api/user");
-            _response.EnsureSuccessStatusCode();
+            HttpResponseMessage response = await this._http_client.GetAsync(this._base_url + "api/user");
+            response.EnsureSuccessStatusCode();
 
-            string _response_body = await _response.Content.ReadAsStringAsync();
+            string response_body = await response.Content.ReadAsStringAsync();
 
-            List<UserHttpModel> _users = JsonSerializer.Deserialize<List<UserHttpModel>>(_response_body, new JsonSerializerOptions
+            List<UserHttpModel> users = JsonSerializer.Deserialize<List<UserHttpModel>>(response_body, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            for (int i = 0; i < _users.Count; i++)
+            for (int i = 0; i < users.Count; i++)
             {
-                if (_users[i].username == _username)
+                if (users[i].username == username)
                 {
-                    return new UserAuthModel(_users[i].user_id, _users[i].username, _users[i].password, _users[i].mail, _users[i].role);
+                    return new UserAuthModel(users[i].user_id, users[i].username, users[i].password, users[i].mail, users[i].role);
                 }
             }
 
