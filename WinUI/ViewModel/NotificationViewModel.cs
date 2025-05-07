@@ -41,7 +41,7 @@ namespace WinUI.ViewModel
         {
             foreach (var notification in notifications_collection)
             {
-                if (notification.NotificationId == id)
+                if (notification.notificationId == id)
                     return notification;
             }
             return null;

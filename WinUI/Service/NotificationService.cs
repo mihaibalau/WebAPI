@@ -34,7 +34,7 @@ namespace WinUI.Service
         /// </returns>
         public Task<List<Notification>> GetAllNotificationsAsync()
         {
-            return _notification_repository.GetAllNotificationsAsync();
+            return _notification_repository.getAllNotificationsAsync();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace WinUI.Service
         /// </returns>
         public Task<List<Notification>> GetNotificationsByUserIdAsync(int userId)
         {
-            return _notification_repository.GetNotificationsByUserIdAsync(userId);
+            return _notification_repository.getNotificationsByUserIdAsync(userId);
         }
 
         /// <summary>
@@ -65,19 +65,19 @@ namespace WinUI.Service
         public async Task DeleteNotificationAsync(int notificationId, int userId)
         {
             // Fetch the notification to verify ownership
-            var notification = await _notification_repository.GetNotificationByIdAsync(notificationId);
+            var notification = await _notification_repository.getNotificationByIdAsync(notificationId);
 
             if (notification == null)
                 throw new KeyNotFoundException(
                     $"Notification with ID {notificationId} not found.");
 
             // Ensure the user owns this notification
-            if (notification.UserId != userId)
+            if (notification.userId != userId)
                 throw new UnauthorizedAccessException(
                     $"User {userId} is not allowed to delete notification {notificationId}.");
 
             // Proceed with deletion
-            await _notification_repository.DeleteNotificationAsync(notificationId);
+            await _notification_repository.deleteNotificationAsync(notificationId);
         }
     }
 }

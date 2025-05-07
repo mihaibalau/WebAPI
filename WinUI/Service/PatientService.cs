@@ -31,7 +31,7 @@ namespace WinUI.Service
         {
             Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
             List<User> domain_users = await this._patient_repository.getAllUserAsync();
-            User filtered_user = domain_users.Find(user => user.UserId == _user_id);
+            User filtered_user = domain_users.Find(user => user.userId == _user_id);
             if (domain_patient == null || filtered_user == null)
             {
                 _patient_info = PatientJointModel.Default;
@@ -51,7 +51,7 @@ namespace WinUI.Service
             this._patient_list.Clear();
             foreach (var patient in domain_patients)
             {
-                User? matched_user = domain_users.Find(user => user.UserId == patient.UserId);
+                User? matched_user = domain_users.Find(user => user.userId == patient.userId);
                 if (matched_user != null)
                 {
                     this._patient_list.Add(mapToJointModel(patient, matched_user));
@@ -64,14 +64,14 @@ namespace WinUI.Service
         {
             Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(_user_id);
             List<User> domain_users = await this._patient_repository.getAllUserAsync();
-            User filtered_user = domain_users.Find(user => user.UserId == _user_id);
+            User filtered_user = domain_users.Find(user => user.userId == _user_id);
             if (domain_patient == null || filtered_user == null)
             {
                 _patient_info = PatientJointModel.Default;
                 return false;
             }
 
-            filtered_user.Password = _password;
+            filtered_user.password = _password;
             await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
             return true;
         }
@@ -80,14 +80,14 @@ namespace WinUI.Service
         {
             Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(_user_id);
             List<User> domain_users = await this._patient_repository.getAllUserAsync();
-            User filtered_user = domain_users.Find(user => user.UserId == _user_id);
+            User filtered_user = domain_users.Find(user => user.userId == _user_id);
             if (domain_patient == null || filtered_user == null)
             {
                 _patient_info = PatientJointModel.Default;
                 return false;
             }
 
-            filtered_user.Name = _name;
+            filtered_user.name = _name;
             await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
             return true;
         }
@@ -96,14 +96,14 @@ namespace WinUI.Service
         {
             Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(_user_id);
             List<User> domain_users = await this._patient_repository.getAllUserAsync();
-            User filtered_user = domain_users.Find(user => user.UserId == _user_id);
+            User filtered_user = domain_users.Find(user => user.userId == _user_id);
             if (domain_patient == null || filtered_user == null)
             {
                 _patient_info = PatientJointModel.Default;
                 return false;
             }
 
-            filtered_user.Address = _address;
+            filtered_user.address = _address;
             await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
             return true;
         }
@@ -112,14 +112,14 @@ namespace WinUI.Service
         {
             Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(_user_id);
             List<User> domain_users = await this._patient_repository.getAllUserAsync();
-            User filtered_user = domain_users.Find(user => user.UserId == _user_id);
+            User filtered_user = domain_users.Find(user => user.userId == _user_id);
             if (domain_patient == null || filtered_user == null)
             {
                 _patient_info = PatientJointModel.Default;
                 return false;
             }
 
-            filtered_user.PhoneNumber = _phone_number;
+            filtered_user.phoneNumber = _phone_number;
             await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
             return true;
         }
@@ -137,7 +137,7 @@ namespace WinUI.Service
         {
             Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
             if (domain_patient == null) return false;
-            domain_patient.Weight = weight;
+            domain_patient.weight = weight;
             await this._patient_repository.addPatientAsync(domain_patient);
             return true;
         }
@@ -146,7 +146,7 @@ namespace WinUI.Service
         {
             Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
             if (domain_patient == null) return false;
-            domain_patient.Height = height;
+            domain_patient.height = height;
             await this._patient_repository.addPatientAsync(domain_patient);
             return true;
         }
@@ -160,22 +160,22 @@ namespace WinUI.Service
         private PatientJointModel mapToJointModel(Patient _domain_patient, User _domain_user)
         {
             return new PatientJointModel(
-                _domain_patient.UserId,
-                _domain_user.UserId,
-                _domain_user.Name,
-                _domain_patient.BloodType ?? string.Empty,
+                _domain_patient.userId,
+                _domain_user.userId,
+                _domain_user.name,
+                _domain_patient.bloodType ?? string.Empty,
                 _domain_patient.EmergencyContact ?? string.Empty,
-                _domain_patient.Allergies ?? string.Empty,
-                _domain_patient.Weight,
-                _domain_patient.Height,
-                _domain_user.Username,
-                _domain_user.Password,
-                _domain_user.Mail,
-                _domain_user.BirthDate,
-                _domain_user.CNP ?? string.Empty,
-                _domain_user.Address ?? string.Empty,
-                _domain_user.PhoneNumber ?? string.Empty,
-                _domain_user.RegistrationDate
+                _domain_patient.allergies ?? string.Empty,
+                _domain_patient.weight,
+                _domain_patient.height,
+                _domain_user.username,
+                _domain_user.password,
+                _domain_user.mail,
+                _domain_user.birthDate,
+                _domain_user.cnp ?? string.Empty,
+                _domain_user.address ?? string.Empty,
+                _domain_user.phoneNumber ?? string.Empty,
+                _domain_user.registrationDate
             );
         }
     }

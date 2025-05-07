@@ -28,7 +28,7 @@ namespace Controllers
         {
             try
             {
-                List<User> users = await this.userRepository.GetAllUsersAsync();
+                List<User> users = await this.userRepository.getAllUsersAsync();
                 return this.Ok(users);
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace Controllers
         {
             try
             {
-                User user = await this.userRepository.GetUserByIdAsync(id);
+                User user = await this.userRepository.getUserByIdAsync(id);
                 if (user == null)
                 {
                     return this.NotFound($"User with ID {id} was not found.");
@@ -81,8 +81,8 @@ namespace Controllers
 
             try
             {
-                await this.userRepository.AddUserAsync(user);
-                return this.CreatedAtAction(nameof(GetUserById), new { id = user.UserId }, user);
+                await this.userRepository.addUserAsync(user);
+                return this.CreatedAtAction(nameof(GetUserById), new { id = user.userId }, user);
             }
             catch (Exception ex)
             {
@@ -108,14 +108,14 @@ namespace Controllers
                 return this.BadRequest("Valid user entity is required.");
             }
 
-            if (id != user.UserId)
+            if (id != user.userId)
             {
                 return this.BadRequest("User ID in the URL must match the ID in the request body.");
             }
 
             try
             {
-                await this.userRepository.UpdateUserAsync(user);
+                await this.userRepository.updateUserAsync(user);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)
@@ -141,7 +141,7 @@ namespace Controllers
         {
             try
             {
-                await this.userRepository.DeleteUserAsync(id);
+                await this.userRepository.deleteUserAsync(id);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)

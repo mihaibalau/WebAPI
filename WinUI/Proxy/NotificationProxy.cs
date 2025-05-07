@@ -25,7 +25,7 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task<List<Notification>> GetAllNotificationsAsync()
+        public async Task<List<Notification>> getAllNotificationsAsync()
         {
             var response = await httpClient.GetAsync("http://localhost:5005/api/notification");
             response.EnsureSuccessStatusCode();
@@ -40,7 +40,7 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task<List<Notification>> GetNotificationsByUserIdAsync(int userId)
+        public async Task<List<Notification>> getNotificationsByUserIdAsync(int userId)
         {
             var response = await httpClient.GetAsync($"http://localhost:5005/api/notification/user/{userId}");
             response.EnsureSuccessStatusCode();
@@ -55,7 +55,7 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task<Notification> GetNotificationByIdAsync(int id)
+        public async Task<Notification> getNotificationByIdAsync(int id)
         {
             var response = await httpClient.GetAsync($"http://localhost:5005/api/notification/{id}");
 
@@ -76,7 +76,7 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task AddNotificationAsync(Notification notification)
+        public async Task addNotificationAsync(Notification notification)
         {
             var jsonContent = new StringContent(
                 JsonSerializer.Serialize(notification),
@@ -88,7 +88,7 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task DeleteNotificationAsync(int id)
+        public async Task deleteNotificationAsync(int id)
         {
             var response = await httpClient.DeleteAsync($"http://localhost:5005/api/notification/delete/{id}");
 
