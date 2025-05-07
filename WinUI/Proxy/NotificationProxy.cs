@@ -27,7 +27,7 @@ namespace WinUI.Proxy
         /// <inheritdoc/>
         public async Task<List<Notification>> GetAllNotificationsAsync()
         {
-            var response = await httpClient.GetAsync("http://localhost:5005/api/notification");
+            var response = await httpClient.GetAsync("https://localhost:7004/api/notification");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -42,7 +42,7 @@ namespace WinUI.Proxy
         /// <inheritdoc/>
         public async Task<List<Notification>> GetNotificationsByUserIdAsync(int userId)
         {
-            var response = await httpClient.GetAsync($"http://localhost:5005/api/notification/user/{userId}");
+            var response = await httpClient.GetAsync($"https://localhost:7004/api/notification/user/{userId}");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -57,7 +57,7 @@ namespace WinUI.Proxy
         /// <inheritdoc/>
         public async Task<Notification> GetNotificationByIdAsync(int id)
         {
-            var response = await httpClient.GetAsync($"http://localhost:5005/api/notification/{id}");
+            var response = await httpClient.GetAsync($"https://localhost:7004/api/notification/{id}");
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -83,14 +83,14 @@ namespace WinUI.Proxy
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await httpClient.PostAsync("http://localhost:5005/api/notification", jsonContent);
+            var response = await httpClient.PostAsync("https://localhost:7004/api/notification", jsonContent);
             response.EnsureSuccessStatusCode();
         }
 
         /// <inheritdoc/>
         public async Task DeleteNotificationAsync(int id)
         {
-            var response = await httpClient.DeleteAsync($"http://localhost:5005/api/notification/delete/{id}");
+            var response = await httpClient.DeleteAsync($"https://localhost:7004/api/notification/delete/{id}");
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {

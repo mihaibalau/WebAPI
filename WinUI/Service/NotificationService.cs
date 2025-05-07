@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 using ClassLibrary.IRepository;
 using ClassLibrary.Domain;
 
-namespace WinUI.Service
+namespace WinUI.Service.NotificationServiceFile
 {
     /// <summary>
-    /// Provides high-level notification operations on top of the _notification_repositorysitory.
+    /// Provides high-level notification operations on top of the repository.
     /// </summary>
     public class NotificationService : INotificationService
     {
-        private readonly INotificationRepository _notification_repository;
+        private readonly INotificationRepository repo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationService"/> class.
         /// </summary>
-        /// <param name="_notification_repository">The notification _notification_repositorysitory used for data access.</param>
-        public NotificationService(INotificationRepository _notification_repository)
+        /// <param name="repo">The notification repository used for data access.</param>
+        public NotificationService(INotificationRepository repo)
         {
-            this._notification_repository = _notification_repository;
+            this.repo = repo;
         }
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace WinUI.Service
         /// A task representing the asynchronous operation, 
         /// containing the list of all notifications.
         /// </returns>
-        public Task<List<Notification>> GetAllNotificationsAsync()
+        public Task<List<Notification>> GetAllAsync()
         {
-            return _notification_repository.GetAllNotificationsAsync();
+            return repo.GetAllNotificationsAsync();
         }
 
         /// <summary>
@@ -45,9 +45,9 @@ namespace WinUI.Service
         /// A task representing the asynchronous operation, 
         /// containing the list of notifications for the given user.
         /// </returns>
-        public Task<List<Notification>> GetNotificationsByUserIdAsync(int userId)
+        public Task<List<Notification>> GetByUserIdAsync(int userId)
         {
-            return _notification_repository.GetNotificationsByUserIdAsync(userId);
+            return repo.GetNotificationsByUserIdAsync(userId);
         }
 
         /// <summary>
@@ -62,10 +62,10 @@ namespace WinUI.Service
         /// <exception cref="UnauthorizedAccessException">
         /// Thrown when the notification does not belong to the given user.
         /// </exception>
-        public async Task DeleteNotificationAsync(int notificationId, int userId)
+        public async Task DeleteAsync(int notificationId, int userId)
         {
             // Fetch the notification to verify ownership
-            var notification = await _notification_repository.GetNotificationByIdAsync(notificationId);
+            var notification = await repo.GetNotificationByIdAsync(notificationId);
 
             if (notification == null)
                 throw new KeyNotFoundException(
@@ -77,7 +77,7 @@ namespace WinUI.Service
                     $"User {userId} is not allowed to delete notification {notificationId}.");
 
             // Proceed with deletion
-            await _notification_repository.DeleteNotificationAsync(notificationId);
+            await repo.DeleteNotificationAsync(notificationId);
         }
     }
 }
