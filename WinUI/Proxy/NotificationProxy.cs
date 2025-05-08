@@ -18,16 +18,16 @@ namespace WinUI.Proxy
         /// The HTTP client used for sending requests to the Web API.
         /// </summary>
 
-        private readonly HttpClient httpClient;
-        public NotificationProxy(HttpClient _httpClient)
+        private readonly HttpClient _http_client;
+        public NotificationProxy(HttpClient http_client)
         {
-            this.httpClient = _httpClient;
+            this._http_client = http_client;
         }
 
         /// <inheritdoc/>
-        public async Task<List<Notification>> GetAllNotificationsAsync()
+        public async Task<List<Notification>> getAllNotificationsAsync()
         {
-            var response = await httpClient.GetAsync("http://localhost:5005/api/notification");
+            var response = await _http_client.GetAsync("http://localhost:5005/api/notification");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -40,9 +40,9 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task<List<Notification>> GetNotificationsByUserIdAsync(int userId)
+        public async Task<List<Notification>> getNotificationsByUserIdAsync(int user_id)
         {
-            var response = await httpClient.GetAsync($"http://localhost:5005/api/notification/user/{userId}");
+            var response = await _http_client.GetAsync($"http://localhost:5005/api/notification/user/{user_id}");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -55,9 +55,9 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task<Notification> GetNotificationByIdAsync(int id)
+        public async Task<Notification> getNotificationByIdAsync(int id)
         {
-            var response = await httpClient.GetAsync($"http://localhost:5005/api/notification/{id}");
+            var response = await _http_client.GetAsync($"http://localhost:5005/api/notification/{id}");
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -76,21 +76,21 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task AddNotificationAsync(Notification notification)
+        public async Task addNotificationAsync(Notification notification)
         {
             var jsonContent = new StringContent(
                 JsonSerializer.Serialize(notification),
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await httpClient.PostAsync("http://localhost:5005/api/notification", jsonContent);
+            var response = await _http_client.PostAsync("http://localhost:5005/api/notification", jsonContent);
             response.EnsureSuccessStatusCode();
         }
 
         /// <inheritdoc/>
-        public async Task DeleteNotificationAsync(int id)
+        public async Task deleteNotificationAsync(int id)
         {
-            var response = await httpClient.DeleteAsync($"http://localhost:5005/api/notification/delete/{id}");
+            var response = await _http_client.DeleteAsync($"http://localhost:5005/api/notification/delete/{id}");
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {

@@ -79,7 +79,7 @@ namespace WinUI.View
 
         private void loadInitialLogData()
         {
-            this._logger_view_model.load_all_logs_command.Execute(null);
+            this._logger_view_model.loadAllLogsCommand.Execute(null);
         }
 
         private void configureUserInterface()
@@ -88,7 +88,7 @@ namespace WinUI.View
             this.LogListView.ItemsSource = this._logger_view_model.logs;
 
             // Set up ComboBox for action types
-            this.ActionTypeComboBox.ItemsSource = this._logger_view_model.action_types;
+            this.ActionTypeComboBox.ItemsSource = this._logger_view_model.actionTypes;
 
             // Bind TextBox for user ID filtering
             this.UserIdTextBox.SetBinding(TextBox.TextProperty, new Binding
@@ -116,11 +116,11 @@ namespace WinUI.View
             });
 
             // Bind the buttons directly to commands in the ViewModel
-            this.LoadAllLogsButton.Command = this._logger_view_model.load_all_logs_command;
-            this.LoadLogsByUserIdButton.Command = this._logger_view_model.filter_logs_by_user_id_command;
-            this.LoadLogsByActionTypeButton.Command = this._logger_view_model.filter_logs_by_action_type_command;
-            this.LoadLogsBeforeTimestampButton.Command = this._logger_view_model.filter_logs_by_timestamp_command;
-            this.ApplyFiltersButton.Command = this._logger_view_model.apply_all_filters_command;
+            this.LoadAllLogsButton.Command = this._logger_view_model.loadAllLogsCommand;
+            this.LoadLogsByUserIdButton.Command = this._logger_view_model.filterLogsByUserIdCommand;
+            this.LoadLogsByActionTypeButton.Command = this._logger_view_model.filterLogsByActionTypeCommand;
+            this.LoadLogsBeforeTimestampButton.Command = this._logger_view_model.filterLogsByTimestampCommand;
+            this.ApplyFiltersButton.Command = this._logger_view_model.applyAllFiltersCommand;
         }
 
         private async void logoutButton_Click(object sender, RoutedEventArgs e)

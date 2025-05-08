@@ -10,11 +10,11 @@ namespace Controllers
     [ApiController]
     public class LogController : ControllerBase
     {
-        private readonly ILogRepository logRepository;
+        private readonly ILogRepository _log_repository;
 
         public LogController(ILogRepository _logRepository)
         {
-            this.logRepository = _logRepository;
+            this._log_repository = _logRepository;
         }
 
         /// <summary>
@@ -24,11 +24,11 @@ namespace Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<Log>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<Log>>> GetAllLogs()
+        public async Task<ActionResult<List<Log>>> getAllLogs()
         {
             try
             {
-                List<Log> logs = await this.logRepository.getAllLogsAsync();
+                List<Log> logs = await this._log_repository.getAllLogsAsync();
                 return this.Ok(logs);
             }
             catch (Exception ex)
@@ -46,11 +46,11 @@ namespace Controllers
         [ProducesResponseType(typeof(Log), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Log>> GetLogById(int id)
+        public async Task<ActionResult<Log>> getLogById(int id)
         {
             try
             {
-                Log log = await this.logRepository.getLogByIdAsync(id);
+                Log log = await this._log_repository.getLogByIdAsync(id);
                 if (log == null)
                 {
                     return this.NotFound($"Log with ID {id} was not found.");
@@ -72,7 +72,7 @@ namespace Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreateLog([FromBody] Log log)
+        public async Task<ActionResult> createLog([FromBody] Log log)
         {
             if (log == null)
             {
@@ -81,8 +81,8 @@ namespace Controllers
 
             try
             {
-                await this.logRepository.addLogAsync(log);
-                return this.CreatedAtAction(nameof(GetLogById), new { id = log.LogId }, log);
+                await this._log_repository.addLogAsync(log);
+                return this.CreatedAtAction(nameof(getLogById), new { id = log.logId }, log);
             }
             catch (Exception ex)
             {
@@ -99,11 +99,11 @@ namespace Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteLog(int id)
+        public async Task<ActionResult> deleteLog(int id)
         {
             try
             {
-                await this.logRepository.deleteLogAsync(id);
+                await this._log_repository.deleteLogAsync(id);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)

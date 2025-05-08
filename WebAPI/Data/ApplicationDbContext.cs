@@ -28,151 +28,151 @@ namespace Data
 
             modelBuilder.Entity<DepartmentEntity>(entity =>
             {
-                entity.HasKey(d => d.Id); // Set the primary key
+                entity.HasKey(d => d.id); // Set the primary key
 
-                entity.Property(d => d.Name)
+                entity.Property(d => d.name)
                       .IsRequired()       // Make it NOT NULL
                       .HasMaxLength(100); // Limit to 100 characters
             });
 
             modelBuilder.Entity<LogEntity>(entity =>
             {
-                entity.HasKey(l => l.LogId);
+                entity.HasKey(l => l.logId);
 
-                entity.Property(l => l.ActionType)
+                entity.Property(l => l.actionType)
                       .IsRequired()
                       .HasMaxLength(50)
                       .HasColumnType("nvarchar(50)");
 
-                entity.Property(l => l.Timestamp)
+                entity.Property(l => l.timestamp)
                       .IsRequired()
                       .HasDefaultValueSql("GETDATE()");
 
-                entity.HasOne(l => l.User)
+                entity.HasOne(l => l.user)
                       .WithOne()
-                      .HasForeignKey<LogEntity>(l => l.UserId)
+                      .HasForeignKey<LogEntity>(l => l.userId)
                       .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<PatientEntity>(entity =>
             {
-                entity.HasKey(p => p.UserId); // UserId acts as both PK and FK for 1:1
+                entity.HasKey(p => p.userId); // UserId acts as both PK and FK for 1:1
 
-                entity.Property(p => p.BloodType)
+                entity.Property(p => p.bloodType)
                       .IsRequired()
                       .HasMaxLength(3);
 
-                entity.Property(p => p.EmergencyContact)
+                entity.Property(p => p.emergencyContact)
                       .IsRequired()
                       .HasMaxLength(10)
                       .IsFixedLength(true); // Enforces exactly 10 characters
 
-                entity.Property(p => p.Allergies)
+                entity.Property(p => p.allergies)
                       .HasMaxLength(255);
 
-                entity.Property(p => p.Weight)
+                entity.Property(p => p.weight)
                       .IsRequired();
 
-                entity.Property(p => p.Height)
+                entity.Property(p => p.height)
                       .IsRequired();
 
-                entity.HasOne(p => p.User)
+                entity.HasOne(p => p.user)
                       .WithOne()
-                      .HasForeignKey<PatientEntity>(p => p.UserId)
+                      .HasForeignKey<PatientEntity>(p => p.userId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<DoctorEntity>(entity =>
             {
-                entity.HasKey(d => d.UserId); // UserId is both PK and FK for 1:1 relation with User
+                entity.HasKey(d => d.userId); // UserId is both PK and FK for 1:1 relation with User
 
-                entity.Property(d => d.DoctorRating)
+                entity.Property(d => d.doctorRating)
                       .IsRequired()
                       .HasDefaultValue(0.0f);
 
-                entity.Property(d => d.LicenseNumber)
+                entity.Property(d => d.licenseNumber)
                       .IsRequired()
                       .HasMaxLength(50);
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.user)
                       .WithOne()
-                      .HasForeignKey<DoctorEntity>(d => d.UserId)
+                      .HasForeignKey<DoctorEntity>(d => d.userId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(d => d.Department)
+                entity.HasOne(d => d.department)
                       .WithMany()
-                      .HasForeignKey(d => d.DepartmentId)
+                      .HasForeignKey(d => d.departmentId)
                       .OnDelete(DeleteBehavior.Restrict); // Prevent accidental cascading deletions
             });
 
             modelBuilder.Entity<UserEntity>(entity =>
             {
-                entity.HasKey(u => u.UserId);
+                entity.HasKey(u => u.userId);
 
-                entity.Property(u => u.Username)
+                entity.Property(u => u.username)
                       .IsRequired()
                       .HasMaxLength(50);
 
-                entity.HasIndex(u => u.Username)
+                entity.HasIndex(u => u.username)
                       .IsUnique();
 
-                entity.Property(u => u.Password)
+                entity.Property(u => u.password)
                       .IsRequired()
                       .HasMaxLength(255);
 
-                entity.Property(u => u.Mail)
+                entity.Property(u => u.mail)
                       .IsRequired()
                       .HasMaxLength(100);
 
-                entity.HasIndex(u => u.Mail)
+                entity.HasIndex(u => u.mail)
                       .IsUnique();
 
-                entity.Property(u => u.Role)
+                entity.Property(u => u.role)
                       .IsRequired()
                       .HasMaxLength(50)
                       .HasDefaultValue("User");
 
-                entity.Property(u => u.Name)
+                entity.Property(u => u.name)
                       .IsRequired()
                       .HasMaxLength(100);
 
-                entity.Property(u => u.BirthDate)
+                entity.Property(u => u.birthDate)
                       .IsRequired();
 
-                entity.Property(u => u.CNP)
+                entity.Property(u => u.cnp)
                       .IsRequired()
                       .HasMaxLength(13)
                       .IsFixedLength();
 
-                entity.HasIndex(u => u.CNP)
+                entity.HasIndex(u => u.cnp)
                       .IsUnique();
 
-                entity.Property(u => u.Address)
+                entity.Property(u => u.address)
                       .HasMaxLength(255);
 
-                entity.Property(u => u.PhoneNumber)
+                entity.Property(u => u.phoneNumber)
                       .HasMaxLength(10)
                       .IsFixedLength();
 
-                entity.Property(u => u.RegistrationDate)
+                entity.Property(u => u.registrationDate)
                       .IsRequired()
                       .HasDefaultValueSql("GETDATE()");
             });
 
             modelBuilder.Entity<NotificationEntity>(entity =>
             {
-                entity.HasKey(n => n.NotificationId);
+                entity.HasKey(n => n.notificationId);
 
-                entity.Property(n => n.Message)
+                entity.Property(n => n.message)
                       .IsRequired()
                       .HasMaxLength(256);
 
-                entity.Property(n => n.DeliveryDateTime)
+                entity.Property(n => n.deliveryDateTime)
                       .IsRequired();
 
-                entity.HasOne(n => n.User)
+                entity.HasOne(n => n.user)
                       .WithMany() 
-                      .HasForeignKey(n => n.UserId)
+                      .HasForeignKey(n => n.userId)
                       .OnDelete(DeleteBehavior.Cascade); 
             });
         }

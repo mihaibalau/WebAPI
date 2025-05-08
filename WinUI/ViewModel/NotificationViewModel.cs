@@ -9,39 +9,39 @@ namespace WinUI.ViewModel
 {
     public class NotificationViewModel
     {
-        private readonly NotificationService notification_service;
+        private readonly NotificationService _notification_service;
 
         public ObservableCollection<Notification> notifications_collection { get; } = new();
 
         public NotificationViewModel(NotificationService notification_service, int _user_id)
         {
-            this.notification_service = notification_service;
-            this._user_id = _user_id;
+            this._notification_service = notification_service;
+            this.userId = _user_id;
         }
 
-        public int _user_id { get; set; }
+        public int userId { get; set; }
 
-        public async Task LoadNotificationsAsync(int userId)
+        public async Task loadNotificationsAsync(int userid)
         {
-            List<Notification> notifications = await this.notification_service.GetNotificationsByUserIdAsync(userId);
+            List<Notification> notifications = await this._notification_service.getNotificationsByUserIdAsync(userid);
             notifications_collection.Clear();
             foreach (var n in notifications)
                 notifications_collection.Add(n);
         }
 
-        public async Task DeleteNotificationAsync(int notificationId, int userId)
+        public async Task deleteNotificationAsync(int notification_id, int user_id)
         {
-                await notification_service.DeleteNotificationAsync(notificationId, userId);
-                var item = FindNotificationById(notificationId);
+                await _notification_service.deleteNotificationAsync(notification_id, user_id);
+                var item = findNotificationById(notification_id);
                 if (item != null)
                     notifications_collection.Remove(item);
         }
 
-        private Notification FindNotificationById(int id)
+        private Notification findNotificationById(int id)
         {
             foreach (var notification in notifications_collection)
             {
-                if (notification.NotificationId == id)
+                if (notification.notificationId == id)
                     return notification;
             }
             return null;

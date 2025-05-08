@@ -62,16 +62,16 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs for a specific user.
         /// </summary>
-        /// <param name="_user_id">The ID of the user whose logs to retrieve.</param>
+        /// <param name="user_id">The ID of the user whose logs to retrieve.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsByUserId(int _user_id)
+        public async Task<List<LogEntryModel>> getLogsByUserId(int user_id)
         {
             try
             {
                 HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
                 response.EnsureSuccessStatusCode();
                 List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.user_id == _user_id);
+                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.userId == user_id);
                 return this.convertApiLogsToLogEntryModels(filtered_api_logs);
             }
             catch (Exception ex)
@@ -85,16 +85,16 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs from before a specific timestamp.
         /// </summary>
-        /// <param name="_before_timestamp">The timestamp to filter by.</param>
+        /// <param name="before_timestamp">The timestamp to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsBeforeTimestamp(DateTime _before_timestamp)
+        public async Task<List<LogEntryModel>> getLogsBeforeTimestamp(DateTime before_timestamp)
         {
             try
             {
                 HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
                 response.EnsureSuccessStatusCode();
                 List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.timestamp < _before_timestamp);
+                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.timestamp < before_timestamp);
                 return this.convertApiLogsToLogEntryModels(filtered_api_logs);
             }
             catch (Exception ex)
@@ -107,17 +107,17 @@ namespace WinUI.Proxy
         /// <summary>
         /// Records a new action in the log.
         /// </summary>
-        /// <param name="_user_id">The ID of the user who performed the action.</param>
-        /// <param name="_action_type">The type of action performed.</param>
+        /// <param name="user_id">The ID of the user who performed the action.</param>
+        /// <param name="action_type">The type of action performed.</param>
         /// <returns>A task representing the asynchronous operation with a boolean indicating success.</returns>
-        public async Task<bool> logAction(int _user_id, ActionType _action_type)
+        public async Task<bool> logAction(int user_id, ActionType action_type)
         {
             try
             {
                 ApiLogDto logData = new ApiLogDto
                 {
-                    user_id = _user_id,
-                    action_type = _action_type.ToString(),
+                    userId = user_id,
+                    actionType = action_type.ToString(),
                     timestamp = DateTime.UtcNow
                 };
 
@@ -134,16 +134,16 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs by action type.
         /// </summary>
-        /// <param name="_action_type">The action type to filter by.</param>
+        /// <param name="action_type">The action type to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsByActionType(ActionType _action_type)
+        public async Task<List<LogEntryModel>> getLogsByActionType(ActionType action_type)
         {
             try
             {
                 HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
                 response.EnsureSuccessStatusCode();
                 List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.action_type == _action_type.ToString());
+                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.actionType == action_type.ToString());
                 return this.convertApiLogsToLogEntryModels(filtered_api_logs);
             }
             catch (Exception ex)
@@ -156,10 +156,10 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs matching specific parameters without filtering by user ID.
         /// </summary>
-        /// <param name="_action_type">The action type to filter by.</param>
-        /// <param name="_before_timestamp">The timestamp to filter by.</param>
+        /// <param name="action_type">The action type to filter by.</param>
+        /// <param name="before_timestamp">The timestamp to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsWithParametersWithoutUserId(ActionType _action_type, DateTime _before_timestamp)
+        public async Task<List<LogEntryModel>> getLogsWithParametersWithoutUserId(ActionType action_type, DateTime before_timestamp)
         {
             try
             {
@@ -167,8 +167,8 @@ namespace WinUI.Proxy
                 response.EnsureSuccessStatusCode();
                 List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
                 List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => 
-                    log.action_type == _action_type.ToString() &&
-                    log.timestamp < _before_timestamp);
+                    log.actionType == action_type.ToString() &&
+                    log.timestamp < before_timestamp);
                 return this.convertApiLogsToLogEntryModels(filtered_api_logs);
             }
             catch (Exception ex)
@@ -181,11 +181,11 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs matching specific parameters.
         /// </summary>
-        /// <param name="_user_id">The user ID to filter by.</param>
-        /// <param name="_action_type">The action type to filter by.</param>
-        /// <param name="_before_timestamp">The timestamp to filter by.</param>
+        /// <param name="user_id">The user ID to filter by.</param>
+        /// <param name="action_type">The action type to filter by.</param>
+        /// <param name="before_timestamp">The timestamp to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsWithParameters(int _user_id, ActionType _action_type, DateTime _before_timestamp)
+        public async Task<List<LogEntryModel>> getLogsWithParameters(int user_id, ActionType action_type, DateTime before_timestamp)
         {
             try
             {
@@ -193,9 +193,9 @@ namespace WinUI.Proxy
                 response.EnsureSuccessStatusCode();
                 List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
                 List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log =>
-                    log.user_id == _user_id &&
-                    log.action_type == _action_type.ToString() &&
-                    log.timestamp < _before_timestamp);
+                    log.userId == user_id &&
+                    log.actionType == action_type.ToString() &&
+                    log.timestamp < before_timestamp);
                 return this.convertApiLogsToLogEntryModels(filtered_api_logs);
             }
             catch (Exception ex)
@@ -208,20 +208,20 @@ namespace WinUI.Proxy
         /// <summary>
         /// Converts API log models to internal log entry models.
         /// </summary>
-        private List<LogEntryModel> convertApiLogsToLogEntryModels(List<ApiLogDto> _api_logs)
+        private List<LogEntryModel> convertApiLogsToLogEntryModels(List<ApiLogDto> api_logs)
         {
-            if (_api_logs == null)
+            if (api_logs == null)
                 return new List<LogEntryModel>();
 
             var result = new List<LogEntryModel>();
 
-            foreach (var api_log in _api_logs)
+            foreach (var api_log in api_logs)
             {
-                if (Enum.TryParse<ActionType>(api_log.action_type, out ActionType _action_type))
+                if (Enum.TryParse<ActionType>(api_log.actionType, out ActionType _action_type))
                 {
                     result.Add(new LogEntryModel(
-                        api_log.log_id,
-                        api_log.user_id,
+                        api_log.logId,
+                        api_log.userId,
                         _action_type,
                         api_log.timestamp
                     ));
@@ -235,11 +235,11 @@ namespace WinUI.Proxy
     public class ApiLogDto
     {
         [JsonPropertyName("logId")]
-        public int log_id { get; set; }
+        public int logId { get; set; }
         [JsonPropertyName("userId")]
-        public int user_id { get; set; }
+        public int userId { get; set; }
         [JsonPropertyName("actionType")]
-        public string action_type { get; set; }
+        public string actionType { get; set; }
         [JsonPropertyName("timestamp")]
         public DateTime timestamp { get; set; }
     }

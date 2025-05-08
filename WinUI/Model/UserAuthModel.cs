@@ -54,9 +54,9 @@ namespace WinUI.Model
 
     static class BloodTypeMethods
     {
-        public static String convertToString(this BloodType s1)
+        public static String convertToString(this BloodType blood_type)
         {
-            switch (s1)
+            switch (blood_type)
             {
                 case BloodType.A_POSITIVE:
                     return "A+";
@@ -82,13 +82,13 @@ namespace WinUI.Model
 
     /// <summary>
     /// User Model for Creating an Account.
-    /// <param name="_user_id">user id.</param>
-    /// <param name="_username"> user username.</param>
-    /// <param name="_password">user's password.</param>
-    /// <param name="_mail">user's mail.</param>
-    /// <param name="_role">user's role.</param>
+    /// <param name="user_id">user id.</param>
+    /// <param name="username"> user username.</param>
+    /// <param name="password">user's password.</param>
+    /// <param name="mail">user's mail.</param>
+    /// <param name="role">user's role.</param>
     /// </summary>
-    public class UserAuthModel(int _user_id, string _username, string _password, string _mail, string _role)
+    public class UserAuthModel(int user_id, string username, string password, string mail, string role)
     {
         /// <summary>
         /// Create a default user (no ).
@@ -98,28 +98,28 @@ namespace WinUI.Model
         /// <summary>
         /// Gets User ID.
         /// </summary>
-        public int user_id { get; private set; } = _user_id;
+        public int userId { get; private set; } = user_id;
 
 
         /// <summary>
         /// Gets user's username.
         /// </summary>
-        public string username { get; private set; } = _username;
+        public string username { get; private set; } = username;
 
         /// <summary>
         /// Gets user's password.
         /// </summary>
-        public string password { get; private set; } = _password;
+        public string password { get; private set; } = password;
 
         /// <summary>
         /// Gets user's Mail.
         /// </summary>
-        public string mail { get; private set; } = _mail;
+        public string mail { get; private set; } = mail;
 
         /// <summary>
         /// Gets user's Role.
         /// </summary>
-        public string role { get; private set; } = _role;
+        public string role { get; private set; } = role;
 
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace WinUI.Model
         /// <returns>a string with the user's informstion</returns>
         public override string ToString()
         {
-            return this.user_id + this.username + this.password + this.mail + this.role;
+            return this.userId + this.username + this.password + this.mail + this.role;
         }
     }
 }

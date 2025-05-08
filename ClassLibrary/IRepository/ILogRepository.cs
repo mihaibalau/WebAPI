@@ -25,9 +25,9 @@ namespace ClassLibrary.IRepository
         /// <summary>
         /// Gets a log by its user id.
         /// </summary>
-        /// <param name="userId">The id of the user.</param>
+        /// <param name="user_id">The id of the user.</param>
         /// <returns>The log with the given user id.</returns>
-        Task<Log> getLogByUserIdAsync(int userId);
+        Task<Log> getLogByUserIdAsync(int user_id);
 
         /// <summary>
         /// Adds a new log to the system.
