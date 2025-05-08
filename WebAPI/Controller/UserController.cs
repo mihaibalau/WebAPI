@@ -10,11 +10,11 @@ namespace Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUserRepository _user_repository;
 
-        public UserController(IUserRepository _userRepository)
+        public UserController(IUserRepository user_repository)
         {
-            this.userRepository = _userRepository;
+            this._user_repository = user_repository;
         }
 
         /// <summary>
@@ -24,11 +24,11 @@ namespace Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        public async Task<ActionResult<List<User>>> getAllUsers()
         {
             try
             {
-                List<User> users = await this.userRepository.GetAllUsersAsync();
+                List<User> users = await this._user_repository.getAllUsersAsync();
                 return this.Ok(users);
             }
             catch (Exception ex)
@@ -46,11 +46,11 @@ namespace Controllers
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<User>> getUserById(int id)
         {
             try
             {
-                User user = await this.userRepository.GetUserByIdAsync(id);
+                User user = await this._user_repository.getUserByIdAsync(id);
                 if (user == null)
                 {
                     return this.NotFound($"User with ID {id} was not found.");
@@ -81,8 +81,8 @@ namespace Controllers
 
             try
             {
-                await this.userRepository.AddUserAsync(user);
-                return this.CreatedAtAction(nameof(GetUserById), new { id = user.UserId }, user);
+                await this._user_repository.addUserAsync(user);
+                return this.CreatedAtAction(nameof(getUserById), new { id = user.userId }, user);
             }
             catch (Exception ex)
             {
@@ -101,21 +101,21 @@ namespace Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
+        public async Task<ActionResult> updateUser(int id, [FromBody] User user)
         {
             if (user == null)
             {
                 return this.BadRequest("Valid user entity is required.");
             }
 
-            if (id != user.UserId)
+            if (id != user.userId)
             {
                 return this.BadRequest("User ID in the URL must match the ID in the request body.");
             }
 
             try
             {
-                await this.userRepository.UpdateUserAsync(user);
+                await this._user_repository.updateUserAsync(user);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)
@@ -137,11 +137,11 @@ namespace Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteUser(int id)
+        public async Task<ActionResult> deleteUser(int id)
         {
             try
             {
-                await this.userRepository.DeleteUserAsync(id);
+                await this._user_repository.deleteUserAsync(id);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)
@@ -168,7 +168,7 @@ namespace Controllers
         {
             try
             {
-                List<User> users = await this.userRepository.GetUsersByRoleAsync(role);
+                List<User> users = await this._user_repository.getUsersByRoleAsync(role);
 
                 if (users == null || users.Count == 0)
                 {
@@ -194,7 +194,7 @@ namespace Controllers
         {
             try
             {
-                var users = await this.userRepository.GetUsersByNameAsync(name);
+                var users = await this._user_repository.getUsersByNameAsync(name);
                 return this.Ok(users);
             }
             catch (Exception ex)
@@ -216,7 +216,7 @@ namespace Controllers
         {
             try
             {
-                var user = await this.userRepository.GetUserByCNPAsync(cnp);
+                var user = await this._user_repository.getUserByCNPAsync(cnp);
                 if (user == null)
                 {
                     return this.NotFound($"User with CNP {cnp} not found.");

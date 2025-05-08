@@ -21,7 +21,7 @@ namespace WinUI.View
         private async void LoadNotifications()
         {
             // Call the viewmodel method to load notifications for the current user
-            await ViewModel.LoadNotificationsAsync(ViewModel._user_id);
+            await ViewModel.loadNotificationsAsync(ViewModel.userId);
         }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs error)
@@ -32,7 +32,7 @@ namespace WinUI.View
                 var notification = button.DataContext as Notification;
                 if (notification != null)
                 {
-                    await this.ViewModel.DeleteNotificationAsync(notification.NotificationId, ViewModel._user_id);
+                    await this.ViewModel.deleteNotificationAsync(notification.notificationId, ViewModel.userId);
                 }
             }
         }

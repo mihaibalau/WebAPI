@@ -7,10 +7,10 @@ namespace Entity
     {
         [Key]  // Primary Key
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  // Auto-increment (IDENTITY(1,1))
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]  // NOT NULL
         [MaxLength(100)]  // Limit the name length to 100 characters
-        public string Name { get; set; }
+        public string name { get; set; }
     }
 }

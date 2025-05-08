@@ -18,9 +18,9 @@ namespace WinUI.Proxy
         private readonly HttpClient _http_client;
         private readonly string _base_api_url = "http://localhost:5005/";
 
-        public PatientProxy(HttpClient _http_client)
+        public PatientProxy(HttpClient http_client)
         {
-            this._http_client = _http_client;
+            this._http_client = http_client;
         }
 
         public async Task<List<User>> getAllUserAsync()
@@ -47,17 +47,17 @@ namespace WinUI.Proxy
             {
                 users.Add(new User
                 {
-                    UserId = httpUser.user_id,
-                    Username = httpUser.username,
-                    Password = httpUser.password,
-                    Mail = httpUser.mail,
-                    Role = httpUser.role,
-                    Name = httpUser.name,
-                    BirthDate = httpUser.birth_date,
-                    CNP = httpUser.cnp,
-                    Address = httpUser.address,
-                    PhoneNumber = httpUser.phone_number,
-                    RegistrationDate = httpUser.registration_date
+                    userId = httpUser.user_id,
+                    username = httpUser.username,
+                    password = httpUser.password,
+                    mail = httpUser.mail,
+                    role = httpUser.role,
+                    name = httpUser.name,
+                    birthDate = httpUser.birth_date,
+                    cnp = httpUser.cnp,
+                    address = httpUser.address,
+                    phoneNumber = httpUser.phone_number,
+                    registrationDate = httpUser.registration_date
                 });
             }
 
@@ -125,7 +125,7 @@ namespace WinUI.Proxy
                 StringContent user_content = new StringContent(user_json, Encoding.UTF8, "application/json");
 
                 // Use PUT for updating existing user data
-                HttpResponseMessage user_response = await this._http_client.PutAsync($"{this._base_api_url}api/user/{user.UserId}", user_content);
+                HttpResponseMessage user_response = await this._http_client.PutAsync($"{this._base_api_url}api/user/{user.userId}", user_content);
                 user_response.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
@@ -138,17 +138,17 @@ namespace WinUI.Proxy
         {
             return new UserHttpModel
             {
-                user_id = user.UserId,
-                username = user.Username,
-                password = user.Password,
-                mail = user.Mail,
-                role = user.Role,
-                name = user.Name,
-                birth_date = user.BirthDate,
-                cnp = user.CNP,
-                address = user.Address,
-                phone_number = user.PhoneNumber,
-                registration_date = user.RegistrationDate
+                user_id = user.userId,
+                username = user.username,
+                password = user.password,
+                mail = user.mail,
+                role = user.role,
+                name = user.name,
+                birth_date = user.birthDate,
+                cnp = user.cnp,
+                address = user.address,
+                phone_number = user.phoneNumber,
+                registration_date = user.registrationDate
             };
         }
 
@@ -162,12 +162,12 @@ namespace WinUI.Proxy
         {
             return new Patient
             {
-                UserId = _http_model.user_id,
-                BloodType = _http_model.blood_type,
-                EmergencyContact = _http_model.emergency_contact,
-                Allergies = _http_model.allergies,
-                Weight = _http_model.weight,
-                Height = _http_model.height
+                userId = _http_model.userId,
+                bloodType = _http_model.bloodType,
+                EmergencyContact = _http_model.emergencyContact,
+                allergies = _http_model.allergies,
+                weight = _http_model.weight,
+                height = _http_model.height
             };
         }
 
@@ -175,22 +175,22 @@ namespace WinUI.Proxy
         {
             return new PatientHttpModel
             {
-                user_id = _domain_model.UserId,
-                blood_type = _domain_model.BloodType,
-                emergency_contact = _domain_model.EmergencyContact,
-                allergies = _domain_model.Allergies,
-                weight = _domain_model.Weight,
-                height = _domain_model.Height
+                userId = _domain_model.userId,
+                bloodType = _domain_model.bloodType,
+                emergencyContact = _domain_model.EmergencyContact,
+                allergies = _domain_model.allergies,
+                weight = _domain_model.weight,
+                height = _domain_model.height
             };
         }
 
         private class PatientHttpModel
         {
             [JsonPropertyName("userId")]
-            public int user_id { get; set; }
+            public int userId { get; set; }
 
             [JsonPropertyName("patientName")]
-            public string patient_name { get; set; }
+            public string patientName { get; set; }
 
             [JsonPropertyName("email")]
             public string email { get; set; }
@@ -202,28 +202,28 @@ namespace WinUI.Proxy
             public string address { get; set; }
 
             [JsonPropertyName("phoneNumber")]
-            public string phone_number { get; set; }
+            public string phoneNumber { get; set; }
 
             [JsonPropertyName("password")]
             public string password { get; set; }
 
             [JsonPropertyName("bloodType")]
-            public string blood_type { get; set; }
+            public string bloodType { get; set; }
 
             [JsonPropertyName("emergencyContact")]
-            public string emergency_contact { get; set; }
+            public string emergencyContact { get; set; }
 
             [JsonPropertyName("allergies")]
             public string allergies { get; set; }
 
             [JsonPropertyName("birthDate")]
-            public DateOnly birth_date { get; set; }
+            public DateOnly birthDate { get; set; }
 
             [JsonPropertyName("cnp")]
             public string cnp { get; set; }
 
             [JsonPropertyName("registrationDate")]
-            public DateTime registration_date { get; set; }
+            public DateTime registrationDate { get; set; }
 
             [JsonPropertyName("weight")]
             public double weight { get; set; }

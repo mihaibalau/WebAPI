@@ -13,30 +13,30 @@ namespace WinUI.Service
         /// <summary>
         /// Gets the user information (given as UserAuthModel).
         /// </summary>
-        UserAuthModel all_user_information { get; }
+        UserAuthModel allUserInformation { get; }
 
         /// <summary>
         /// Creates an accout, checking for validation errors in the user's inputs.
         /// </summary>
-        /// <param name="_model_for_creating_user_account">The user's information Model given as UserCreateAccountModel</param>
+        /// <param name="model_for_creating_user_account">The user's information Model given as UserCreateAccountModel</param>
         /// <returns>User action: LOGIN if the accout got created, LOGOUT otherwise.</returns>
         /// <exception cref="AuthenticationException">Exceptions if the inputs were not valid
         /// + messages for each validation error.</exception>
-        Task<bool> createAccount(UserCreateAccountModel _model_for_creating_user_account);
+        Task<bool> createAccount(UserCreateAccountModel model_for_creating_user_account);
 
         /// <summary>
         /// Loads the user page based on the username.
         /// </summary>
-        /// <param name="_username">The user's username</param>
+        /// <param name="username">The user's username</param>
         /// <returns>true, no mather what.</returns>
-        Task<bool> loadUserByUsername(string _username);
+        Task<bool> loadUserByUsername(string username);
 
         /// <summary>
         /// Sets the user's action.
         /// </summary>
-        /// <param name="_action_type_login_or_logout">The type of the user's action.</param>
+        /// <param name="action_type_login_or_logout">The type of the user's action.</param>
         /// <returns>The action setter.</returns>
-        Task<bool> logAction(ActionType _action_type_login_or_logout);
+        Task<bool> logAction(ActionType action_type_login_or_logout);
 
         /// <summary>
         /// Logs out the user from the application (goes back to Main Window).
@@ -48,8 +48,8 @@ namespace WinUI.Service
         /// <summary>
         /// Checks if the password matches at log in (if the user typed the right password).
         /// </summary>
-        /// <param name="_user_input_password">The user input password.</param>
+        /// <param name="user_input_password">The user input password.</param>
         /// <returns>true, if the password matches with the user's one, or false if the one from the input does not match.</returns>
-        Task<bool> verifyPassword(string _user_input_password);
+        Task<bool> verifyPassword(string user_input_password);
     }
 }
