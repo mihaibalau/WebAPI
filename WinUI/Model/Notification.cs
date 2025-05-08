@@ -9,57 +9,57 @@ namespace WinUI.Model
     internal class Notification
     {
         private int _id;
-        private int _UserId;
-        private int _DoctorId;
-        private string _NotificationMessage;
-        private DateTime _NotificationDate;
+        private int _userId;
+        private int _doctorId;
+        private string _notificationMessage;
+        private DateTime _notificationDate;
 
         Notification(int id, int userId, int doctorId, string notificationMessage, DateTime notificationDate)
         {
             this._id = id;
-            this._UserId = userId;
-            this._DoctorId = doctorId;
-            this._NotificationMessage = notificationMessage;
-            this._NotificationDate = notificationDate;
+            this._userId = userId;
+            this._doctorId = doctorId;
+            this._notificationMessage = notificationMessage;
+            this._notificationDate = notificationDate;
         }
 
         Notification()
         {
             this._id = 0;
-            this._UserId = 0;
-            this._DoctorId = 0;
-            this._NotificationMessage = string.Empty;
-            this._NotificationDate = DateTime.Now;
+            this._userId = 0;
+            this._doctorId = 0;
+            this._notificationMessage = string.Empty;
+            this._notificationDate = DateTime.Now;
         }
 
-        public int Id
+        public int id
         {
             get { return _id; }
             set { _id = value; }
         }
 
-        public int UserId
+        public int userId
         {
-            get { return _UserId; }
-            set { _UserId = value; }
+            get { return _userId; }
+            set { _userId = value; }
         }
 
-        public int DoctorId
+        public int doctorId
         {
-            get { return _DoctorId; }
-            set { _DoctorId = value; }
+            get { return _doctorId; }
+            set { _doctorId = value; }
         }
 
-        public string NotificationMessage
+        public string notificationMessage
         {
-            get { return _NotificationMessage; }
-            set { _NotificationMessage = value; }
+            get { return _notificationMessage; }
+            set { _notificationMessage = value; }
         }
 
-        public DateTime NotificationDate
+        public DateTime notificationDate
         {
-            get { return _NotificationDate; }
-            set { _NotificationDate = value; }
+            get { return _notificationDate; }
+            set { _notificationDate = value; }
         }
     }
 }

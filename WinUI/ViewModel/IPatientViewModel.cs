@@ -7,33 +7,33 @@ namespace WinUI.ViewModel
 {
     public interface IPatientViewModel : INotifyPropertyChanged
     {
-        int user_id { get; set; }
+        int userId { get; set; }
         string name { get; set; }
         string email { get; set; }
         string username { get; set; }
         string password { get; set; }
         string address { get; set; }
-        string phone_number { get; set; }
-        string emergency_contact { get; set; }
-        string blood_type { get; set; }
+        string phoneNumber { get; set; }
+        string emergencyContact { get; set; }
+        string bloodType { get; set; }
         string allergies { get; set; }
-        DateOnly birth_date { get; set; }
+        DateOnly birthDate { get; set; }
         string cnp { get; set; }
-        DateTime registration_date { get; set; }
+        DateTime registrationDate { get; set; }
         double weight { get; set; }
         int height { get; set; }
-        bool is_loading { get; set; }
+        bool isLoading { get; set; }
 
-        PatientJointModel _original_patient { get; }
+        PatientJointModel originalPatient { get; }
 
-        Task<bool> loadPatientInfoByUserIdAsync(int _user_id);
-        Task<bool> updateEmergencyContact(string _emergency_contact);
-        Task<bool> updateWeight(double _weight);
-        Task<bool> updateHeight(int _height);
-        Task<bool> updatePassword(string _password);
-        Task<bool> updateName(string _name);
-        Task<bool> updateAddress(string _address);
-        Task<bool> updatePhoneNumber(string _phone_number);
-        Task<bool> logUpdate(int _user_id, ActionType _action);
+        Task<bool> loadPatientInfoByUserIdAsync(int user_id);
+        Task<bool> updateEmergencyContact(string emergency_contact);
+        Task<bool> updateWeight(double weight);
+        Task<bool> updateHeight(int height);
+        Task<bool> updatePassword(string password);
+        Task<bool> updateName(string name);
+        Task<bool> updateAddress(string address);
+        Task<bool> updatePhoneNumber(string phoneNumber);
+        Task<bool> logUpdate(int userId, ActionType action);
     }
 }

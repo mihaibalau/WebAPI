@@ -24,46 +24,46 @@ namespace WinUI.ViewModel
         /// <summary>
         /// Gets the command to load all logs.
         /// </summary>
-        ICommand load_all_logs_command { get; }
+        ICommand loadAllLogsCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by user ID.
         /// </summary>
-        ICommand filter_logs_by_user_id_command { get; }
+        ICommand filterLogsByUserIdCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by timestamp.
         /// </summary>
-        ICommand filter_logs_by_timestamp_command { get; }
+        ICommand filterLogsByTimestampCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by action type.
         /// </summary>
-        ICommand filter_logs_by_action_type_command { get; }
+        ICommand filterLogsByActionTypeCommand { get; }
 
         /// <summary>
         /// Gets the command to apply all filters simultaneously.
         /// </summary>
-        ICommand apply_all_filters_command { get; }
+        ICommand applyAllFiltersCommand { get; }
 
         /// <summary>
         /// Gets the list of available action types for filtering.
         /// </summary>
-        List<ActionType> action_types { get; }
+        List<ActionType> actionTypes { get; }
 
         /// <summary>
         /// Gets or sets the user ID input for filtering.
         /// </summary>
-        string user_id_input { get; set; }
+        string userIdInput { get; set; }
 
         /// <summary>
         /// Gets or sets the selected action type for filtering.
         /// </summary>
-        ActionType selected_action_type { get; set; }
+        ActionType selectedActionType { get; set; }
 
         /// <summary>
         /// Gets or sets the selected timestamp for filtering.
         /// </summary>
-        DateTime selected_timestamp { get; set; }
+        DateTime selectedTimestamp { get; set; }
     }
 }

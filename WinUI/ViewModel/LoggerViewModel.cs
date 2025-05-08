@@ -28,19 +28,19 @@ namespace WinUI.ViewModel
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggerViewModel"/> class.
         /// </summary>
-        /// <param name="_logger_service">The logger manager model interface.</param>
-        public LoggerViewModel(ILoggerService _logger_service)
+        /// <param name="logger_service">The logger manager model interface.</param>
+        public LoggerViewModel(ILoggerService logger_service)
         {
-            this._logger_service = _logger_service ?? throw new ArgumentNullException(nameof(_logger_service));
+            this._logger_service = logger_service ?? throw new ArgumentNullException(nameof(logger_service));
             this.logs = new ObservableCollection<LogEntryModel>();
-            this.action_types = Enum.GetValues(typeof(ActionType)).Cast<ActionType>().ToList();
+            this.actionTypes = Enum.GetValues(typeof(ActionType)).Cast<ActionType>().ToList();
 
             // Initialize commands
-            this.load_all_logs_command = new RelayCommand(async () => await this.executeLoadAllLogsAsync());
-            this.filter_logs_by_user_id_command = new RelayCommand(async () => await this.executeFilterLogsByUserIdAsync());
-            this.filter_logs_by_timestamp_command = new RelayCommand(async () => await this.executeFilterLogsByTimestampAsync());
-            this.filter_logs_by_action_type_command = new RelayCommand(async () => await this.executeFilterLogsByActionTypeAsync());
-            this.apply_all_filters_command = new RelayCommand(async () => await this.executeApplyAllFiltersAsync());
+            this.loadAllLogsCommand = new RelayCommand(async () => await this.executeLoadAllLogsAsync());
+            this.filterLogsByUserIdCommand = new RelayCommand(async () => await this.executeFilterLogsByUserIdAsync());
+            this.filterLogsByTimestampCommand = new RelayCommand(async () => await this.executeFilterLogsByTimestampAsync());
+            this.filterLogsByActionTypeCommand = new RelayCommand(async () => await this.executeFilterLogsByActionTypeAsync());
+            this.applyAllFiltersCommand = new RelayCommand(async () => await this.executeApplyAllFiltersAsync());
         }
 
         /// <summary>
@@ -51,37 +51,37 @@ namespace WinUI.ViewModel
         /// <summary>
         /// Gets the command to load all logs.
         /// </summary>
-        public ICommand load_all_logs_command { get; }
+        public ICommand loadAllLogsCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by user ID.
         /// </summary>
-        public ICommand filter_logs_by_user_id_command { get; }
+        public ICommand filterLogsByUserIdCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by timestamp.
         /// </summary>
-        public ICommand filter_logs_by_timestamp_command { get; }
+        public ICommand filterLogsByTimestampCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by action type.
         /// </summary>
-        public ICommand filter_logs_by_action_type_command { get; }
+        public ICommand filterLogsByActionTypeCommand { get; }
 
         /// <summary>
         /// Gets the command to apply all filters simultaneously.
         /// </summary>
-        public ICommand apply_all_filters_command { get; }
+        public ICommand applyAllFiltersCommand { get; }
 
         /// <summary>
         /// Gets the list of available action types for filtering.
         /// </summary>
-        public List<ActionType> action_types { get; }
+        public List<ActionType> actionTypes { get; }
 
         /// <summary>
         /// Gets or sets the user ID input for filtering.
         /// </summary>
-        public string user_id_input
+        public string userIdInput
         {
             get => this._user_id_input;
             set
@@ -94,7 +94,7 @@ namespace WinUI.ViewModel
         /// <summary>
         /// Gets or sets the selected action type for filtering.
         /// </summary>
-        public ActionType selected_action_type
+        public ActionType selectedActionType
         {
             get => this._selected_action_type;
             set
@@ -110,7 +110,7 @@ namespace WinUI.ViewModel
         /// <summary>
         /// Gets or sets the selected timestamp for filtering.
         /// </summary>
-        public DateTime selected_timestamp
+        public DateTime selectedTimestamp
         {
             get => this._selected_timestamp;
             set
@@ -139,14 +139,14 @@ namespace WinUI.ViewModel
         /// <returns>A task representing the asynchronous operation.</returns>
         private async Task executeFilterLogsByUserIdAsync()
         {
-            if (string.IsNullOrWhiteSpace(this.user_id_input))
+            if (string.IsNullOrWhiteSpace(this.userIdInput))
             {
                 IEnumerable<LogEntryModel> all_logs = await this._logger_service.getAllLogs();
                 this.updateLogsCollection(all_logs);
                 return;
             }
 
-            if (int.TryParse(this.user_id_input, out int userId))
+            if (int.TryParse(this.userIdInput, out int userId))
             {
                 try
                 {
@@ -170,7 +170,7 @@ namespace WinUI.ViewModel
         {
             try
             {
-                IEnumerable<LogEntryModel> filtered_logs = await this._logger_service.getLogsBeforeTimestamp(this.selected_timestamp);
+                IEnumerable<LogEntryModel> filtered_logs = await this._logger_service.getLogsBeforeTimestamp(this.selectedTimestamp);
                 this.updateLogsCollection(filtered_logs);
             }
             catch (ArgumentException)
@@ -189,7 +189,7 @@ namespace WinUI.ViewModel
         {
             try
             {
-                IEnumerable<LogEntryModel> filtered_logs = await this._logger_service.getLogsByActionType(this.selected_action_type);
+                IEnumerable<LogEntryModel> filtered_logs = await this._logger_service.getLogsByActionType(this.selectedActionType);
                 this.updateLogsCollection(filtered_logs);
             }
             catch (ArgumentNullException)
@@ -206,16 +206,16 @@ namespace WinUI.ViewModel
         /// <returns>A task representing the asynchronous operation.</returns>
         private async Task executeApplyAllFiltersAsync()
         {
-            int? userId = null;
+            int? user_id = null;
 
-            if (int.TryParse(this.user_id_input, out int parsed_user_id))
+            if (int.TryParse(this.userIdInput, out int parsed_user_id))
             {
-                userId = parsed_user_id;
+                user_id = parsed_user_id;
             }
 
             try
             {
-                IEnumerable<LogEntryModel> filtered_logs = await this._logger_service.getLogsWithParameters(userId, this.selected_action_type, this.selected_timestamp);
+                IEnumerable<LogEntryModel> filtered_logs = await this._logger_service.getLogsWithParameters(user_id, this.selectedActionType, this.selectedTimestamp);
                 this.updateLogsCollection(filtered_logs);
             }
             catch (Exception)

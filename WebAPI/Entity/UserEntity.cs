@@ -10,45 +10,45 @@ namespace Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public int userId { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string Username { get; set; }
+        public string username { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public string Password { get; set; }
+        public string password { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Mail { get; set; }
+        public string mail { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string Role { get; set; } = "User";
+        public string role { get; set; } = "User";
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string name { get; set; }
 
         [Required]
-        public DateOnly BirthDate { get; set; }
+        public DateOnly birthDate { get; set; }
 
         [Required]
         [MaxLength(20)]
         [MinLength(13, ErrorMessage = "CNP must be exactly 13 characters.")]
         [CnpValidation]
-        public string CNP { get; set; }
+        public string cnp { get; set; }
 
         [MaxLength(255)]
-        public string? Address { get; set; }
+        public string? address { get; set; }
 
         [PhoneNumberValidation]
         [MaxLength(20)]
-        public string? PhoneNumber { get; set; }
+        public string? phoneNumber { get; set; }
 
         [Required]
-        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        public DateTime registrationDate { get; set; } = DateTime.Now;
     }
 }

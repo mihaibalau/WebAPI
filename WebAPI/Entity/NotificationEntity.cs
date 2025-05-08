@@ -9,20 +9,20 @@ namespace Entity
     public class NotificationEntity
     {
         [Key]
-        public int NotificationId { get; set; }
+        public int notificationId { get; set; }
 
         [Required]
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public int userId { get; set; }
 
         [Required]
-        public DateTime DeliveryDateTime { get; set; }
+        public DateTime deliveryDateTime { get; set; }
 
         [Required]
         [MaxLength(256)]
-        public string Message { get; set; }
+        public string message { get; set; }
 
         // Navigation property
-        public virtual UserEntity User { get; set; }
+        public virtual UserEntity user { get; set; }
     }
 }

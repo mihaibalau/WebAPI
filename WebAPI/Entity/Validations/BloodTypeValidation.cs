@@ -3,14 +3,14 @@ using System.Linq;
 
 public class BloodTypeValidationAttribute : ValidationAttribute
 {
-    private static readonly string[] AllowedTypes =
+    private static readonly string[] allowedTypes =
         { "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" };
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        if (value is string str && AllowedTypes.Contains(str))
+        if (value is string str && allowedTypes.Contains(str))
             return ValidationResult.Success;
 
-        return new ValidationResult($"Invalid blood type. Allowed values: {string.Join(", ", AllowedTypes)}");
+        return new ValidationResult($"Invalid blood type. Allowed values: {string.Join(", ", allowedTypes)}");
     }
 }
