@@ -124,5 +124,75 @@ namespace WebApi.Repository
             dbContext.Users.Remove(userEntity);
             await dbContext.SaveChangesAsync();
         }
+
+        /// <inheritdoc/>
+        public async Task<List<User>> GetUsersByRoleAsync(string role)
+        {
+            var userEntities = await dbContext.Users
+                .Where(u => u.Role.ToLower() == role.ToLower())
+                .ToListAsync();
+
+            return userEntities.Select(u => new User
+            {
+                UserId = u.UserId,
+                Username = u.Username,
+                Password = u.Password,
+                Mail = u.Mail,
+                Role = u.Role,
+                Name = u.Name,
+                BirthDate = u.BirthDate,
+                CNP = u.CNP,
+                Address = u.Address,
+                PhoneNumber = u.PhoneNumber,
+                RegistrationDate = u.RegistrationDate
+            }).ToList();
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<User>> GetUsersByNameAsync(string name)
+        {
+            var userEntities = await dbContext.Users
+                .Where(u => u.Name.ToLower().Contains(name.ToLower()))
+                .ToListAsync();
+            return userEntities.Select(u => new User
+            {
+                UserId = u.UserId,
+                Username = u.Username,
+                Password = u.Password,
+                Mail = u.Mail,
+                Role = u.Role,
+                Name = u.Name,
+                BirthDate = u.BirthDate,
+                CNP = u.CNP,
+                Address = u.Address,
+                PhoneNumber = u.PhoneNumber,
+                RegistrationDate = u.RegistrationDate
+            }).ToList();
+        }
+
+        /// <inheritdoc/>
+        public async Task<User> GetUserByCNPAsync(string cnp)
+        {
+            var userEntity = await dbContext.Users
+                .FirstOrDefaultAsync(u => u.CNP == cnp);
+            if (userEntity == null)
+            {
+                return null;
+            }
+            return new User
+            {
+                UserId = userEntity.UserId,
+                Username = userEntity.Username,
+                Password = userEntity.Password,
+                Mail = userEntity.Mail,
+                Role = userEntity.Role,
+                Name = userEntity.Name,
+                BirthDate = userEntity.BirthDate,
+                CNP = userEntity.CNP,
+                Address = userEntity.Address,
+                PhoneNumber = userEntity.PhoneNumber,
+                RegistrationDate = userEntity.RegistrationDate
+            };
+        }
     }
 }
