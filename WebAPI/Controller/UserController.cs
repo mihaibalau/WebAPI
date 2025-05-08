@@ -168,7 +168,7 @@ namespace Controllers
         {
             try
             {
-                List<User> users = await this.userRepository.GetUsersByRoleAsync(role);
+                List<User> users = await this._user_repository.getUsersByRoleAsync(role);
 
                 if (users == null || users.Count == 0)
                 {
@@ -194,7 +194,7 @@ namespace Controllers
         {
             try
             {
-                var users = await this.userRepository.GetUsersByNameAsync(name);
+                var users = await this._user_repository.getUsersByNameAsync(name);
                 return this.Ok(users);
             }
             catch (Exception ex)
@@ -216,7 +216,7 @@ namespace Controllers
         {
             try
             {
-                var user = await this.userRepository.GetUserByCNPAsync(cnp);
+                var user = await this._user_repository.getUserByCNPAsync(cnp);
                 if (user == null)
                 {
                     return this.NotFound($"User with CNP {cnp} not found.");

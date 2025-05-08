@@ -48,20 +48,20 @@ namespace ClassLibrary.IRepository
         /// </summary>
         /// <param name="role">The role used to filter users (e.g., "Admin", "User").</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the list of users with the specified role.</returns>
-        Task<List<User>> GetUsersByRoleAsync(string role);
+        Task<List<User>> getUsersByRoleAsync(string role);
        
         /// <summary>
         /// Retrieves all users that match a given name.
         /// </summary>
         /// <param name="name">The name to search for.</param>
         /// <returns>A list of users with the specified name.</returns>
-        Task<List<User>> GetUsersByNameAsync(string name);
+        Task<List<User>> getUsersByNameAsync(string name);
 
         /// <summary>
         /// Retrieves a user by their CNP.
         /// </summary>
         /// <param name="cnp">The CNP of the user to search for.</param>
         /// <returns>The user with the specified CNP.</returns>
-        Task<User> GetUserByCNPAsync(string cnp);
+        Task<User> getUserByCNPAsync(string cnp);
     }
 }

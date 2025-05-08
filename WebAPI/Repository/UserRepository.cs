@@ -126,72 +126,72 @@ namespace WebApi.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<List<User>> GetUsersByRoleAsync(string role)
+        public async Task<List<User>> getUsersByRoleAsync(string role)
         {
-            var userEntities = await dbContext.Users
-                .Where(u => u.Role.ToLower() == role.ToLower())
+            var userEntities = await _db_context.Users
+                .Where(u => u.role.ToLower() == role.ToLower())
                 .ToListAsync();
 
             return userEntities.Select(u => new User
             {
-                UserId = u.UserId,
-                Username = u.Username,
-                Password = u.Password,
-                Mail = u.Mail,
-                Role = u.Role,
-                Name = u.Name,
-                BirthDate = u.BirthDate,
-                CNP = u.CNP,
-                Address = u.Address,
-                PhoneNumber = u.PhoneNumber,
-                RegistrationDate = u.RegistrationDate
+                userId = u.userId,
+                username = u.username,
+                password = u.password,
+                mail = u.mail,
+                role = u.role,
+                name = u.name,
+                birthDate = u.birthDate,
+                cnp = u.cnp,
+                address = u.address,
+                phoneNumber = u.phoneNumber,
+                registrationDate = u.registrationDate
             }).ToList();
         }
 
         /// <inheritdoc/>
-        public async Task<List<User>> GetUsersByNameAsync(string name)
+        public async Task<List<User>> getUsersByNameAsync(string name)
         {
-            var userEntities = await dbContext.Users
-                .Where(u => u.Name.ToLower().Contains(name.ToLower()))
+            var userEntities = await _db_context.Users
+                .Where(u => u.name.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
             return userEntities.Select(u => new User
             {
-                UserId = u.UserId,
-                Username = u.Username,
-                Password = u.Password,
-                Mail = u.Mail,
-                Role = u.Role,
-                Name = u.Name,
-                BirthDate = u.BirthDate,
-                CNP = u.CNP,
-                Address = u.Address,
-                PhoneNumber = u.PhoneNumber,
-                RegistrationDate = u.RegistrationDate
+                userId = u.userId,
+                username = u.username,
+                password = u.password,
+                mail = u.mail,
+                role = u.role,
+                name = u.name,
+                birthDate = u.birthDate,
+                cnp = u.cnp,
+                address = u.address,
+                phoneNumber = u.phoneNumber,
+                registrationDate = u.registrationDate
             }).ToList();
         }
 
         /// <inheritdoc/>
-        public async Task<User> GetUserByCNPAsync(string cnp)
+        public async Task<User> getUserByCNPAsync(string cnp)
         {
-            var userEntity = await dbContext.Users
-                .FirstOrDefaultAsync(u => u.CNP == cnp);
+            var userEntity = await _db_context.Users
+                .FirstOrDefaultAsync(u => u.cnp == cnp);
             if (userEntity == null)
             {
                 return null;
             }
             return new User
             {
-                UserId = userEntity.UserId,
-                Username = userEntity.Username,
-                Password = userEntity.Password,
-                Mail = userEntity.Mail,
-                Role = userEntity.Role,
-                Name = userEntity.Name,
-                BirthDate = userEntity.BirthDate,
-                CNP = userEntity.CNP,
-                Address = userEntity.Address,
-                PhoneNumber = userEntity.PhoneNumber,
-                RegistrationDate = userEntity.RegistrationDate
+                userId = userEntity.userId,
+                username = userEntity.username,
+                password = userEntity.password,
+                mail = userEntity.mail,
+                role = userEntity.role,
+                name = userEntity.name,
+                birthDate = userEntity.birthDate,
+                cnp = userEntity.cnp,
+                address = userEntity.address,
+                phoneNumber = userEntity.phoneNumber,
+                registrationDate = userEntity.registrationDate
             };
         }
     }
