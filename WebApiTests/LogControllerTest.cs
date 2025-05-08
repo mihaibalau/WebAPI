@@ -19,7 +19,7 @@ public class LogControllerTest
             new Log { LogId = 1, UserId = 1, ActionType = "Action 1", Timestamp = new DateTime(2025, 3, 2, 12, 32, 0) },
             new Log { LogId = 2, UserId = 1, ActionType = "Action 2", Timestamp = new DateTime(2025, 5, 1, 23, 59, 30) },
         };
-        _mock_repo.Setup(_repo => _repo.GetAllLogsAsync()).ReturnsAsync(_fake_logs);
+        _mock_repo.Setup(_repo => _repo.getAllLogsAsync()).ReturnsAsync(_fake_logs);
 
         var _controller = new LogController(_mock_repo.Object);
 
@@ -40,7 +40,7 @@ public class LogControllerTest
         var _mock_repo = new Mock<ILogRepository>();
         var _fake_log = new Log { LogId = 2, UserId = 1, ActionType = "Action 2", Timestamp = new DateTime(2025, 5, 1, 23, 59, 30) };
 
-        _mock_repo.Setup(_repo => _repo.GetLogByIdAsync(1)).ReturnsAsync(_fake_log);
+        _mock_repo.Setup(_repo => _repo.getLogByIdAsync(1)).ReturnsAsync(_fake_log);
 
         var _controller = new LogController(_mock_repo.Object);
 
@@ -60,7 +60,7 @@ public class LogControllerTest
         // Arrange
         var _mock_repo = new Mock<ILogRepository>();
         var _fake_log = new Log { LogId = 2, UserId = 1, ActionType = "Action 2", Timestamp = new DateTime(2025, 5, 1, 23, 59, 30) };
-        _mock_repo.Setup(_repo => _repo.AddLogAsync(_fake_log)).Returns(Task.CompletedTask);
+        _mock_repo.Setup(_repo => _repo.addLogAsync(_fake_log)).Returns(Task.CompletedTask);
 
         var _controller = new LogController(_mock_repo.Object);
 
@@ -81,7 +81,7 @@ public class LogControllerTest
         int _log_id = 1;
 
         // No setup needed if the method succeeds (completes without exception)
-        _mock_repo.Setup(_repo => _repo.DeleteLogAsync(_log_id)).Returns(Task.CompletedTask);
+        _mock_repo.Setup(_repo => _repo.deleteLogAsync(_log_id)).Returns(Task.CompletedTask);
 
         var _controller = new LogController(_mock_repo.Object);
 
@@ -90,6 +90,6 @@ public class LogControllerTest
 
         // Assert
         Assert.IsInstanceOfType(_result, typeof(NoContentResult));
-        _mock_repo.Verify(_repo => _repo.DeleteLogAsync(_log_id), Times.Once);
+        _mock_repo.Verify(_repo => _repo.deleteLogAsync(_log_id), Times.Once);
     }
 }
