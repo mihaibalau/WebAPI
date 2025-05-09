@@ -25,18 +25,18 @@ namespace WebApi.Repository
         /// <inheritdoc/>
         public async Task<List<Doctor>> getAllDoctorsAsync()
         {
-            List<DoctorEntity> doctorEntities = await dbContext.Doctors
-                .Include(d => d.Department)
-                .Include(d => d.User)
+            List<DoctorEntity> doctor_entities = await this._db_context.Doctors
+                .Include(d => d.department)
+                .Include(d => d.user)
                 .ToListAsync();
 
             List<Doctor> doctors = doctor_entities.Select(d => new Doctor
             {
-                UserId = d.UserId,
-                DepartmentId = d.DepartmentId,
-                DoctorRating = d.DoctorRating,
-                LicenseNumber = d.LicenseNumber,
-                Name = d.User.Name
+                userId = d.userId,
+                departmentId = d.departmentId,
+                doctorRating = d.doctorRating,
+                LicenseNumber = d.licenseNumber,
+                Name = d.user.name
             }).ToList();
 
             return doctors;
@@ -45,10 +45,10 @@ namespace WebApi.Repository
         /// <inheritdoc/>
         public async Task<Doctor> getDoctorByUserIdAsync(int id)
         {
-            var doctorEntity = await dbContext.Doctors
-                .Include(d => d.Department)
-                .Include(d => d.User)
-                .FirstOrDefaultAsync(d => d.UserId == id);
+            var doctor_entity = await _db_context.Doctors
+                .Include(d => d.department)
+                .Include(d => d.user)
+                .FirstOrDefaultAsync(d => d.userId == id);
 
             if (doctor_entity == null)
             {
@@ -57,30 +57,30 @@ namespace WebApi.Repository
 
             return new Doctor
             {
-                UserId = doctorEntity.UserId,
-                DepartmentId = doctorEntity.DepartmentId,
-                DoctorRating = doctorEntity.DoctorRating,
-                LicenseNumber = doctorEntity.LicenseNumber,
-                Name = doctorEntity.User.Name
+                userId = doctor_entity.userId,
+                departmentId = doctor_entity.departmentId,
+                doctorRating = doctor_entity.doctorRating,
+                LicenseNumber = doctor_entity.licenseNumber,
+                Name = doctor_entity.user.name
             };
         }
 
         /// <inheritdoc/>
         public async Task<List<Doctor>> getDoctorsByDepartmentIdAsync(int department_id)
         {
-            var doctorEntities = await dbContext.Doctors
-                .Include(d => d.Department)
-                .Include(d => d.User)
-                .Where(d => d.DepartmentId == departmentId)
+            var doctor_entities = await _db_context.Doctors
+                .Include(d => d.department)
+                .Include(d => d.user)
+                .Where(d => d.departmentId == department_id)
                 .ToListAsync();
 
             return doctor_entities.Select(d => new Doctor
             {
-                UserId = d.UserId,
-                DepartmentId = d.DepartmentId,
-                DoctorRating = d.DoctorRating,
-                LicenseNumber = d.LicenseNumber,
-                Name = d.User.Name
+                userId = d.userId,
+                departmentId = d.departmentId,
+                doctorRating = d.doctorRating,
+                LicenseNumber = d.licenseNumber,
+                Name = d.user.name
             }).ToList();
         }
 
@@ -98,7 +98,7 @@ namespace WebApi.Repository
                 userId = doctor.userId,
                 departmentId = doctor.departmentId,
                 doctorRating = doctor.doctorRating,
-                licenseNumber = doctor.licenseNumber
+                licenseNumber = doctor.LicenseNumber
             };
 
             _db_context.Doctors.Add(doctor_entity);
