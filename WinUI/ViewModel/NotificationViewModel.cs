@@ -9,7 +9,7 @@ namespace WinUI.ViewModel
 {
     public class NotificationViewModel : INotificationViewModel
     {
-        private readonly NotificationService _notification_service;
+        private readonly INotificationService _notification_service;
         public int _user_id { get; set; }
 
         public ObservableCollection<Notification> _notifications_collection { get; } = new();
@@ -20,27 +20,29 @@ namespace WinUI.ViewModel
             this._user_id = _user_id;
         }
 
-        public async Task loadNotificationsAsync(int userid)
+        public async Task loadNotificationsAsync(int _user_id)
         {
-            List<Notification> notifications = await this._notification_service.getNotificationsByUserIdAsync(userid);
+            List<Notification> _notifications = await this._notification_service.getNotificationsByUserIdAsync(_user_id);
+
             _notifications_collection.Clear();
-            foreach (var n in notifications)
-                _notifications_collection.Add(n);
+
+            foreach (Notification _notification in _notifications)
+                _notifications_collection.Add(_notification);
         }
 
-        public async Task deleteNotificationAsync(int notification_id, int user_id)
+        public async Task deleteNotificationAsync(int _notification_id, int _user_id)
         {
-                await _notification_service.deleteNotificationAsync(notification_id, user_id);
-                var item = findNotificationById(notification_id);
-                if (item != null)
-                    _notifications_collection.Remove(item);
+                await this._notification_service.deleteNotificationAsync(_notification_id, _user_id);
+                Notification _notification = findNotificationByIdAsync(_notification_id);
+                if (_notification != null)
+                    _notifications_collection.Remove(_notification);
         }
 
-        private Notification findNotificationById(int id)
+        public Notification findNotificationByIdAsync(int _id)
         {
-            foreach (var notification in _notifications_collection)
+            foreach (Notification notification in _notifications_collection)
             {
-                if (notification._notificationId == id)
+                if (notification._notification_id == _id)
                     return notification;
             }
             return null;

@@ -38,8 +38,7 @@ namespace WinUI.ViewModel
         /// Asynchronously finds a notification by its ID for a given user ID.
         /// </summary>
         /// <param name="notification_id">The ID of the notification to find.</param>
-        /// <param name="user_id">The user ID associated with the notification.</param>
         /// <returns>A task that returns the found notification, or null if not found.</returns>
-        Task<Notification> findNotificationByIdAsync(int _notification_id, int _user_id);
+        Task<Notification> findNotificationByIdAsync(int _notification_id);
     }
 }
