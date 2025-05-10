@@ -22,14 +22,14 @@ namespace WinUI.View
 {
     public sealed partial class PatientDashboardView : Page
     {
-        private IAuthViewModel _authentication_view_model;
+        private AuthViewModel _authentication_view_model;
 
         public PatientDashboardView()
         {
             this.InitializeComponent();
         }
 
-        public PatientDashboardView(IPatientViewModel _patient_view_model, IAuthViewModel _authentication_view_model)
+        public PatientDashboardView(PatientViewModel _patient_view_model, AuthViewModel _authentication_view_model)
         {
             InitializeComponent();
             this._authentication_view_model = _authentication_view_model;
@@ -44,9 +44,9 @@ namespace WinUI.View
         {
             base.OnNavigatedTo(navigation_event);
 
-            if (navigation_event.Parameter is Tuple<IPatientViewModel, IAuthViewModel> parameters)
+            if (navigation_event.Parameter is Tuple<PatientViewModel, AuthViewModel> parameters)
             {
-                IPatientViewModel patient_view_model = parameters.Item1;
+                PatientViewModel patient_view_model = parameters.Item1;
                 this._authentication_view_model = parameters.Item2;
 
                 var patient_dashboard_control = new PatientDashboardControl(patient_view_model);

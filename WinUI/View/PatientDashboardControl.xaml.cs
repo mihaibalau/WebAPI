@@ -13,7 +13,7 @@ namespace WinUI.View
 {
     public sealed partial class PatientDashboardControl : UserControl
     {
-        private IPatientViewModel? _patient_view_model;
+        private PatientViewModel? _patient_view_model;
         public event Action? logout_button_clicked;
 
         public PatientDashboardControl()
@@ -21,7 +21,7 @@ namespace WinUI.View
             this.InitializeComponent();
         }
 
-        public PatientDashboardControl(IPatientViewModel patient_view_model)
+        public PatientDashboardControl(PatientViewModel patient_view_model)
         {
             InitializeComponent();
             this._patient_view_model = patient_view_model;
@@ -49,9 +49,9 @@ namespace WinUI.View
                 bool password_changed = false;
 
                 // Check if data is different before updating
-                if (this._patient_view_model.emergency_contact != this._patient_view_model.original_patient.emergencyContact)
+                if (this._patient_view_model.emergencyContact != this._patient_view_model.original_patient.emergencyContact)
                 {
-                    bool emergencyUpdated = await this._patient_view_model.updateEmergencyContact(this._patient_view_model.emergency_contact);
+                    bool emergencyUpdated = await this._patient_view_model.updateEmergencyContact(this._patient_view_model.emergencyContact);
                     has_changes |= emergencyUpdated;
                 }
 
@@ -86,9 +86,9 @@ namespace WinUI.View
                     has_changes |= address_updated;
                 }
 
-                if (this._patient_view_model.phone_number != this._patient_view_model.original_patient.phoneNumber)
+                if (this._patient_view_model.phoneNumber != this._patient_view_model.original_patient.phoneNumber)
                 {
-                    bool phone_number_updated = await this._patient_view_model.updatePhoneNumber(this._patient_view_model.phone_number);
+                    bool phone_number_updated = await this._patient_view_model.updatePhoneNumber(this._patient_view_model.phoneNumber);
                     has_changes |= phone_number_updated;
                 }
 
@@ -98,9 +98,9 @@ namespace WinUI.View
                     has_changes |= allergies_updated;
                 }
 
-                if (this._patient_view_model.blood_type != this._patient_view_model.original_patient.bloodType)
+                if (this._patient_view_model.bloodType != this._patient_view_model.original_patient.bloodType)
                 {
-                    bool blood_type_updated = await this._patient_view_model.updateBloodType(this._patient_view_model.blood_type);
+                    bool blood_type_updated = await this._patient_view_model.updateBloodType(this._patient_view_model.bloodType);
                     has_changes |= blood_type_updated;
                 }
 
@@ -135,14 +135,14 @@ namespace WinUI.View
         {
             // Ensure the restored data comes from the original patient data
             PatientJointModel? original = this._patient_view_model!.original_patient;
-            this._patient_view_model!.emergency_contact = original.emergencyContact;
+            this._patient_view_model!.emergencyContact = original.emergencyContact;
             this._patient_view_model.weight = original.weight;
             this._patient_view_model.height = original.height;
-            this._patient_view_model.blood_type = original.bloodType;
+            this._patient_view_model.bloodType = original.bloodType;
             this._patient_view_model.allergies = original.allergies;
             this._patient_view_model.name = original.patientName;
             this._patient_view_model.address = original.address;
-            this._patient_view_model.phone_number = original.phoneNumber;
+            this._patient_view_model.phoneNumber = original.phoneNumber;
 
             // Log restoration to verify
             Debug.WriteLine("Restored original patient data.");

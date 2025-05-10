@@ -22,7 +22,7 @@ namespace WinUI.ViewModel
         private DateOnly _birth_date;
         private string _cnp = string.Empty;
         private DateTime _registration_date;
-        private string _emergencyContact = string.Empty;
+        private string _emergency_contact = string.Empty;
         private double _weight;
         private bool _is_loading;
         private int _height;
@@ -105,8 +105,8 @@ namespace WinUI.ViewModel
 
         public string emergencyContact
         {
-            get => this._emergencyContact;
-            set { if (this._emergencyContact != value) { this._emergencyContact = value; OnPropertyChanged(); } }
+            get => this._emergency_contact;
+            set { if (this._emergency_contact != value) { this._emergency_contact = value; OnPropertyChanged(); } }
         }
 
         public double weight

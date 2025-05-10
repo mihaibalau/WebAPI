@@ -33,7 +33,7 @@ namespace WinUI.View
     /// </summary>
     public sealed partial class LogInView : Page
     {
-        private readonly IAuthViewModel _login_page_view_model;
+        private readonly AuthViewModel _login_page_view_model;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginWindow"/> class.
@@ -108,7 +108,7 @@ namespace WinUI.View
                     IPatientService patient_service = new PatientService(patientRepository, logger_service);
                     PatientViewModel patient_view_model = new PatientViewModel(patient_service, this._login_page_view_model.authService.allUserInformation.userId);
 
-                    var parameters = new Tuple<IPatientViewModel, IAuthViewModel>(patient_view_model, this._login_page_view_model);
+                    var parameters = new Tuple<PatientViewModel, AuthViewModel>(patient_view_model, this._login_page_view_model);
                     NavigationService.navigate(typeof(PatientDashboardView), parameters);
                     return;
                 }
@@ -127,7 +127,7 @@ namespace WinUI.View
                 else if (this._login_page_view_model.getUserRole() == "Admin")
                 {
                        ILogRepository logger_repository = new LoggerProxy();
-                       Tuple<IAuthViewModel, ILogRepository> parameters = new Tuple<IAuthViewModel, ILogRepository>(this._login_page_view_model, logger_repository);
+                       Tuple<AuthViewModel, ILogRepository> parameters = new Tuple<AuthViewModel, ILogRepository>(this._login_page_view_model, logger_repository);
                        NavigationService.navigate(typeof(AdminDashboardPage), parameters);
                        return;
                 }

@@ -149,7 +149,7 @@ namespace Controllers
             {
                 return this.NotFound($"User with ID {id} was not found.");
             }
-            catch (Exception exceptionex)
+            catch (Exception exception)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting user. Error: {exception.Message}");
             }

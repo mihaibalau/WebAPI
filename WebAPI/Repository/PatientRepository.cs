@@ -94,5 +94,15 @@ namespace WebApi.Repository
             _db_context.Patients.Remove(patient_entity);
             await _db_context.SaveChangesAsync();
         }
+
+        public Task updatePatientAsync(Patient patient, User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<User>> getAllUserAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

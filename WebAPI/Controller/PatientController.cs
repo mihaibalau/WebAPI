@@ -86,7 +86,7 @@ namespace Controllers
                 await this._patient_repository.addPatientAsync(patient);
                 return this.CreatedAtAction(nameof(getPatientById), new { id = patient.userId }, patient);
             }
-            catch (Exception exexception
+            catch (Exception exception)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while creating patient. Error: {exception.Message}");
             }

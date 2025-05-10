@@ -16,7 +16,7 @@ namespace WinUI.Proxy
     internal class LogInProxy : ILogInRepository
     {
         private readonly HttpClient _http_client;
-        private readonly string _base_url = "http://localhost:5005/";
+        private readonly string s_base_url = Config._base_api_url;
 
         public LogInProxy(HttpClient http_client)
         {
@@ -36,7 +36,7 @@ namespace WinUI.Proxy
             string log_json = JsonSerializer.Serialize(log);
             StringContent content = new StringContent(log_json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _http_client.PostAsync(_base_url + "api/log", content);
+            HttpResponseMessage response = await _http_client.PostAsync(s_base_url + "api/log", content);
             response.EnsureSuccessStatusCode();
 
             return true;
@@ -44,7 +44,7 @@ namespace WinUI.Proxy
 
         public async Task<bool> createAccount(UserCreateAccountModel model_for_creating_user_account)
         {
-            HttpResponseMessage response = await this._http_client.GetAsync(this._base_url + "api/user");
+            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_url + "api/user");
             response.EnsureSuccessStatusCode();
 
             string response_body = await response.Content.ReadAsStringAsync();
@@ -78,7 +78,7 @@ namespace WinUI.Proxy
 
             var json = JsonSerializer.Serialize(_user_json);
             HttpContent _content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage _post_response = await this._http_client.PostAsync(this._base_url + "api/user", _content);
+            HttpResponseMessage _post_response = await this._http_client.PostAsync(this.s_base_url + "api/user", _content);
             _post_response.EnsureSuccessStatusCode();
 
             return true;
@@ -86,7 +86,7 @@ namespace WinUI.Proxy
 
         public async Task<UserAuthModel> getUserByUsername(string username)
         {
-            HttpResponseMessage response = await this._http_client.GetAsync(this._base_url + "api/user");
+            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_url + "api/user");
             response.EnsureSuccessStatusCode();
 
             string response_body = await response.Content.ReadAsStringAsync();

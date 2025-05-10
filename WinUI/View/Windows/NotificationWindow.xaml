@@ -21,7 +21,7 @@
                    Margin="0,0,0,10"/>
 
         <ListView Grid.Row="1" 
-                  ItemsSource="{x:Bind _view_model._notifications_collection, Mode=OneWay}">
+                  ItemsSource="{x:Bind _notification_view_model.notificationsCollection, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,5,0,5">
