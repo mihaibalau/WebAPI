@@ -14,31 +14,31 @@ namespace WinUI.View
     public sealed partial class PatientDashboardControl : UserControl
     {
         private IPatientViewModel? _patient_view_model;
-        public event Action? LogoutButtonClicked;
+        public event Action? logout_button_clicked;
 
         public PatientDashboardControl()
         {
             this.InitializeComponent();
         }
 
-        public PatientDashboardControl(IPatientViewModel _patient_view_model)
+        public PatientDashboardControl(IPatientViewModel patient_view_model)
         {
             InitializeComponent();
-            this._patient_view_model = _patient_view_model;
+            this._patient_view_model = patient_view_model;
             DataContext = this._patient_view_model;
 
             // Add logging to confirm if the DataContext is set correctly
-            Debug.WriteLine($"DataContext set to: {_patient_view_model?.GetType().Name}");
+            Debug.WriteLine($"DataContext set to: {patient_view_model?.GetType().Name}");
         }
-        public void NotificationsButton_Click(object sender, RoutedEventArgs e)
+        public void NotificationsButton_Click(object sender, RoutedEventArgs routed_event)
         {
-            var notificationWindow = new NotificationWindow(new NotificationViewModel(new NotificationService(new NotificationProxy(new System.Net.Http.HttpClient())), this._patient_view_model.userId));
+            var notification_window = new NotificationWindow(new NotificationViewModel(new NotificationService(new NotificationProxy(new System.Net.Http.HttpClient())), this._patient_view_model.userId));
 
             // Show the window
-            notificationWindow.Activate();  // Activate the window to display it
+            notification_window.Activate();  // Activate the window to display it
         }
 
-        private async void OnUpdateButtonClick(object sender, RoutedEventArgs e)
+        private async void OnUpdateButtonClick(object sender, RoutedEventArgs routed_event)
         {
             try
             {
@@ -148,12 +148,12 @@ namespace WinUI.View
             Debug.WriteLine("Restored original patient data.");
         }
 
-        private async Task ShowDialogAsync(string _title, string _message)
+        private async Task ShowDialogAsync(string title, string message)
         {
             var dialog = new ContentDialog
             {
-                Title = _title,
-                Content = _message,
+                Title = title,
+                Content = message,
                 CloseButtonText = "OK",
                 XamlRoot = this.Content.XamlRoot
             };
@@ -161,9 +161,9 @@ namespace WinUI.View
             await dialog.ShowAsync();
         }
 
-        private void OnLogoutButtonClick(object sender, RoutedEventArgs e)
+        private void OnLogoutButtonClick(object sender, RoutedEventArgs routed_event)
         {
-            LogoutButtonClicked?.Invoke();
+            logout_button_clicked?.Invoke();
         }
     }
 }
