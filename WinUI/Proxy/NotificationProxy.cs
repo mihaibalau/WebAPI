@@ -29,31 +29,31 @@ namespace WinUI.Proxy
         /// <inheritdoc/>
         public async Task<List<Notification>> getAllNotificationsAsync()
         {
-            var response = await _http_client.GetAsync(s_base_api_url + "notification");
-            response.EnsureSuccessStatusCode();
+            HttpResponseMessage _response = await _http_client.GetAsync(s_base_api_url + "notification");
+            _response.EnsureSuccessStatusCode();
 
-            var json = await response.Content.ReadAsStringAsync();
-            var notifications = JsonSerializer.Deserialize<List<Notification>>(json, new JsonSerializerOptions
+            String _json = await _response.Content.ReadAsStringAsync();
+            List<Notification> _notifications = JsonSerializer.Deserialize<List<Notification>>(_json, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            return notifications ?? new List<Notification>();
+            return _notifications ?? new List<Notification>();
         }
 
         /// <inheritdoc/>
         public async Task<List<Notification>> getNotificationsByUserIdAsync(int _user_id)
         {
-            var response = await _http_client.GetAsync(s_base_api_url + $"/notification/user/{_user_id}");
-            response.EnsureSuccessStatusCode();
+            HttpResponseMessage _response = await _http_client.GetAsync(s_base_api_url + $"notification/user/{_user_id}");
+            _response.EnsureSuccessStatusCode();
 
-            var json = await response.Content.ReadAsStringAsync();
-            var notifications = JsonSerializer.Deserialize<List<Notification>>(json, new JsonSerializerOptions
+            String _json = await _response.Content.ReadAsStringAsync();
+            List<Notification> _notifications = JsonSerializer.Deserialize<List<Notification>>(_json, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            return notifications ?? new List<Notification>();
+            return _notifications ?? new List<Notification>();
         }
 
         /// <inheritdoc/>

@@ -40,7 +40,7 @@ namespace Controllers
         /// </summary>
         /// <param name="user_id">The user's ID.</param>
         /// <returns>List of notifications for the user.</returns>
-        [HttpGet("user/{userId}")]
+        [HttpGet("user/{user_id}")]
         [ProducesResponseType(typeof(List<Notification>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<Notification>>> getNotificationsByUserId(int user_id)
@@ -75,7 +75,7 @@ namespace Controllers
             try
             {
                 await this._notification_repository.addNotificationAsync(notification);
-                return this.CreatedAtAction(nameof(getAllNotifications), new { id = notification._notificationId }, notification);
+                return this.CreatedAtAction(nameof(getAllNotifications), new { id = notification._notification_id }, notification);
             }
             catch (Exception ex)
             {

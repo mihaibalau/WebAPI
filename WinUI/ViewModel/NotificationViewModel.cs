@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace WinUI.ViewModel
 {
-    public class NotificationViewModel : INotificationViewModel
+    public class NotificationViewModel
     {
         private readonly INotificationService _notification_service;
         public int _user_id { get; set; }
