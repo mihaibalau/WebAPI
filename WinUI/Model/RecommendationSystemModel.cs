@@ -76,7 +76,7 @@ namespace WinUI.Model
             }
 
             int best_department_id = department_scores.OrderByDescending(department => department.Value).First().Key;
-            var doctors = await this._doctor_service.GetDoctorsByDepartment(best_department_id);
+            var doctors = await this._doctor_service.getDoctorsByDepartment(best_department_id);
 
             return doctors
                 .OrderByDescending(doctor => doctor.getRegistrationDate())
