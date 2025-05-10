@@ -32,7 +32,7 @@ namespace WinUI.View
                 var notification = button.DataContext as Notification;
                 if (notification != null)
                 {
-                    await this.ViewModel.deleteNotificationAsync(notification.notificationId, ViewModel.userId);
+                    await this.ViewModel.deleteNotificationAsync(notification._notificationId, ViewModel.userId);
                 }
             }
         }

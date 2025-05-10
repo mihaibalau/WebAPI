@@ -21,9 +21,9 @@ namespace WinUI.Proxy
         private readonly HttpClient _http_client;
         private static readonly string s_base_api_url = Config._base_api_url;
         
-        public NotificationProxy(HttpClient http_client)
+        public NotificationProxy(HttpClient _http_client)
         {
-            this._http_client = http_client;
+            this._http_client = _http_client;
         }
 
         /// <inheritdoc/>
