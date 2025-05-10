@@ -34,38 +34,38 @@ namespace WinUI.View
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminDashboardPage"/> class.
         /// </summary>
-        /// <param name="_auth_view_model">Authentication service for user operations.</param>
-        /// <param name="_logger_repository">Logger service for auditing.</param>
+        /// <param name="auth_view_model">Authentication service for user operations.</param>
+        /// <param name="logger_repository">Logger service for auditing.</param>
         /// <exception cref="ArgumentNullException">Thrown if auth service is null.</exception>
-        public AdminDashboardPage(IAuthViewModel _auth_view_model, ILogRepository _logger_repository)
+        public AdminDashboardPage(IAuthViewModel auth_view_model, ILogRepository logger_repository)
         {
             this.InitializeComponent();
-            this._auth_view_model = _auth_view_model ?? throw new ArgumentNullException(nameof(_auth_view_model));
-            initializeLogger(_logger_repository ?? throw new ArgumentNullException(nameof(_logger_repository)));
+            this._auth_view_model = auth_view_model ?? throw new ArgumentNullException(nameof(auth_view_model));
+            initializeLogger(logger_repository ?? throw new ArgumentNullException(nameof(logger_repository)));
         }
 
         /// <summary>
         /// Override OnNavigatedTo to handle parameters passed during navigation
         /// </summary>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs navigation_event)
         {
-            base.OnNavigatedTo(e);
+            base.OnNavigatedTo(navigation_event);
 
-            if (e.Parameter is Tuple<IAuthViewModel, ILogRepository> parameters)
+            if (navigation_event.Parameter is Tuple<IAuthViewModel, ILogRepository> parameters)
             {
                 this._auth_view_model = parameters.Item1;
                 initializeLogger(parameters.Item2);
             }
-            else if (e.Parameter is ValueTuple<IAuthViewModel, ILogRepository> value_tuple)
+            else if (navigation_event.Parameter is ValueTuple<IAuthViewModel, ILogRepository> value_tuple)
             {
                 this._auth_view_model = value_tuple.Item1;
                 initializeLogger(value_tuple.Item2);
             }
         }
 
-        private void initializeLogger(ILogRepository _logger_repository)
+        private void initializeLogger(ILogRepository logger_repository)
         {
-            LoggerService logger_manager_model = new LoggerService(_logger_repository);
+            LoggerService logger_manager_model = new LoggerService(logger_repository);
             this._logger_view_model = new LoggerViewModel(logger_manager_model);
 
             this.loadInitialLogData();
@@ -119,7 +119,7 @@ namespace WinUI.View
             this.ApplyFiltersButton.Command = this._logger_view_model.applyAllFiltersCommand;
         }
 
-        private async void logoutButton_Click(object sender, RoutedEventArgs e)
+        private async void logoutButtonClick(object sender, RoutedEventArgs @event)
         {
             await this.performLogoutAsync();
         }
@@ -138,12 +138,12 @@ namespace WinUI.View
         }
 
 
-        private async Task displayErrorDialogAsync(string errorMessage)
+        private async Task displayErrorDialogAsync(string error_message)
         {
             ContentDialog errorDialog = new ContentDialog
             {
                 Title = "Error",
-                Content = errorMessage,
+                Content = error_message,
                 CloseButtonText = "OK",
                 XamlRoot = this.Content.XamlRoot,
             };
