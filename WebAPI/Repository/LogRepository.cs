@@ -33,9 +33,9 @@ namespace WebApi.Repository
 
             return log_entities.Select(log => new Log
             {
-                log_id = log.logId,
-                user_id = (int)log.userId,
-                action_type = log.actionType,
+                logId = log.logId,
+                userId = (int)log.userId,
+                actionType = log.actionType,
                 timestamp = log.timestamp
             }).ToList();
         }
@@ -51,9 +51,9 @@ namespace WebApi.Repository
 
             return new Log
             {
-                log_id = log_entity.logId,
-                user_id = (int)log_entity.userId,
-                action_type = log_entity.actionType,
+                logId = log_entity.logId,
+                userId = (int)log_entity.userId,
+                actionType = log_entity.actionType,
                 timestamp = log_entity.timestamp
             };
         }
@@ -71,9 +71,9 @@ namespace WebApi.Repository
 
             return new Log
             {
-                log_id = log_entity.logId,
-                user_id = (int)log_entity.userId,
-                action_type = log_entity.actionType,
+                logId = log_entity.logId,
+                userId = (int)log_entity.userId,
+                actionType = log_entity.actionType,
                 timestamp = log_entity.timestamp
             };
         }
@@ -83,15 +83,15 @@ namespace WebApi.Repository
         {
             var log_entity = new LogEntity
             {
-                userId = log.user_id,
-                actionType = log.action_type,
+                userId = log.userId,
+                actionType = log.actionType,
                 timestamp = log.timestamp
             };
 
             _db_context.Logs.Add(log_entity);
             await _db_context.SaveChangesAsync();
 
-            log.log_id = log_entity.logId;
+            log.logId = log_entity.logId;
         }
 
         /// <inheritdoc/>

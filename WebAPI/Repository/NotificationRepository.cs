@@ -30,10 +30,10 @@ namespace WebApi.Repository
 
             return entities.Select(entity => new Notification
             {
-                _notification_id = entity.notificationId,
-                _user_id = entity.userId,
-                _delivery_date_time = entity.deliveryDateTime,
-                _message = entity.message
+                notificationId = entity.notificationId,
+                userId = entity.userId,
+                deliveryDateTime = entity.deliveryDateTime,
+                message = entity.message
             }).ToList();
         }
 
@@ -46,10 +46,10 @@ namespace WebApi.Repository
 
             return entities.Select(entity => new Notification
             {
-                _notification_id = entity.notificationId,
-                _user_id = entity.userId,
-                _delivery_date_time = entity.deliveryDateTime,
-                _message = entity.message
+                notificationId = entity.notificationId,
+                userId = entity.userId,
+                deliveryDateTime = entity.deliveryDateTime,
+                message = entity.message
             }).ToList();
         }
 
@@ -65,10 +65,10 @@ namespace WebApi.Repository
 
             return new Notification
             {
-                _notification_id = entity.notificationId,
-                _user_id = entity.userId,
-                _delivery_date_time = entity.deliveryDateTime,
-                _message = entity.message
+                notificationId = entity.notificationId,
+                userId = entity.userId,
+                deliveryDateTime = entity.deliveryDateTime,
+                message = entity.message
             };
         }
 
@@ -77,15 +77,15 @@ namespace WebApi.Repository
         {
             NotificationEntity entity = new NotificationEntity
             {
-                userId = notification._user_id,
-                deliveryDateTime = notification._delivery_date_time,
-                message = notification._message
+                userId = notification.userId,
+                deliveryDateTime = notification.deliveryDateTime,
+                message = notification.message
             };
 
             this._db_context.Notifications.Add(entity);
             await this._db_context.SaveChangesAsync();
 
-            notification._notification_id = entity.notificationId; // Set the ID after insert
+            notification.notificationId = entity.notificationId; // Set the ID after insert
         }
 
         /// <inheritdoc/>
