@@ -194,7 +194,7 @@ namespace WinUI.Proxy
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateDoctorEmail(int user_id, string email)
+        public async Task<bool> updateDoctorEmail(int user_id, string email)
         {
             HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/email", email);
             return response.IsSuccessStatusCode;
