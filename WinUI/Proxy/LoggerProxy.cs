@@ -19,19 +19,18 @@ namespace WinUI.Proxy
     /// </summary>
     public class LoggerProxy : ILoggerRepository
     {
-        private readonly HttpClient _client;
-        private readonly string _base_api_url;
-        private readonly JsonSerializerOptions _json_options;
+        private readonly HttpClient _httpClient;
+        private static readonly string _baseApiUrl = Config._base_api_url;
+        private readonly JsonSerializerOptions _jsonOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggerProxy"/> class.
         /// </summary>
         public LoggerProxy()
         {
-            this._client = new HttpClient();
-            this._base_api_url = "http://localhost:5005";
+            this._httpClient = new HttpClient();
 
-            this._json_options = new JsonSerializerOptions
+            this._jsonOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
@@ -41,20 +40,20 @@ namespace WinUI.Proxy
         /// Gets all logs from the database.
         /// </summary>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getAllLogs()
+        public async Task<List<LogEntryModel>> GetAllLogs()
         {
             try
             {
                 // The ApiLogDto is a temporary class to handle the API response
-                HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
-                response.EnsureSuccessStatusCode();
+                HttpResponseMessage _response = await this._httpClient.GetAsync(_baseApiUrl + "api/log");
+                _response.EnsureSuccessStatusCode();
 
-                List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                return this.convertApiLogsToLogEntryModels(api_logs);
+                List<ApiLogDto> _apiLogs = await _response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
+                return this.ConvertApiLogsToLogEntryModels(_apiLogs);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Exception: {exception.Message}");
                 return new List<LogEntryModel>();
             }
         }
@@ -62,44 +61,43 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs for a specific user.
         /// </summary>
-        /// <param name="user_id">The ID of the user whose logs to retrieve.</param>
+        /// <param name="userId">The ID of the user whose logs to retrieve.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsByUserId(int user_id)
+        public async Task<List<LogEntryModel>> GetLogsByUserId(int userId)
         {
             try
             {
-                HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
-                response.EnsureSuccessStatusCode();
-                List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.userId == user_id);
-                return this.convertApiLogsToLogEntryModels(filtered_api_logs);
+                HttpResponseMessage _response = await this._httpClient.GetAsync(_baseApiUrl + "api/log");
+                _response.EnsureSuccessStatusCode();
+                List<ApiLogDto> _apiLogs = await _response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
+                List<ApiLogDto> _filteredApiLogs = _apiLogs.FindAll(log => log._user_id == userId);
+                return this.ConvertApiLogsToLogEntryModels(_filteredApiLogs);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Exception: {exception.Message}");
                 return new List<LogEntryModel>();
             }
         }
-        
 
         /// <summary>
         /// Gets logs from before a specific timestamp.
         /// </summary>
-        /// <param name="before_timestamp">The timestamp to filter by.</param>
+        /// <param name="beforeTimestamp">The timestamp to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsBeforeTimestamp(DateTime before_timestamp)
+        public async Task<List<LogEntryModel>> GetLogsBeforeTimestamp(DateTime beforeTimestamp)
         {
             try
             {
-                HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
-                response.EnsureSuccessStatusCode();
-                List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.timestamp < before_timestamp);
-                return this.convertApiLogsToLogEntryModels(filtered_api_logs);
+                HttpResponseMessage _response = await this._httpClient.GetAsync(_baseApiUrl + "api/log");
+                _response.EnsureSuccessStatusCode();
+                List<ApiLogDto> _apiLogs = await _response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
+                List<ApiLogDto> _filteredApiLogs = _apiLogs.FindAll(log => log._timestamp < beforeTimestamp);
+                return this.ConvertApiLogsToLogEntryModels(_filteredApiLogs);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Exception: {exception.Message}");
                 return new List<LogEntryModel>();
             }
         }
@@ -107,26 +105,26 @@ namespace WinUI.Proxy
         /// <summary>
         /// Records a new action in the log.
         /// </summary>
-        /// <param name="user_id">The ID of the user who performed the action.</param>
-        /// <param name="action_type">The type of action performed.</param>
+        /// <param name="userId">The ID of the user who performed the action.</param>
+        /// <param name="actionType">The type of action performed.</param>
         /// <returns>A task representing the asynchronous operation with a boolean indicating success.</returns>
-        public async Task<bool> logAction(int user_id, ActionType action_type)
+        public async Task<bool> LogAction(int userId, ActionType actionType)
         {
             try
             {
-                ApiLogDto logData = new ApiLogDto
+                ApiLogDto _logData = new ApiLogDto
                 {
-                    userId = user_id,
-                    actionType = action_type.ToString(),
-                    timestamp = DateTime.UtcNow
+                    _user_id = userId,
+                    _action_type = actionType.ToString(),
+                    _timestamp = DateTime.UtcNow
                 };
 
-                HttpResponseMessage response = await this._client.PostAsJsonAsync($"{this._base_api_url}/api/log", logData);
-                return response.IsSuccessStatusCode;
+                HttpResponseMessage _response = await this._httpClient.PostAsJsonAsync(_baseApiUrl + "api/log", _logData);
+                return _response.IsSuccessStatusCode;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Exception: {exception.Message}");
                 return false;
             }
         }
@@ -134,21 +132,21 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs by action type.
         /// </summary>
-        /// <param name="action_type">The action type to filter by.</param>
+        /// <param name="actionType">The action type to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsByActionType(ActionType action_type)
+        public async Task<List<LogEntryModel>> GetLogsByActionType(ActionType actionType)
         {
             try
             {
-                HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
-                response.EnsureSuccessStatusCode();
-                List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => log.actionType == action_type.ToString());
-                return this.convertApiLogsToLogEntryModels(filtered_api_logs);
+                HttpResponseMessage _response = await this._httpClient.GetAsync(_baseApiUrl + "api/log");
+                _response.EnsureSuccessStatusCode();
+                List<ApiLogDto> _apiLogs = await _response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
+                List<ApiLogDto> _filteredApiLogs = _apiLogs.FindAll(log => log._action_type == actionType.ToString());
+                return this.ConvertApiLogsToLogEntryModels(_filteredApiLogs);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Exception: {exception.Message}");
                 return new List<LogEntryModel>();
             }
         }
@@ -156,20 +154,20 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs matching specific parameters without filtering by user ID.
         /// </summary>
-        /// <param name="action_type">The action type to filter by.</param>
-        /// <param name="before_timestamp">The timestamp to filter by.</param>
+        /// <param name="actionType">The action type to filter by.</param>
+        /// <param name="beforeTimestamp">The timestamp to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsWithParametersWithoutUserId(ActionType action_type, DateTime before_timestamp)
+        public async Task<List<LogEntryModel>> GetLogsWithParametersWithoutUserId(ActionType actionType, DateTime beforeTimestamp)
         {
             try
             {
-                HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
-                response.EnsureSuccessStatusCode();
-                List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log => 
-                    log.actionType == action_type.ToString() &&
-                    log.timestamp < before_timestamp);
-                return this.convertApiLogsToLogEntryModels(filtered_api_logs);
+                HttpResponseMessage _response = await this._httpClient.GetAsync(_baseApiUrl + "api/log");
+                _response.EnsureSuccessStatusCode();
+                List<ApiLogDto> _apiLogs = await _response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
+                List<ApiLogDto> _filteredApiLogs = _apiLogs.FindAll(log =>
+                    log._action_type == actionType.ToString() &&
+                    log._timestamp < beforeTimestamp);
+                return this.ConvertApiLogsToLogEntryModels(_filteredApiLogs);
             }
             catch (Exception ex)
             {
@@ -181,26 +179,26 @@ namespace WinUI.Proxy
         /// <summary>
         /// Gets logs matching specific parameters.
         /// </summary>
-        /// <param name="user_id">The user ID to filter by.</param>
-        /// <param name="action_type">The action type to filter by.</param>
-        /// <param name="before_timestamp">The timestamp to filter by.</param>
+        /// <param name="userId">The user ID to filter by.</param>
+        /// <param name="actionType">The action type to filter by.</param>
+        /// <param name="beforeTimestamp">The timestamp to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
-        public async Task<List<LogEntryModel>> getLogsWithParameters(int user_id, ActionType action_type, DateTime before_timestamp)
+        public async Task<List<LogEntryModel>> GetLogsWithParameters(int userId, ActionType actionType, DateTime beforeTimestamp)
         {
             try
             {
-                HttpResponseMessage response = await this._client.GetAsync($"{this._base_api_url}/api/log");
-                response.EnsureSuccessStatusCode();
-                List<ApiLogDto> api_logs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                List<ApiLogDto> filtered_api_logs = api_logs.FindAll(log =>
-                    log.userId == user_id &&
-                    log.actionType == action_type.ToString() &&
-                    log.timestamp < before_timestamp);
-                return this.convertApiLogsToLogEntryModels(filtered_api_logs);
+                HttpResponseMessage _response = await this._httpClient.GetAsync(_baseApiUrl + "api/log");
+                _response.EnsureSuccessStatusCode();
+                List<ApiLogDto> _apiLogs = await _response.Content.ReadFromJsonAsync<List<ApiLogDto>>(_jsonOptions);
+                List<ApiLogDto> _filteredApiLogs = _apiLogs.FindAll(log =>
+                    log._user_id == userId &&
+                    log._action_type == actionType.ToString() &&
+                    log._timestamp < beforeTimestamp);
+                return this.ConvertApiLogsToLogEntryModels(_filteredApiLogs);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Exception: {exception.Message}");
                 return new List<LogEntryModel>();
             }
         }
@@ -208,22 +206,22 @@ namespace WinUI.Proxy
         /// <summary>
         /// Converts API log models to internal log entry models.
         /// </summary>
-        private List<LogEntryModel> convertApiLogsToLogEntryModels(List<ApiLogDto> api_logs)
+        private List<LogEntryModel> ConvertApiLogsToLogEntryModels(List<ApiLogDto> apiLogs)
         {
-            if (api_logs == null)
+            if (apiLogs == null)
                 return new List<LogEntryModel>();
 
-            var result = new List<LogEntryModel>();
+            List<LogEntryModel> result = new List<LogEntryModel>();
 
-            foreach (var api_log in api_logs)
+            foreach (ApiLogDto apiLog in apiLogs)
             {
-                if (Enum.TryParse<ActionType>(api_log.actionType, out ActionType _action_type))
+                if (Enum.TryParse<ActionType>(apiLog._action_type, out ActionType actionType))
                 {
                     result.Add(new LogEntryModel(
-                        api_log.logId,
-                        api_log.userId,
-                        _action_type,
-                        api_log.timestamp
+                        apiLog._log_id,
+                        apiLog._user_id,
+                        actionType,
+                        apiLog._timestamp
                     ));
                 }
             }
@@ -231,17 +229,4 @@ namespace WinUI.Proxy
             return result;
         }
     }
-
-    public class ApiLogDto
-    {
-        [JsonPropertyName("logId")]
-        public int logId { get; set; }
-        [JsonPropertyName("userId")]
-        public int userId { get; set; }
-        [JsonPropertyName("actionType")]
-        public string actionType { get; set; }
-        [JsonPropertyName("timestamp")]
-        public DateTime timestamp { get; set; }
-    }
 }
-
