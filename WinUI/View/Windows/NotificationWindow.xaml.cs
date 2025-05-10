@@ -7,29 +7,29 @@ namespace WinUI.View
 {
     public sealed partial class NotificationWindow : Window
     {
-        public NotificationViewModel _view_model { get; }
+        public NotificationViewModel _notification_view_model { get; }
 
-        public NotificationWindow(NotificationViewModel _view_model)
+        public NotificationWindow(NotificationViewModel view_model)
         {
             this.InitializeComponent();
-            this._view_model = _view_model;
-            LoadNotifications();
+            this._notification_view_model = view_model;
+            loadNotifications();
         }
 
-        private async void LoadNotifications()
+        private async void loadNotifications()
         {
-            await this._view_model.loadNotificationsAsync(_view_model._user_id);
+            await this._notification_view_model.loadNotificationsAsync(_notification_view_model._user_id);
         }
 
-        private async void DeleteButton_Click(object _sender, RoutedEventArgs _error)
+        private async void deleteButtonClick(object sender, RoutedEventArgs routed_event)
         {
-            Button _button = _sender as Button;
-            if (_button != null)
+            Button button = sender as Button;
+            if (button != null)
             {
-                Notification _notification = _button.DataContext as Notification;
-                if (_notification != null)
+                Notification notification = button.DataContext as Notification;
+                if (notification != null)
                 {
-                    await this._view_model.deleteNotificationAsync(_notification._notification_id, this._view_model._user_id);
+                    await this._notification_view_model.deleteNotificationAsync(notification.notificationId, this._notification_view_model._user_id);
                 }
             }
         }
