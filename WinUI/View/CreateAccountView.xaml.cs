@@ -27,7 +27,7 @@ namespace WinUI.View
     /// </summary>
     public sealed partial class CreateAccountView : Page
     {
-        private IAuthViewModel _view_model_create_account;
+        private AuthViewModel _view_model_create_account;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateAccountView"/> class.

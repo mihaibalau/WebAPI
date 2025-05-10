@@ -18,7 +18,7 @@ namespace WinUI.View
 
         private async void loadNotifications()
         {
-            await this._notification_view_model.loadNotificationsAsync(_notification_view_model._user_id);
+            await this._notification_view_model.loadNotificationsAsync(_notification_view_model.userId);
         }
 
         private async void deleteButtonClick(object sender, RoutedEventArgs routed_event)
@@ -29,7 +29,7 @@ namespace WinUI.View
                 Notification notification = button.DataContext as Notification;
                 if (notification != null)
                 {
-                    await this._notification_view_model.deleteNotificationAsync(notification.notificationId, this._notification_view_model._user_id);
+                    await this._notification_view_model.deleteNotificationAsync(notification.notificationId, this._notification_view_model.userId);
                 }
             }
         }

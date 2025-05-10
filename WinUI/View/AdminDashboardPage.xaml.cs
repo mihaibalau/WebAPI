@@ -19,7 +19,7 @@ namespace WinUI.View
     /// </summary>
     public sealed partial class AdminDashboardPage : Page
     {
-        private IAuthViewModel _auth_view_model;
+        private AuthViewModel _auth_view_model;
         private LoggerViewModel _logger_view_model;
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace WinUI.View
         /// <param name="auth_view_model">Authentication service for user operations.</param>
         /// <param name="logger_repository">Logger service for auditing.</param>
         /// <exception cref="ArgumentNullException">Thrown if auth service is null.</exception>
-        public AdminDashboardPage(IAuthViewModel auth_view_model, ILogRepository logger_repository)
+        public AdminDashboardPage(AuthViewModel auth_view_model, ILogRepository logger_repository)
         {
             this.InitializeComponent();
             this._auth_view_model = auth_view_model ?? throw new ArgumentNullException(nameof(auth_view_model));
@@ -51,12 +51,12 @@ namespace WinUI.View
         {
             base.OnNavigatedTo(navigation_event);
 
-            if (navigation_event.Parameter is Tuple<IAuthViewModel, ILogRepository> parameters)
+            if (navigation_event.Parameter is Tuple<AuthViewModel, ILogRepository> parameters)
             {
                 this._auth_view_model = parameters.Item1;
                 initializeLogger(parameters.Item2);
             }
-            else if (navigation_event.Parameter is ValueTuple<IAuthViewModel, ILogRepository> value_tuple)
+            else if (navigation_event.Parameter is ValueTuple<AuthViewModel, ILogRepository> value_tuple)
             {
                 this._auth_view_model = value_tuple.Item1;
                 initializeLogger(value_tuple.Item2);
