@@ -76,7 +76,7 @@ namespace Controllers
             try
             {
                 await this._notification_repository.addNotificationAsync(notification);
-                return this.CreatedAtAction(nameof(getAllNotifications), new { id = notification._notification_id }, notification);
+                return this.CreatedAtAction(nameof(getAllNotifications), new { id = notification.notificationId }, notification);
             }
             catch (Exception exception)
             {

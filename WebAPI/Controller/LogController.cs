@@ -31,9 +31,9 @@ namespace Controllers
                 List<Log> logs = await this._log_repository.getAllLogsAsync();
                 return this.Ok(logs);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving logs. Error: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving logs. Error: {exception.Message}");
             }
         }
 
@@ -57,9 +57,9 @@ namespace Controllers
                 }
                 return this.Ok(log);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving the log. Error: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving the log. Error: {exception.Message}");
             }
         }
 
@@ -82,11 +82,11 @@ namespace Controllers
             try
             {
                 await this._log_repository.addLogAsync(log);
-                return this.CreatedAtAction(nameof(getLogById), new { id = log.log_id }, log);
+                return this.CreatedAtAction(nameof(getLogById), new { id = log.logId }, log);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while creating log. Error: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while creating log. Error: {exception.Message}");
             }
         }
 
@@ -110,9 +110,9 @@ namespace Controllers
             {
                 return this.NotFound($"Log with ID {id} was not found.");
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting log. Error: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting log. Error: {exception.Message}");
             }
         }
     }
