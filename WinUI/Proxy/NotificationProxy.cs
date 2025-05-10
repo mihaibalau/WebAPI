@@ -19,6 +19,8 @@ namespace WinUI.Proxy
         /// </summary>
 
         private readonly HttpClient _http_client;
+        private static readonly string s_base_api_url = Config._base_api_url;
+        
         public NotificationProxy(HttpClient http_client)
         {
             this._http_client = http_client;
@@ -27,7 +29,7 @@ namespace WinUI.Proxy
         /// <inheritdoc/>
         public async Task<List<Notification>> getAllNotificationsAsync()
         {
-            var response = await _http_client.GetAsync("http://localhost:5005/api/notification");
+            var response = await _http_client.GetAsync(s_base_api_url + "notification");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -40,9 +42,9 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task<List<Notification>> getNotificationsByUserIdAsync(int user_id)
+        public async Task<List<Notification>> getNotificationsByUserIdAsync(int _user_id)
         {
-            var response = await _http_client.GetAsync($"http://localhost:5005/api/notification/user/{user_id}");
+            var response = await _http_client.GetAsync(s_base_api_url + $"/notification/user/{_user_id}");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -55,49 +57,50 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task<Notification> getNotificationByIdAsync(int id)
+        public async Task<Notification> getNotificationByIdAsync(int _id)
         {
-            var response = await _http_client.GetAsync($"http://localhost:5005/api/notification/{id}");
+            HttpResponseMessage _response = await _http_client.GetAsync(s_base_api_url +  $"notification/{_id}");
 
-            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            if (_response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                throw new KeyNotFoundException($"Notification with ID {id} was not found.");
+                throw new KeyNotFoundException($"Notification with ID {_id} was not found.");
             }
 
-            response.EnsureSuccessStatusCode();
+            _response.EnsureSuccessStatusCode();
 
-            var json = await response.Content.ReadAsStringAsync();
-            var notification = JsonSerializer.Deserialize<Notification>(json, new JsonSerializerOptions
+            string _json = await _response.Content.ReadAsStringAsync();
+
+            Notification _notification = JsonSerializer.Deserialize<Notification>(_json, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            return notification ?? throw new Exception("Failed to deserialize notification.");
+            return _notification ?? throw new Exception("Failed to deserialize notification.");
         }
 
         /// <inheritdoc/>
-        public async Task addNotificationAsync(Notification notification)
+        public async Task addNotificationAsync(Notification _notification)
         {
-            var jsonContent = new StringContent(
-                JsonSerializer.Serialize(notification),
+            StringContent _jsonContent = new StringContent(
+                JsonSerializer.Serialize(_notification),
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await _http_client.PostAsync("http://localhost:5005/api/notification", jsonContent);
-            response.EnsureSuccessStatusCode();
+            HttpResponseMessage _response = await _http_client.PostAsync(s_base_api_url +  "notification", _jsonContent);
+            _response.EnsureSuccessStatusCode();
         }
 
         /// <inheritdoc/>
-        public async Task deleteNotificationAsync(int id)
+        public async Task deleteNotificationAsync(int _id)
         {
-            var response = await _http_client.DeleteAsync($"http://localhost:5005/api/notification/delete/{id}");
+            HttpResponseMessage _response = await _http_client.DeleteAsync(s_base_api_url + $"notification/delete/{_id}");
 
-            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            if (_response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                throw new KeyNotFoundException($"Notification with ID {id} was not found.");
+                throw new KeyNotFoundException($"Notification with ID {_id} was not found.");
             }
 
-            response.EnsureSuccessStatusCode();
+            _response.EnsureSuccessStatusCode();
         }
     }
 }
