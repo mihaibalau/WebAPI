@@ -35,22 +35,22 @@ namespace WinUI.View
             this._authentication_view_model = _authentication_view_model;
 
             var patient_dashboard_control = new PatientDashboardControl(_patient_view_model);
-            patient_dashboard_control.LogoutButtonClicked += handleLogoutRequested;
+            patient_dashboard_control.logout_button_clicked += handleLogoutRequested;
 
             this.Content = patient_dashboard_control;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs navigation_event)
         {
-            base.OnNavigatedTo(e);
+            base.OnNavigatedTo(navigation_event);
 
-            if (e.Parameter is Tuple<IPatientViewModel, IAuthViewModel> parameters)
+            if (navigation_event.Parameter is Tuple<IPatientViewModel, IAuthViewModel> parameters)
             {
                 IPatientViewModel patient_view_model = parameters.Item1;
                 this._authentication_view_model = parameters.Item2;
 
                 var patient_dashboard_control = new PatientDashboardControl(patient_view_model);
-                patient_dashboard_control.LogoutButtonClicked += handleLogoutRequested;
+                patient_dashboard_control.logout_button_clicked += handleLogoutRequested;
 
                 this.Content = patient_dashboard_control;
             }
@@ -73,12 +73,12 @@ namespace WinUI.View
             }
         }
 
-        private async Task ShowErrorDialog(string _title, string _message)
+        private async Task ShowErrorDialog(string title, string message)
         {
             var errorDialog = new ContentDialog
             {
-                Title = _title,
-                Content = _message,
+                Title = title,
+                Content = message,
                 CloseButtonText = "OK",
                 XamlRoot = this.Content.XamlRoot
             };
