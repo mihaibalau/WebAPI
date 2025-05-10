@@ -125,8 +125,8 @@ namespace WinUI.View
                 //  Admin Dashboard is done
                 else if (this._login_page_view_model.getUserRole() == "Admin")
                 {
-                       ILoggerRepository _logger_repository = new LoggerProxy();
-                       Tuple<IAuthViewModel, ILoggerRepository> _parameters = new Tuple<IAuthViewModel, ILoggerRepository>(this._login_page_view_model, _logger_repository);
+                       ILogRepository _logger_repository = new LoggerProxy();
+                       Tuple<IAuthViewModel, ILogRepository> _parameters = new Tuple<IAuthViewModel, ILogRepository>(this._login_page_view_model, _logger_repository);
                        NavigationService.navigate(typeof(AdminDashboardPage), _parameters);
                        return;
                 }
