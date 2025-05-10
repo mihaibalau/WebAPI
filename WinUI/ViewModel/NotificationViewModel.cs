@@ -44,7 +44,7 @@ namespace WinUI.ViewModel
                 if (notification._notification_id == id)
                     return notification;
             }
-            return null;
+            return null; 
         }
     }
 }
