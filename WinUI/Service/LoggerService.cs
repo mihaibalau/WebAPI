@@ -42,7 +42,7 @@ namespace WinUI.Service
         /// </summary>
         /// <param name="_user_id">The ID of the user.</param>
         /// <returns>A list of log entries for the specified user.</returns>
-        /// <exception cref="ArgumentException">Thrown when the _user_id is invalid.</exception>
+        /// <exception cref="ArgumentException">Thrown when the user_id is invalid.</exception>
         public async Task<List<LogEntryModel>> getLogsByUserId(int _user_id)
         {
             if (_user_id <= 0)
@@ -51,7 +51,7 @@ namespace WinUI.Service
             }
 
             List<Log> logs = await this._log_repository.getAllLogsAsync();
-            List<Log> filtered_logs = logs.FindAll(log => log.userId == _user_id);
+            List<Log> filtered_logs = logs.FindAll(log => log.user_id == _user_id);
             return convertLogsToLogEntryModels(filtered_logs);
         }
 
@@ -63,16 +63,16 @@ namespace WinUI.Service
         public async Task<List<LogEntryModel>> getLogsByActionType(ActionType _action_type)
         {
             List<Log> logs = await this._log_repository.getAllLogsAsync();
-            List<Log> filteredLogs = logs.FindAll(log => log.actionType == _action_type.ToString());
+            List<Log> filteredLogs = logs.FindAll(log => log.action_type == _action_type.ToString());
             return convertLogsToLogEntryModels(filteredLogs);
         }
 
         /// <summary>
-        /// Retrieves log entries before a specific _timestamp.
+        /// Retrieves log entries before a specific timestamp.
         /// </summary>
-        /// <param name="_timestamp">The cutoff _timestamp.</param>
-        /// <returns>A list of log entries before the specified _timestamp.</returns>
-        /// <exception cref="ArgumentException">Thrown when the _timestamp is default/uninitialized.</exception>
+        /// <param name="_timestamp">The cutoff timestamp.</param>
+        /// <returns>A list of log entries before the specified timestamp.</returns>
+        /// <exception cref="ArgumentException">Thrown when the timestamp is default/uninitialized.</exception>
         public async Task<List<LogEntryModel>> getLogsBeforeTimestamp(DateTime _timestamp)
         {
             if (_timestamp == default)
@@ -90,7 +90,7 @@ namespace WinUI.Service
         /// </summary>
         /// <param name="_user_id">The ID of the user, or null for all users.</param>
         /// <param name="_action_type">The type of action.</param>
-        /// <param name="_timestamp">The cutoff _timestamp.</param>
+        /// <param name="_timestamp">The cutoff timestamp.</param>
         /// <returns>A list of log entries matching the specified filters.</returns>
         public async Task<List<LogEntryModel>> getLogsWithParameters(int? _user_id, ActionType _action_type, DateTime _timestamp)
         {
@@ -99,15 +99,15 @@ namespace WinUI.Service
             if (_user_id.HasValue)
             {
                 List<Log> filteredLogs = logs.FindAll(log =>
-                    log.userId == _user_id.Value &&
-                    log.actionType == _action_type.ToString() &&
+                    log.user_id == _user_id.Value &&
+                    log.action_type == _action_type.ToString() &&
                     log.timestamp < _timestamp);
                 return convertLogsToLogEntryModels(filteredLogs);
             }
             else
             {
                 List<Log> filteredLogs = logs.FindAll(log =>
-                    log.actionType == _action_type.ToString() &&
+                    log.action_type == _action_type.ToString() &&
                     log.timestamp < _timestamp);
                 return convertLogsToLogEntryModels(filteredLogs);
             }
@@ -119,7 +119,7 @@ namespace WinUI.Service
         /// <param name="_user_id">The ID of the user performing the action.</param>
         /// <param name="_action_type">The type of action being performed.</param>
         /// <returns>True if the action was logged successfully, otherwise false.</returns>
-        /// <exception cref="ArgumentException">Thrown when the _user_id is invalid.</exception>
+        /// <exception cref="ArgumentException">Thrown when the user_id is invalid.</exception>
         public async Task<bool> logAction(int _user_id, ActionType _action_type)
         {
             if (_user_id <= 0)
@@ -131,8 +131,8 @@ namespace WinUI.Service
             {
                 Log log = new Log
                 {
-                    userId = _user_id,
-                    actionType = _action_type.ToString(),
+                    user_id = _user_id,
+                    action_type = _action_type.ToString(),
                     timestamp = DateTime.UtcNow
                 };
 
@@ -159,11 +159,11 @@ namespace WinUI.Service
 
             foreach (Log log in _logs)
             {
-                if (Enum.TryParse<ActionType>(log.actionType, out ActionType actionType))
+                if (Enum.TryParse<ActionType>(log.action_type, out ActionType actionType))
                 {
                     result.Add(new LogEntryModel(
-                        log.logId,
-                        log.userId,
+                        log.log_id,
+                        log.user_id,
                         actionType,
                         log.timestamp
                     ));

@@ -35,9 +35,9 @@ namespace WinUI.Service
         Task<List<LogEntryModel>> getLogsByActionType(ActionType _action_type);
 
         /// <summary>
-        /// Retrieves logs recorded before a specific _timestamp.
+        /// Retrieves logs recorded before a specific timestamp.
         /// </summary>
-        /// <param name="_timestamp">The cutoff _timestamp.</param>
+        /// <param name="_timestamp">The cutoff timestamp.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
         Task<List<LogEntryModel>> getLogsBeforeTimestamp(DateTime _timestamp);
 
@@ -46,7 +46,7 @@ namespace WinUI.Service
         /// </summary>
         /// <param name="_user_id">Optional user ID to filter by.</param>
         /// <param name="_action_type">The action type to filter by.</param>
-        /// <param name="_timestamp">The _timestamp to filter by.</param>
+        /// <param name="_timestamp">The timestamp to filter by.</param>
         /// <returns>A task representing the asynchronous operation with a list of log entries.</returns>
         Task<List<LogEntryModel>> getLogsWithParameters(int? _user_id, ActionType _action_type, DateTime _timestamp);
 

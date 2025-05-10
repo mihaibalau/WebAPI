@@ -93,7 +93,7 @@ namespace WinUI.Proxy
                 response.EnsureSuccessStatusCode();
 
                 List<ApiLogDto> apiLogs = await response.Content.ReadFromJsonAsync<List<ApiLogDto>>(this._json_options);
-                var userLog = apiLogs.Find(log => log._user_id == user_id);
+                var userLog = apiLogs.Find(log => log.user_id == user_id);
 
                 if (userLog == null)
                 {
@@ -120,9 +120,9 @@ namespace WinUI.Proxy
             {
                 ApiLogDto log_data = new ApiLogDto
                 {
-                    _user_id = log.userId,
-                    _action_type = log.actionType,
-                    _timestamp = log.timestamp
+                    user_id = log.user_id,
+                    action_type = log.action_type,
+                    timestamp = log.timestamp
                 };
 
                 HttpResponseMessage response = await this._http_client.PostAsJsonAsync(s_base_api_url + "log", log_data);
@@ -170,10 +170,10 @@ namespace WinUI.Proxy
             {
                 result.Add(new Log
                 {
-                    logId = api_log._log_id,
-                    userId = api_log._user_id,
-                    actionType = api_log._action_type,
-                    timestamp = api_log._timestamp
+                    log_id = api_log.log_id,
+                    user_id = api_log.user_id,
+                    action_type = api_log.action_type,
+                    timestamp = api_log.timestamp
                 });
             }
 
@@ -192,10 +192,10 @@ namespace WinUI.Proxy
 
             return new Log
             {
-                logId = _api_log._log_id,
-                userId = _api_log._user_id,
-                actionType = _api_log._action_type,
-                timestamp = _api_log._timestamp
+                log_id = _api_log.log_id,
+                user_id = _api_log.user_id,
+                action_type = _api_log.action_type,
+                timestamp = _api_log.timestamp
             };
         }
     }

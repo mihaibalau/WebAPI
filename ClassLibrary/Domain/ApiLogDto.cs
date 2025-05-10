@@ -2,12 +2,12 @@
 
 public class ApiLogDto
 {
-    [JsonPropertyName("logId")]
-    public int _log_id { get; set; }
-    [JsonPropertyName("userId")]
-    public int _user_id { get; set; }
-    [JsonPropertyName("actionType")]
-    public string _action_type { get; set; }
+    [JsonPropertyName("log_id")]
+    public int log_id { get; set; }
+    [JsonPropertyName("user_id")]
+    public int user_id { get; set; }
+    [JsonPropertyName("action_type")]
+    public string action_type { get; set; }
     [JsonPropertyName("timestamp")]
-    public DateTime _timestamp { get; set; }
+    public DateTime timestamp { get; set; }
 }
