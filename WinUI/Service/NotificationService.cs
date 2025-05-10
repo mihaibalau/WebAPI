@@ -67,7 +67,7 @@ namespace WinUI.Service
                 throw new KeyNotFoundException(
                     $"Notification with ID {notification_id} not found.");
 
-            if (_notification._user_id != user_id)
+            if (_notification.userId != user_id)
                 throw new UnauthorizedAccessException(
                     $"User {user_id} is not allowed to delete notification {notification_id}.");
 
