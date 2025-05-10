@@ -39,6 +39,6 @@ namespace WinUI.ViewModel
         /// </summary>
         /// <param name="notification_id">The ID of the notification to find.</param>
         /// <returns>A task that returns the found notification, or null if not found.</returns>
-        Task<Notification> findNotificationByIdAsync(int _notification_id);
+        Notification findNotificationById(int _notification_id);
     }
 }

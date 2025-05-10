@@ -33,17 +33,17 @@ namespace WinUI.ViewModel
         public async Task deleteNotificationAsync(int _notification_id, int _user_id)
         {
                 await this._notification_service.deleteNotificationAsync(_notification_id, _user_id);
-                Notification _notification = findNotificationByIdAsync(_notification_id);
+                Notification _notification = this.findNotificationById(_notification_id);
                 if (_notification != null)
                     _notifications_collection.Remove(_notification);
         }
 
-        public Notification findNotificationByIdAsync(int _id)
+        public Notification findNotificationById(int _id)
         {
-            foreach (Notification notification in _notifications_collection)
+            foreach (Notification _notification in _notifications_collection)
             {
-                if (notification._notification_id == _id)
-                    return notification;
+                if (_notification._notification_id == _id)
+                    return _notification;
             }
             return null;
         }
