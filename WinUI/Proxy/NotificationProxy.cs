@@ -29,46 +29,46 @@ namespace WinUI.Proxy
         /// <inheritdoc/>
         public async Task<List<Notification>> getAllNotificationsAsync()
         {
-            HttpResponseMessage _response = await _http_client.GetAsync(s_base_api_url + "notification");
-            _response.EnsureSuccessStatusCode();
+            HttpResponseMessage response = await this._http_client.GetAsync(s_base_api_url + "notification");
+            response.EnsureSuccessStatusCode();
 
-            String _json = await _response.Content.ReadAsStringAsync();
-            List<Notification> _notifications = JsonSerializer.Deserialize<List<Notification>>(_json, new JsonSerializerOptions
+            String json = await response.Content.ReadAsStringAsync();
+            List<Notification> notifications = JsonSerializer.Deserialize<List<Notification>>(json, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            return _notifications ?? new List<Notification>();
+            return notifications ?? new List<Notification>();
         }
 
         /// <inheritdoc/>
-        public async Task<List<Notification>> getNotificationsByUserIdAsync(int _user_id)
+        public async Task<List<Notification>> getNotificationsByUserIdAsync(int user_id)
         {
-            HttpResponseMessage _response = await _http_client.GetAsync(s_base_api_url + $"notification/user/{_user_id}");
-            _response.EnsureSuccessStatusCode();
+            HttpResponseMessage response = await this._http_client.GetAsync(s_base_api_url + $"notification/user/{user_id}");
+            response.EnsureSuccessStatusCode();
 
-            String _json = await _response.Content.ReadAsStringAsync();
-            List<Notification> _notifications = JsonSerializer.Deserialize<List<Notification>>(_json, new JsonSerializerOptions
+            String json = await response.Content.ReadAsStringAsync();
+            List<Notification> notifications = JsonSerializer.Deserialize<List<Notification>>(json, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            return _notifications ?? new List<Notification>();
+            return notifications ?? new List<Notification>();
         }
 
         /// <inheritdoc/>
-        public async Task<Notification> getNotificationByIdAsync(int _id)
+        public async Task<Notification> getNotificationByIdAsync(int id)
         {
-            HttpResponseMessage _response = await _http_client.GetAsync(s_base_api_url +  $"notification/{_id}");
+            HttpResponseMessage response = await this._http_client.GetAsync(s_base_api_url +  $"notification/{id}");
 
-            if (_response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                throw new KeyNotFoundException($"Notification with ID {_id} was not found.");
+                throw new KeyNotFoundException($"Notification with ID {id} was not found.");
             }
 
-            _response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
-            string _json = await _response.Content.ReadAsStringAsync();
+            string _json = await response.Content.ReadAsStringAsync();
 
             Notification _notification = JsonSerializer.Deserialize<Notification>(_json, new JsonSerializerOptions
             {
@@ -79,28 +79,28 @@ namespace WinUI.Proxy
         }
 
         /// <inheritdoc/>
-        public async Task addNotificationAsync(Notification _notification)
+        public async Task addNotificationAsync(Notification notification)
         {
-            StringContent _jsonContent = new StringContent(
-                JsonSerializer.Serialize(_notification),
+            StringContent jsonContent = new StringContent(
+                JsonSerializer.Serialize(notification),
                 Encoding.UTF8,
                 "application/json");
 
-            HttpResponseMessage _response = await _http_client.PostAsync(s_base_api_url +  "notification", _jsonContent);
-            _response.EnsureSuccessStatusCode();
+            HttpResponseMessage response = await this._http_client.PostAsync(s_base_api_url +  "notification", jsonContent);
+            response.EnsureSuccessStatusCode();
         }
 
         /// <inheritdoc/>
-        public async Task deleteNotificationAsync(int _id)
+        public async Task deleteNotificationAsync(int id)
         {
-            HttpResponseMessage _response = await _http_client.DeleteAsync(s_base_api_url + $"notification/delete/{_id}");
+            HttpResponseMessage response = await this._http_client.DeleteAsync(s_base_api_url + $"notification/delete/{id}");
 
-            if (_response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                throw new KeyNotFoundException($"Notification with ID {_id} was not found.");
+                throw new KeyNotFoundException($"Notification with ID {id} was not found.");
             }
 
-            _response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
         }
     }
 }
