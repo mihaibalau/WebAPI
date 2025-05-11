@@ -36,7 +36,7 @@ namespace WinUI.Proxy
             string log_json = JsonSerializer.Serialize(log);
             StringContent content = new StringContent(log_json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _http_client.PostAsync(s_base_url + "api/log", content);
+            HttpResponseMessage response = await _http_client.PostAsync(s_base_url + "log", content);
             response.EnsureSuccessStatusCode();
 
             return true;
@@ -44,7 +44,7 @@ namespace WinUI.Proxy
 
         public async Task<bool> createAccount(UserCreateAccountModel model_for_creating_user_account)
         {
-            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_url + "api/user");
+            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_url + "user");
             response.EnsureSuccessStatusCode();
 
             string response_body = await response.Content.ReadAsStringAsync();
@@ -78,7 +78,7 @@ namespace WinUI.Proxy
 
             var json = JsonSerializer.Serialize(_user_json);
             HttpContent _content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage _post_response = await this._http_client.PostAsync(this.s_base_url + "api/user", _content);
+            HttpResponseMessage _post_response = await this._http_client.PostAsync(this.s_base_url + "user", _content);
             _post_response.EnsureSuccessStatusCode();
 
             return true;
@@ -86,7 +86,7 @@ namespace WinUI.Proxy
 
         public async Task<UserAuthModel> getUserByUsername(string username)
         {
-            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_url + "api/user");
+            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_url + "user");
             response.EnsureSuccessStatusCode();
 
             string response_body = await response.Content.ReadAsStringAsync();
@@ -111,7 +111,7 @@ namespace WinUI.Proxy
         {
             [JsonPropertyName("userId")]
             public int user_id { get; set; }
-            
+
             [JsonPropertyName("username")]
             public string username { get; set; }
 
@@ -145,13 +145,13 @@ namespace WinUI.Proxy
 
         private class UserLogHttpModel
         {
-            [JsonPropertyName("log_id")]
+            [JsonPropertyName("logId")]
             public int log_id { get; set; }
 
-            [JsonPropertyName("user_id")]
+            [JsonPropertyName("userId")]
             public int user_id { get; set; }
 
-            [JsonPropertyName("action_type")]
+            [JsonPropertyName("actionType")]
             public string action_type { get; set; }
 
             [JsonPropertyName("timestamp")]

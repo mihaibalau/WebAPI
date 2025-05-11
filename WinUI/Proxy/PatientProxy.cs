@@ -6,10 +6,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using ClassLibrary.IRepository;
+using WinUI.Repository;
 using ClassLibrary.Domain;
 using WinUI.Model;
 using static WinUI.Proxy.LogInProxy;
+using ClassLibrary.IRepository;
 
 namespace WinUI.Proxy
 {
@@ -25,7 +26,7 @@ namespace WinUI.Proxy
 
         public async Task<List<User>> getAllUserAsync()
         {
-            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_api_url + "api/user");
+            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_api_url + "user");
             response.EnsureSuccessStatusCode();
 
             string response_body = await response.Content.ReadAsStringAsync();
@@ -62,11 +63,11 @@ namespace WinUI.Proxy
             }
 
             return users;
-        } 
+        }
 
         public async Task<List<Patient>> getAllPatientsAsync()
         {
-            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_api_url + "api/patient");
+            HttpResponseMessage response = await this._http_client.GetAsync(this.s_base_api_url + "patient");
             response.EnsureSuccessStatusCode();
 
             string response_body = await response.Content.ReadAsStringAsync();
@@ -81,7 +82,7 @@ namespace WinUI.Proxy
 
         public async Task<Patient> getPatientByUserIdAsync(int id)
         {
-            HttpResponseMessage response = await this._http_client.GetAsync($"{this.s_base_api_url}api/patient/{id}");
+            HttpResponseMessage response = await this._http_client.GetAsync($"{this.s_base_api_url}patient/{id}");
             response.EnsureSuccessStatusCode();
 
             string response_body = await response.Content.ReadAsStringAsync();
@@ -104,7 +105,7 @@ namespace WinUI.Proxy
             string patient_json = JsonSerializer.Serialize(patient_http);
             StringContent content = new StringContent(patient_json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await this._http_client.PostAsync(this.s_base_api_url + "api/patient", content);
+            HttpResponseMessage response = await this._http_client.PostAsync(this.s_base_api_url + "patient", content);
             response.EnsureSuccessStatusCode();
         }
 
@@ -116,7 +117,7 @@ namespace WinUI.Proxy
                 string patient_json = JsonSerializer.Serialize(patient_http);
                 StringContent patient_content = new StringContent(patient_json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage patient_response = await this._http_client.PostAsync($"{this.s_base_api_url}api/patient", patient_content);
+                HttpResponseMessage patient_response = await this._http_client.PostAsync($"{this.s_base_api_url}patient", patient_content);
                 patient_response.EnsureSuccessStatusCode();
 
                 UserHttpModel user_http = mapUserToHttpModel(user);
@@ -124,7 +125,7 @@ namespace WinUI.Proxy
                 StringContent user_content = new StringContent(user_json, Encoding.UTF8, "application/json");
 
                 // Use PUT for updating existing user data
-                HttpResponseMessage user_response = await this._http_client.PutAsync($"{this.s_base_api_url}api/user/{user.userId}", user_content);
+                HttpResponseMessage user_response = await this._http_client.PutAsync($"{this.s_base_api_url}user/{user.userId}", user_content);
                 user_response.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
@@ -153,7 +154,7 @@ namespace WinUI.Proxy
 
         public async Task deletePatientAsync(int id)
         {
-            HttpResponseMessage response = await this._http_client.DeleteAsync($"{this.s_base_api_url}api/patient/{id}");
+            HttpResponseMessage response = await this._http_client.DeleteAsync($"{this.s_base_api_url}patient/{id}");
             response.EnsureSuccessStatusCode();
         }
 

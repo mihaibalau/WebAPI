@@ -131,7 +131,7 @@ namespace WinUI.Proxy
             try
             {
                 Debug.WriteLine($"Getting doctors by department ID: {department_id}");
-                HttpResponseMessage response = await this._http_client.GetAsync($"{this.s_base_api_url}/doctor/doctor/{department_id}");
+                HttpResponseMessage response = await this._http_client.GetAsync($"{this.s_base_api_url}doctor/doctor/{department_id}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<RecommendationSystemDoctorJointModel>>();
             }
@@ -147,7 +147,7 @@ namespace WinUI.Proxy
             try
             {
                 Debug.WriteLine("Getting all doctors");
-                HttpResponseMessage response = await this._http_client.GetAsync($"{this.s_base_api_url}/doctor");
+                HttpResponseMessage response = await this._http_client.GetAsync($"{this.s_base_api_url}doctor");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<RecommendationSystemDoctorJointModel>>();
             }
@@ -163,7 +163,7 @@ namespace WinUI.Proxy
             try
             {
                 Debug.WriteLine($"Getting doctor by ID: {doctor_id}");
-                HttpResponseMessage response = await this._http_client.GetAsync($"{this.s_base_api_url}/doctor/{doctor_id}");
+                HttpResponseMessage response = await this._http_client.GetAsync($"{this.s_base_api_url}doctor/{doctor_id}");
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                     return null;
 
@@ -190,49 +190,49 @@ namespace WinUI.Proxy
 
         public async Task<bool> updateDoctorName(int user_id, string name)
         {
-            var response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/name", name);
+            var response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}doctor/{user_id}/name", name);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> updateDoctorEmail(int user_id, string email)
         {
-            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/email", email);
+            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}doctor/{user_id}/email", email);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> updateDoctorCareerInfo(int user_id, string career_info)
         {
-            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/career-info", career_info);
+            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}doctor/{user_id}/career-info", career_info);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> updateDoctorDepartment(int user_id, int department_id)
         {
-            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/department", department_id);
+            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}doctor/{user_id}/department", department_id);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> updateDoctorRating(int user_id, double rating)
         {
-            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/rating", rating);
+            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}doctor/{user_id}/rating", rating);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> updateDoctorAvatarUrl(int user_id, string new_avatar_url)
         {
-            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/avatar", new_avatar_url);
+            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}doctor/{user_id}/avatar", new_avatar_url);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> updateDoctorPhoneNumber(int user_id, string new_phone_number)
         {
-            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/phone", new_phone_number);
+            HttpResponseMessage response = await this._http_client.PutAsJsonAsync($"{this.s_base_api_url}doctor/{user_id}/phone", new_phone_number);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> updateLogService(int user_id, ActionType type)
         {
-            HttpResponseMessage response = await this._http_client.PostAsJsonAsync($"{this.s_base_api_url}/doctor/{user_id}/log", type);
+            HttpResponseMessage response = await this._http_client.PostAsJsonAsync($"{this.s_base_api_url}doctor/{user_id}/log", type);
             return response.IsSuccessStatusCode;
         }
     }

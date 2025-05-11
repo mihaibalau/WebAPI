@@ -32,18 +32,26 @@ namespace WinUI.Service
 
         public async Task<bool> loadPatientInfoByUserId(int user_id)
         {
-            Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(user_id);
-            List<User> domain_users = await this._patient_repository.getAllUserAsync();
-            User filtered_user = domain_users.Find(user => user.userId == user_id);
-            if (domain_patient == null || filtered_user == null)
+            try
+            {
+                Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(user_id);
+                List<User> domain_users = await this._patient_repository.getAllUserAsync();
+                User filtered_user = domain_users.Find(user => user.userId == user_id);
+
+                if (domain_patient == null || filtered_user == null)
+                {
+                    patientInfo = PatientJointModel.Default;
+                    return false;
+                }
+
+                this.patientInfo = mapToJointModel(domain_patient, filtered_user);
+                return true;
+            }
+            catch (Exception ex)
             {
                 patientInfo = PatientJointModel.Default;
                 return false;
             }
-
-            this.patientInfo = mapToJointModel(domain_patient, filtered_user);
-            Debug.WriteLine($"Patient info loaded: {this.patientInfo.patientName}");
-            return true;
         }
 
         public async Task<bool> loadAllPatients()
@@ -163,7 +171,6 @@ namespace WinUI.Service
 
                 domain_patient.weight = weight;
                 await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
-                await logUpdate(user_id, ActionType.UPDATE_PROFILE);
 
                 return true;
             }
