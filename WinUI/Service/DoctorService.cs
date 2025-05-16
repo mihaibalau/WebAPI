@@ -12,6 +12,12 @@
     namespace WinUI.Service
     {
         public class DoctorService : IDoctorService
+        private readonly DoctorsProxy _doctorRepository;
+        private readonly UserProxy _userRepository;
+
+        public DoctorModel DoctorInformation { get; private set; } = DoctorModel.Default;
+
+        public DoctorService(IDoctorRepository doctorRepository , IUserRepository userRepository)
         {
             private readonly DoctorsProxy _doctorRepository;
             private readonly UserProxy _userRepository;
