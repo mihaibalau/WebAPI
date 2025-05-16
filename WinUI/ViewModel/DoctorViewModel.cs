@@ -50,6 +50,8 @@ namespace WinUI.ViewModel
             IsLoading = false;
         }
 
+        public DoctorViewModel(){}
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public DoctorModel OriginalDoctor { get; set; }

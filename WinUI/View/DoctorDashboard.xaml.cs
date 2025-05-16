@@ -30,6 +30,7 @@ namespace WinUI.View
         public DoctorDashboard()
         {
             this.InitializeComponent();
+            ViewModel = new DoctorViewModel();
         }
 
         protected override async void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
