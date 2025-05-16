@@ -68,7 +68,7 @@ namespace WinUI.Proxy
 
         public async Task<List<Doctor>> GetDoctorsByDepartmentIdAsync(int departmentId)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + $"api/doctor/department/{departmentId}");
+            HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + $"api/doctor/doctor/{departmentId}");
             response.EnsureSuccessStatusCode();
 
             string responseBody = await response.Content.ReadAsStringAsync();
@@ -83,17 +83,19 @@ namespace WinUI.Proxy
 
         public async Task<Department> GetDepartmentByIdAsync(int id)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + $"api/department/{id}");
+            var departments = await GetAllDepartmentsAsync();
+            return departments.FirstOrDefault(d => d.Id == id);
+        }
+
+        public async Task<List<Department>> GetAllDepartmentsAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + "api/department");
             response.EnsureSuccessStatusCode();
-
             string responseBody = await response.Content.ReadAsStringAsync();
-
-            Department department = JsonSerializer.Deserialize<Department>(responseBody, new JsonSerializerOptions
+            return JsonSerializer.Deserialize<List<Department>>(responseBody, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
-
-            return department;
         }
     }
 }

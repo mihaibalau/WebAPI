@@ -6,6 +6,9 @@ using WinUI.Model;
 using WinUI.Service;
 using Microsoft.UI.Xaml;
 using WinUI.Proxy;
+using System.Linq;
+using System.Collections.ObjectModel;
+using ClassLibrary.Domain;
 
 namespace WinUI.ViewModel
 {
@@ -97,6 +100,7 @@ namespace WinUI.ViewModel
                 {
                     _departmentId = value;
                     OnPropertyChanged();
+                    DepartmentName = Departments.FirstOrDefault(d => d.Id == _departmentId)?.Name ?? DefaultDepartmentName;
                 }
             }
         }
@@ -213,6 +217,8 @@ namespace WinUI.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public ObservableCollection<Department> Departments { get; set; } = new ObservableCollection<Department>();
+
         public async Task<bool> LoadDoctorInformationAsync(int userId)
         {
             System.Diagnostics.Debug.WriteLine("LoadDoctorInformationAsync called");
@@ -237,15 +243,21 @@ namespace WinUI.ViewModel
                     return false;
                 }
 
+                // Fetch all departments and populate collection
+                var allDepartments = await _doctorProxy.GetAllDepartmentsAsync();
+                Departments.Clear();
+                foreach (var dept in allDepartments)
+                    Departments.Add(dept);
+
                 // Fetch department info
-                //var department = await _doctorProxy.GetDepartmentByIdAsync(doctor.DepartmentId);
+                var department = await _doctorProxy.GetDepartmentByIdAsync(doctor.DepartmentId);
+                DepartmentName = department?.Name ?? DefaultDepartmentName;
 
                 DoctorName = user.Name;
                 DepartmentId = doctor.DepartmentId;
-                DepartmentName = DefaultDepartmentName; // department?.Name ?? 
                 Rating = doctor.DoctorRating;
-                CareerInfo = user.Role ?? DefaultCareerInfo; // Or another appropriate field
-                AvatarUrl = "https://picsum.photos/200"; // Set if available
+                CareerInfo = user.Role ?? DefaultCareerInfo; 
+                AvatarUrl = "https://picsum.photos/200"; 
                 PhoneNumber = user.PhoneNumber;
                 Mail = user.Mail;
 
