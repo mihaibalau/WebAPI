@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using WinUI.Model;
 using WinUI.Service;
+using Microsoft.UI.Xaml;
+using WinUI.Proxy;
 
 namespace WinUI.ViewModel
 {
@@ -26,10 +28,14 @@ namespace WinUI.ViewModel
         private const string DefaultErrorCareerInfo = "Please try again later";
 
         private readonly IDoctorService _doctorService;
+        private readonly DoctorsProxy _doctorProxy;
+        private readonly UserProxy _userProxy;
 
-        public DoctorViewModel(IDoctorService doctorService, int userId)
+        public DoctorViewModel(IDoctorService doctorService, DoctorsProxy doctorProxy, UserProxy userProxy, int userId)
         {
             _doctorService = doctorService;
+            _doctorProxy = doctorProxy;
+            _userProxy = userProxy;
             UserId = userId;
 
             DoctorName = DefaultDoctorName;
@@ -41,7 +47,7 @@ namespace WinUI.ViewModel
             Mail = DefaultEmail;
 
             OriginalDoctor = DoctorModel.Default;
-            _ = LoadDoctorInformationAsync(userId);
+            IsLoading = false;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -193,9 +199,12 @@ namespace WinUI.ViewModel
                 {
                     _isLoading = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(MainContentVisibility));
                 }
             }
         }
+
+        public Visibility MainContentVisibility => IsLoading ? Visibility.Collapsed : Visibility.Visible;
 
         protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
@@ -204,37 +213,46 @@ namespace WinUI.ViewModel
 
         public async Task<bool> LoadDoctorInformationAsync(int userId)
         {
+            System.Diagnostics.Debug.WriteLine("LoadDoctorInformationAsync called");
             try
             {
                 IsLoading = true;
+                System.Diagnostics.Debug.WriteLine("IsLoading set to true");
 
-                bool wasLoaded = await _doctorService.LoadDoctorInformationByUserId(userId);
-
-                if (wasLoaded && _doctorService.DoctorInformation != DoctorModel.Default)
+                // Fetch doctor info
+                var doctor = await _doctorProxy.GetDoctorByUserIdAsync(userId);
+                if (doctor == null)
                 {
-                    var doctor = _doctorService.DoctorInformation;
-                    DoctorName = doctor.DoctorName ?? NotSpecified;
-                    DepartmentId = doctor.DepartmentId;
-                    DepartmentName = doctor.DepartmentName ?? NotAvailable;
-                    Rating = doctor.Rating > 0 ? doctor.Rating : DefaultRating;
-                    CareerInfo = doctor.CareerInfo ?? NotAvailable;
-                    AvatarUrl = doctor.AvatarUrl ?? DefaultAvatarUrl;
-                    PhoneNumber = doctor.PhoneNumber ?? NotProvided;
-                    Mail = doctor.Mail ?? NotProvided;
-
-                    OriginalDoctor = new DoctorModel(-1, DoctorName, DepartmentId, DepartmentName, Rating, CareerInfo, AvatarUrl,
-                        PhoneNumber, Mail);
-
-                    return true;
+                    System.Diagnostics.Debug.WriteLine("Doctor not found");
+                    return false;
                 }
 
-                // Set not found state
-                DoctorName = DefaultNotFoundDoctorName;
-                DepartmentName = NotAvailable;
-                return false;
+                // Fetch user info
+                var user = await _userProxy.GetUserByIdAsync(userId);
+                if (user == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("User not found");
+                    return false;
+                }
+
+                // Fetch department info
+                //var department = await _doctorProxy.GetDepartmentByIdAsync(doctor.DepartmentId);
+
+                DoctorName = user.Name;
+                DepartmentId = doctor.DepartmentId;
+                DepartmentName = DefaultDepartmentName; // department?.Name ?? 
+                Rating = doctor.DoctorRating;
+                CareerInfo = user.Role ?? DefaultCareerInfo; // Or another appropriate field
+                AvatarUrl = ""; // Set if available
+                PhoneNumber = user.PhoneNumber;
+                Mail = user.Mail;
+
+                System.Diagnostics.Debug.WriteLine("Doctor, user, and department info loaded");
+                return true;
             }
             catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine($"Exception: {exception.Message}");
                 Debug.WriteLine($"Error in ViewModel: {exception.Message}");
 
                 // Set error state
@@ -247,6 +265,7 @@ namespace WinUI.ViewModel
             finally
             {
                 IsLoading = false;
+                System.Diagnostics.Debug.WriteLine("IsLoading set to false (finally)");
             }
         }
 

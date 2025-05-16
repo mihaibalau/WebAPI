@@ -37,7 +37,7 @@
                           HorizontalAlignment="Center" 
                           VerticalAlignment="Center" />
 
-                <ScrollViewer Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                <ScrollViewer Visibility="Visible">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -46,12 +46,12 @@
 
                         <!-- Left Column - Profile Image -->
                         <StackPanel Grid.Column="0" Margin="0,0,40,0" Width="220">
-                            <PersonPicture ProfilePicture="{x:Bind ViewModel.AvatarUrl, Mode=OneWay}" 
+                            <PersonPicture ProfilePicture="{Binding ViewModel.AvatarUrl, Mode=OneWay}" 
                                        Width="200" 
                                        Height="200" />
 
                             <TextBox Header="Image URL" 
-                                 Text="{x:Bind ViewModel.AvatarUrl, Mode=TwoWay}" 
+                                 Text="{Binding ViewModel.AvatarUrl, Mode=TwoWay}" 
                                  Margin="0,10,0,0"
                                  PlaceholderText="Enter image URL" />
                         </StackPanel>
@@ -60,14 +60,14 @@
                         <StackPanel Grid.Column="1" Spacing="15">
                             <!-- Name -->
                             <TextBox Header="Full Name" 
-                                 Text="{x:Bind ViewModel.DoctorName, Mode=TwoWay}" 
+                                 Text="{Binding ViewModel.DoctorName, Mode=TwoWay}" 
                                  PlaceholderText="Enter your full name" />
 
                             <!-- Department -->
                             <ComboBox Header="Department" 
                                   SelectedValuePath="Id"
                                   DisplayMemberPath="Name"
-                                  SelectedValue="{x:Bind ViewModel.DepartmentId, Mode=TwoWay}"
+                                  SelectedValue="{Binding ViewModel.DepartmentId, Mode=TwoWay}"
                                   PlaceholderText="Select your department"
                                   Width="300"
                                   HorizontalAlignment="Left" />
@@ -75,21 +75,21 @@
                             <!-- Current Department -->
                             <TextBlock>
                             <Run Text="Current Department: " />
-                            <Run Text="{x:Bind ViewModel.DepartmentName, Mode=OneWay}" FontWeight="SemiBold" />
+                            <Run Text="{Binding ViewModel.DepartmentName, Mode=OneWay}" FontWeight="SemiBold" />
                             </TextBlock>
 
                             <!-- Rating (Read-only) -->
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock Text="Rating:" VerticalAlignment="Center" />
-                                <RatingControl Value="{x:Bind ViewModel.Rating, Mode=OneWay}" 
+                                <RatingControl Value="{Binding ViewModel.Rating, Mode=OneWay}" 
                                           IsReadOnly="True" />
-                                <TextBlock Text="{x:Bind ViewModel.Rating, Mode=OneWay}" 
+                                <TextBlock Text="{Binding ViewModel.Rating, Mode=OneWay}" 
                                        VerticalAlignment="Center" />
                             </StackPanel>
 
                             <!-- Career Information -->
                             <TextBox Header="Career Information" 
-                                 Text="{x:Bind ViewModel.CareerInfo, Mode=TwoWay}" 
+                                 Text="{Binding ViewModel.CareerInfo, Mode=TwoWay}" 
                                  PlaceholderText="Enter your career information and specializations"
                                  TextWrapping="Wrap"
                                  AcceptsReturn="True"
@@ -97,11 +97,11 @@
 
                             <!-- Contact Information -->
                             <TextBox Header="Phone Number" 
-                                 Text="{x:Bind ViewModel.PhoneNumber, Mode=TwoWay}" 
+                                 Text="{Binding ViewModel.PhoneNumber, Mode=TwoWay}" 
                                  PlaceholderText="Enter your phone number" />
 
                             <TextBox Header="Email" 
-                                 Text="{x:Bind ViewModel.Mail, Mode=TwoWay}" 
+                                 Text="{Binding ViewModel.Mail, Mode=TwoWay}" 
                                  PlaceholderText="Enter your email address" />
                         </StackPanel>
                     </Grid>

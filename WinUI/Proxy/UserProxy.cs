@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,7 +11,7 @@ using ClassLibrary.IRepository;
 
 namespace WinUI.Proxy
 {
-    internal class UserProxy : IUserRepository
+    public class UserProxy : IUserRepository
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl = "http://localhost:5005/";

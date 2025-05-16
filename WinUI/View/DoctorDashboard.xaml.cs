@@ -25,17 +25,33 @@ namespace WinUI.View
     ///
     public sealed partial class DoctorDashboard : Page
     {
-        public DoctorViewModel ViewModel { get; }
-
-        public DoctorDashboard(DoctorViewModel viewModel)
-        {
-            this.InitializeComponent();
-            ViewModel = viewModel;
-        }
+        public IDoctorViewModel ViewModel { get; set; }
 
         public DoctorDashboard()
         {
             this.InitializeComponent();
+        }
+
+        protected override async void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter is Tuple<IDoctorViewModel, IAuthViewModel> parameters)
+            {
+                ViewModel = parameters.Item1;
+                this.DataContext = this;
+                await ViewModel.LoadDoctorInformationAsync(ViewModel.UserId);
+            }
+            else if (e.Parameter is IDoctorViewModel vm)
+            {
+                ViewModel = vm;
+                this.DataContext = this;
+                await ViewModel.LoadDoctorInformationAsync(ViewModel.UserId);
+            }
+            System.Diagnostics.Debug.WriteLine("OnNavigatedTo called in DoctorDashboard");
+            System.Diagnostics.Debug.WriteLine($"ViewModel is null: {ViewModel == null}");
+            System.Diagnostics.Debug.WriteLine($"MainContentVisibility: {ViewModel?.MainContentVisibility}");
+            // Optionally handle error if parameter is not as expected
         }
 
         private void OnRevertChanges(object sender, RoutedEventArgs e)

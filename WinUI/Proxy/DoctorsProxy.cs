@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace WinUI.Proxy
 {
-    internal class DoctorsProxy : IDoctorRepository
+    public class DoctorsProxy : IDoctorRepository
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl = "http://localhost:5005/";
