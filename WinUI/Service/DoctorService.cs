@@ -17,7 +17,7 @@ namespace WinUI.Service
 
         public DoctorModel DoctorInformation { get; private set; } = DoctorModel.Default;
 
-        public DoctorService(IDoctorRepository doctorRepository, IUserRepository userRepository)
+        public DoctorService(IDoctorRepository doctorRepository , IUserRepository userRepository)
         {
             _doctorRepository = (DoctorsProxy?)(doctorRepository ?? throw new ArgumentNullException(nameof(doctorRepository)));
             _userRepository = (UserProxy?)userRepository;
@@ -44,8 +44,8 @@ namespace WinUI.Service
                     DepartmentName = department.Name,
                     Rating = doctor.DoctorRating,
                     Mail = user.Mail,
-                    CareerInfo = user.Role, // Placeholder if CareerInfo is not defined elsewhere
-                    AvatarUrl = "" // Placeholder; update if this exists in your model
+                    CareerInfo = user.Role, 
+                    AvatarUrl = "https://picsum.photos/200"
                 };
 
                 return true;

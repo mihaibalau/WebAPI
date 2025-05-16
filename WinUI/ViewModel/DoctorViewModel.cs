@@ -31,14 +31,10 @@ namespace WinUI.ViewModel
         private const string DefaultErrorCareerInfo = "Please try again later";
 
         private readonly IDoctorService _doctorService;
-        private readonly DoctorsProxy _doctorProxy;
-        private readonly UserProxy _userProxy;
 
-        public DoctorViewModel(IDoctorService doctorService, DoctorsProxy doctorProxy, UserProxy userProxy, int userId)
+        public DoctorViewModel(IDoctorService doctorService, int userId)
         {
             _doctorService = doctorService;
-            _doctorProxy = doctorProxy;
-            _userProxy = userProxy;
             UserId = userId;
 
             DoctorName = DefaultDoctorName;
@@ -227,41 +223,25 @@ namespace WinUI.ViewModel
                 IsLoading = true;
                 System.Diagnostics.Debug.WriteLine("IsLoading set to true");
 
-                // Fetch doctor info
-                var doctor = await _doctorProxy.GetDoctorByUserIdAsync(userId);
-                if (doctor == null)
+                // Use the service to load doctor info
+                bool wasLoaded = await _doctorService.LoadDoctorInformationByUserId(userId);
+                if (!wasLoaded)
                 {
-                    System.Diagnostics.Debug.WriteLine("Doctor not found");
+                    System.Diagnostics.Debug.WriteLine("Doctor info not loaded by service");
                     return false;
                 }
 
-                // Fetch user info
-                var user = await _userProxy.GetUserByIdAsync(userId);
-                if (user == null)
-                {
-                    System.Diagnostics.Debug.WriteLine("User not found");
-                    return false;
-                }
+                var info = _doctorService.DoctorInformation;
+                DoctorName = info.DoctorName;
+                DepartmentId = info.DepartmentId;
+                DepartmentName = info.DepartmentName;
+                Rating = info.Rating;
+                CareerInfo = info.CareerInfo;
+                AvatarUrl = info.AvatarUrl;
+                PhoneNumber = info.PhoneNumber;
+                Mail = info.Mail;
 
-                // Fetch all departments and populate collection
-                var allDepartments = await _doctorProxy.GetAllDepartmentsAsync();
-                Departments.Clear();
-                foreach (var dept in allDepartments)
-                    Departments.Add(dept);
-
-                // Fetch department info
-                var department = await _doctorProxy.GetDepartmentByIdAsync(doctor.DepartmentId);
-                DepartmentName = department?.Name ?? DefaultDepartmentName;
-
-                DoctorName = user.Name;
-                DepartmentId = doctor.DepartmentId;
-                Rating = doctor.DoctorRating;
-                CareerInfo = user.Role ?? DefaultCareerInfo; 
-                AvatarUrl = "https://picsum.photos/200"; 
-                PhoneNumber = user.PhoneNumber;
-                Mail = user.Mail;
-
-                System.Diagnostics.Debug.WriteLine("Doctor, user, and department info loaded");
+                System.Diagnostics.Debug.WriteLine("Doctor info loaded from service");
                 return true;
             }
             catch (Exception exception)
