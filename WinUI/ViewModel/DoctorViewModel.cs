@@ -245,7 +245,7 @@ namespace WinUI.ViewModel
                 DepartmentName = DefaultDepartmentName; // department?.Name ?? 
                 Rating = doctor.DoctorRating;
                 CareerInfo = user.Role ?? DefaultCareerInfo; // Or another appropriate field
-                AvatarUrl = ""; // Set if available
+                AvatarUrl = "https://picsum.photos/200"; // Set if available
                 PhoneNumber = user.PhoneNumber;
                 Mail = user.Mail;
 

@@ -31,7 +31,7 @@
 
             <!-- Main Content with Loading Indicator -->
             <Grid Grid.Row="1">
-                <ProgressRing IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" 
+                <ProgressRing IsActive="{Binding ViewModel.IsLoading, Mode=OneWay}" 
                           Width="50" 
                           Height="50" 
                           HorizontalAlignment="Center" 
