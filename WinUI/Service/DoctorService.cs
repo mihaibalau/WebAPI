@@ -12,12 +12,6 @@
     namespace WinUI.Service
     {
         public class DoctorService : IDoctorService
-        private readonly DoctorsProxy _doctorRepository;
-        private readonly UserProxy _userRepository;
-
-        public DoctorModel DoctorInformation { get; private set; } = DoctorModel.Default;
-
-        public DoctorService(IDoctorRepository doctorRepository , IUserRepository userRepository)
         {
             private readonly DoctorsProxy _doctorRepository;
             private readonly UserProxy _userRepository;
@@ -115,7 +109,6 @@
 
                 bool isUserUpdate = false;
 
-                // Update appropriate field based on the field type
                 switch (field)
                 {
                     case UpdateField.DoctorName:
@@ -131,7 +124,6 @@
                         isUserUpdate = true;
                         break;
                     case UpdateField.AvatarUrl:
-                        // Assuming Address is used for avatar storage in your schema
                         user.Address = newValue;
                         isUserUpdate = true;
                         break;
@@ -149,7 +141,6 @@
 
                 if (isUserUpdate)
                 {
-                    // If we're updating the user entity, we need to recreate both user and doctor
                     await _doctorRepository.DeleteDoctorAsync(doctor.UserId);
                     await _userRepository.DeleteUserAsync(userId);
 
@@ -165,7 +156,6 @@
                 }
                 else
                 {
-                    // If only updating doctor entity, just need to update that
                     await _doctorRepository.DeleteDoctorAsync(doctor.UserId);
                     await _doctorRepository.AddDoctorAsync(doctor);
                 }
