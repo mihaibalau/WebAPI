@@ -283,56 +283,6 @@ namespace WinUI.ViewModel
             }
         }
 
-        public async Task<bool> UpdateDoctorNameAsync(string newName)
-        {
-            return await UpdateFieldAsync(() => _doctorService.UpdateDoctorName(UserId, newName), 
-                () => DoctorName = newName,
-                () => OriginalDoctor.Clone(doctorName: newName)
-            );
-        }
-
-        public async Task<bool> UpdateDepartmentAsync(int newDepartmentId)
-        {
-            return await UpdateFieldAsync(() => _doctorService.UpdateDepartment(UserId, newDepartmentId), 
-                () => DepartmentId = newDepartmentId, 
-                () => OriginalDoctor.Clone(departmentId: newDepartmentId)
-            );
-        }
-
-        public async Task<bool> UpdateCareerInfoAsync(string newCareerInformation)
-        {
-            return await UpdateFieldAsync(() => _doctorService.UpdateCareerInfo(UserId, newCareerInformation), 
-                () => CareerInfo = newCareerInformation, 
-                () => OriginalDoctor.Clone(careerInformation: newCareerInformation) 
-            );
-        }
-
-        public async Task<bool> UpdateAvatarUrlAsync(string newAvatarUrl)
-        {
-            return await UpdateFieldAsync(() => _doctorService.UpdateAvatarUrl(UserId, newAvatarUrl), 
-                () => AvatarUrl = newAvatarUrl, 
-                () => OriginalDoctor.Clone(avatarUrl: newAvatarUrl)
-            );
-        }
-
-        public async Task<bool> UpdatePhoneNumberAsync(string newPhoneNumber)
-        {
-            return await UpdateFieldAsync(() => _doctorService.UpdatePhoneNumber(UserId, newPhoneNumber),
-                () => PhoneNumber = newPhoneNumber, 
-                () => OriginalDoctor.Clone(phoneNumber: newPhoneNumber) 
-            );
-        }
-
-
-        public async Task<bool> UpdateMailAsync(string newEmail)
-        {
-            return await UpdateFieldAsync(
-                () => _doctorService.UpdateEmail(UserId, newEmail), 
-                () => Mail = newEmail, 
-                () => OriginalDoctor.Clone(email: newEmail) 
-            );
-        }
-
 
         public void RevertChanges()
         {
@@ -344,6 +294,76 @@ namespace WinUI.ViewModel
             Mail = OriginalDoctor.Mail;
         }
 
+        
+
+        public async Task<bool> UpdateDoctorFieldAsync(DoctorService.UpdateField field, string newValue, int? departmentId = null)
+        {
+            try
+            {
+                IsLoading = true;
+
+                bool result;
+                if (field == DoctorService.UpdateField.Department && departmentId.HasValue)
+                {
+                    result = await _doctorService.UpdateDoctorProfile(UserId, field, string.Empty, departmentId);
+                }
+                else
+                {
+                    result = await _doctorService.UpdateDoctorProfile(UserId, field, newValue);
+                }
+
+                if (result)
+                {
+                    switch (field)
+                    {
+                        case DoctorService.UpdateField.DoctorName:
+                            DoctorName = newValue;
+                            OriginalDoctor = OriginalDoctor.Clone(doctorName: newValue);
+                            break;
+
+                        case DoctorService.UpdateField.Department:
+                            if (departmentId.HasValue)
+                            {
+                                DepartmentId = departmentId.Value;
+                                OriginalDoctor = OriginalDoctor.Clone(departmentId: departmentId.Value);
+                            }
+                            break;
+
+                        case DoctorService.UpdateField.CareerInfo:
+                            CareerInfo = newValue;
+                            OriginalDoctor = OriginalDoctor.Clone(careerInformation: newValue);
+                            break;
+
+                        case DoctorService.UpdateField.AvatarUrl:
+                            AvatarUrl = newValue;
+                            OriginalDoctor = OriginalDoctor.Clone(avatarUrl: newValue);
+                            break;
+
+                        case DoctorService.UpdateField.PhoneNumber:
+                            PhoneNumber = newValue;
+                            OriginalDoctor = OriginalDoctor.Clone(phoneNumber: newValue);
+                            break;
+
+                        case DoctorService.UpdateField.Email:
+                            Mail = newValue;
+                            OriginalDoctor = OriginalDoctor.Clone(email: newValue);
+                            break;
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+
         public async Task<(bool updateSuccessful, string? errorMessage)> TryUpdateDoctorProfileAsync()
         {
             try
@@ -354,23 +374,22 @@ namespace WinUI.ViewModel
                 bool changeMade = false;
 
                 if (DoctorName != OriginalDoctor.DoctorName)
-                    changeMade |= await UpdateDoctorNameAsync(DoctorName);
+                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.DoctorName, DoctorName);
 
-                if (DepartmentName != OriginalDoctor.DepartmentName)
-                    changeMade |= await UpdateDepartmentAsync(DepartmentId);
+                if (DepartmentId != OriginalDoctor.DepartmentId)
+                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.Department, string.Empty, DepartmentId);
 
                 if (CareerInfo != OriginalDoctor.CareerInfo)
-                    changeMade |= await UpdateCareerInfoAsync(CareerInfo);
+                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.CareerInfo, CareerInfo);
 
                 if (AvatarUrl != OriginalDoctor.AvatarUrl)
-                    changeMade |= await UpdateAvatarUrlAsync(AvatarUrl);
+                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.AvatarUrl, AvatarUrl);
 
                 if (PhoneNumber != OriginalDoctor.PhoneNumber)
-                    changeMade |= await UpdatePhoneNumberAsync(PhoneNumber);
+                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.PhoneNumber, PhoneNumber);
 
                 if (Mail != OriginalDoctor.Mail)
-                    changeMade |= await UpdateMailAsync(Mail);
-
+                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.Email, Mail);
 
                 return (changeMade, null);
             }
@@ -378,29 +397,6 @@ namespace WinUI.ViewModel
             {
                 RevertChanges();
                 return (false, ex.Message);
-            }
-        }
-
-        private async Task<bool> UpdateFieldAsync(Func<Task<bool>> updateServiceFunction, Action updatePropertyFunction, Func<DoctorModel> updateModelFunction)
-        {
-            try
-            {
-                IsLoading = true;
-                bool result = await updateServiceFunction();
-                if (result)
-                {
-                    updatePropertyFunction(); 
-                    OriginalDoctor = updateModelFunction();
-                }
-                return result;
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
-            finally
-            {
-                IsLoading = false;
             }
         }
     }

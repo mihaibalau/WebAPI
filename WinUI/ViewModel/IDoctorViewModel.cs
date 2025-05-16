@@ -32,18 +32,6 @@ namespace WinUI.ViewModel
 
         Task<bool> LoadDoctorInformationAsync(int userId);
 
-        Task<bool> UpdateDoctorNameAsync(string newName);
-
-        Task<bool> UpdateDepartmentAsync(int newDepartmentId);
-
-        Task<bool> UpdateCareerInfoAsync(string newCareerInformation);
-
-        Task<bool> UpdateAvatarUrlAsync(string newAvatarUrl);
-
-        Task<bool> UpdatePhoneNumberAsync(string newPhoneNumber);
-
-        Task<bool> UpdateMailAsync(string newEmail);
-
         Task<(bool updateSuccessful, string? errorMessage)> TryUpdateDoctorProfileAsync();
 
         void RevertChanges();
