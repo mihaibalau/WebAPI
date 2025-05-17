@@ -4,6 +4,7 @@ using Data;
 using Entity;
 using ClassLibrary.IRepository;
 using ClassLibrary.Domain;
+using System;
 
 namespace Controllers
 {
@@ -11,11 +12,11 @@ namespace Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        private readonly IPatientRepository patientRepository;
+        private readonly IPatientRepository _patient_repository;
 
-        public PatientController(IPatientRepository _patientRepository)
+        public PatientController(IPatientRepository patient_repository)
         {
-            this.patientRepository = _patientRepository;
+            this._patient_repository = patient_repository;
         }
 
         /// <summary>
@@ -25,16 +26,16 @@ namespace Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<Patient>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<Patient>>> GetAllPatients()
+        public async Task<ActionResult<List<Patient>>> getAllPatients()
         {
             try
             {
-                List<Patient> patients = await this.patientRepository.getAllPatientsAsync();
+                List<Patient> patients = await this._patient_repository.getAllPatientsAsync();
                 return this.Ok(patients);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving patients. Error: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving patients. Error: {exception.Message}");
             }
         }
 
@@ -47,20 +48,20 @@ namespace Controllers
         [ProducesResponseType(typeof(Patient), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Patient>> GetPatientById(int id)
+        public async Task<ActionResult<Patient>> getPatientById(int id)
         {
             try
             {
-                Patient patient = await this.patientRepository.getPatientByUserIdAsync(id);
+                Patient patient = await this._patient_repository.getPatientByUserIdAsync(id);
                 if (patient == null)
                 {
                     return this.NotFound($"Patient with ID {id} was not found.");
                 }
                 return this.Ok(patient);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving the patient. Error: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving the patient. Error: {exception.Message}");
             }
         }
 
@@ -73,7 +74,7 @@ namespace Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreatePatient([FromBody] Patient patient)
+        public async Task<ActionResult> createPatient([FromBody] Patient patient)
         {
             if (patient == null)
             {
@@ -82,12 +83,12 @@ namespace Controllers
 
             try
             {
-                await this.patientRepository.addPatientAsync(patient);
-                return this.CreatedAtAction(nameof(GetPatientById), new { id = patient.UserId }, patient);
+                await this._patient_repository.addPatientAsync(patient);
+                return this.CreatedAtAction(nameof(getPatientById), new { id = patient.userId }, patient);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while creating patient. Error: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while creating patient. Error: {exception.Message}");
             }
         }
 
@@ -100,20 +101,20 @@ namespace Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeletePatient(int id)
+        public async Task<ActionResult> deletePatient(int id)
         {
             try
             {
-                await this.patientRepository.deletePatientAsync(id);
+                await this._patient_repository.deletePatientAsync(id);
                 return this.NoContent();
             }
             catch (KeyNotFoundException)
             {
                 return this.NotFound($"Patient with ID {id} was not found.");
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting patient. Error: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting patient. Error: {exception.Message}");
             }
         }
     }

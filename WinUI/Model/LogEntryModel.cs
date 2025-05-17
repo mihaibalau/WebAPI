@@ -41,9 +41,9 @@ namespace WinUI.Model
 
     static class ActionTypeMethods
     {
-        public static String convertToString(this ActionType s1)
+        public static String convertToString(this ActionType actionType)
         {
-            switch (s1)
+            switch (actionType)
             {
                 case ActionType.LOGIN:
                     return "LOGIN";
@@ -59,31 +59,31 @@ namespace WinUI.Model
 
     /// <summary>
     /// Represents a log entry in the system's activity log.
-    /// <param name="_log_id">The unique identifier for the log entry.</param>
-    /// <param name="_user_id">The user ID associated with the action.</param>
-    /// <param name="_action">The type of action performed.</param>
-    /// <param name="_timestamp">The date and time when the action occurred.</param>
-    public class LogEntryModel(int _log_id, int _user_id, ActionType _action, DateTime _timestamp)
+    /// <param name="log_id">The unique identifier for the log entry.</param>
+    /// <param name="user_id">The user ID associated with the action.</param>
+    /// <param name="action">The type of action performed.</param>
+    /// <param name="timestamp">The date and time when the action occurred.</param>
+    public class LogEntryModel(int log_id, int user_id, ActionType action, DateTime timestamp)
     {
         /// <summary>
         /// Gets or sets the unique identifier for the log entry.
         /// </summary>
-        public int log_id { get; set; } = _log_id;
+        public int log_id { get; set; } = log_id;
 
         /// <summary>
         /// Gets or sets the ID of the user who performed the action.
         /// </summary>
-        public int user_id { get; set; } = _user_id;
+        public int user_id { get; set; } = user_id;
       
         /// <summary>
         /// Gets or sets the type of action performed.
         /// </summary>
-        public ActionType action_type { get; set; } = _action;
+        public ActionType action_type { get; set; } = action;
 
         /// <summary>
         /// Gets or sets the date and time when the action was performed.
         /// </summary>
-        public DateTime timestamp { get; set; } = _timestamp;
+        public DateTime timestamp { get; set; } = timestamp;
 
         /// <summary>
         /// Returns a string representation of the log entry.

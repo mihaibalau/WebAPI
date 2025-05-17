@@ -15,98 +15,107 @@ namespace WebApi.Repository
     /// </summary>
     public class DoctorRepository : IDoctorRepository
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext _db_context;
 
-        public DoctorRepository(ApplicationDbContext dbContext)
+        public DoctorRepository(ApplicationDbContext db_context)
         {
-            this.dbContext = dbContext;
+            this._db_context = db_context;
         }
 
         /// <inheritdoc/>
-        public async Task<List<Doctor>> GetAllDoctorsAsync()
+        public async Task<List<Doctor>> getAllDoctorsAsync()
         {
-            List<DoctorEntity> doctorEntities = await dbContext.Doctors.Include(d => d.Department).ToListAsync();
+            List<DoctorEntity> doctor_entities = await this._db_context.Doctors
+                .Include(doctor => doctor.department)
+                .Include(doctor => doctor.user)
+                .ToListAsync();
 
-            List<Doctor> doctors = doctorEntities.Select(d => new Doctor
+            List<Doctor> doctors = doctor_entities.Select(doctor => new Doctor
             {
-                UserId = d.UserId,
-                DepartmentId = d.DepartmentId,
-                DoctorRating = d.DoctorRating,
-                LicenseNumber = d.LicenseNumber
+                userId = doctor.userId,
+                departmentId = doctor.departmentId,
+                doctorRating = doctor.doctorRating,
+                licenseNumber = doctor.licenseNumber,
+                doctorName = doctor.user.name
             }).ToList();
 
             return doctors;
         }
 
         /// <inheritdoc/>
-        public async Task<Doctor> GetDoctorByUserIdAsync(int id)
+        public async Task<Doctor> getDoctorByUserIdAsync(int id)
         {
-            var doctorEntity = await dbContext.Doctors
-                .Include(d => d.Department)
-                .FirstOrDefaultAsync(d => d.UserId == id);
+            DoctorEntity doctor_entity = await this._db_context.Doctors
+                .Include(doctor => doctor.department)
+                .Include(doctor => doctor.user)
+                .FirstOrDefaultAsync(doctor => doctor.userId == id);
 
-            if (doctorEntity == null)
+            if (doctor_entity == null)
             {
                 throw new Exception($"Doctor with user ID {id} not found.");
             }
 
             return new Doctor
             {
-                UserId = doctorEntity.UserId,
-                DepartmentId = doctorEntity.DepartmentId,
-                DoctorRating = doctorEntity.DoctorRating,
-                LicenseNumber = doctorEntity.LicenseNumber
+                userId = doctor_entity.userId,
+                departmentId = doctor_entity.departmentId,
+                doctorRating = doctor_entity.doctorRating,
+                licenseNumber = doctor_entity.licenseNumber,
+                doctorName = doctor_entity.user.name
             };
         }
 
         /// <inheritdoc/>
-        public async Task<List<Doctor>> GetDoctorsByDepartmentIdAsync(int departmentId)
+        public async Task<List<Doctor>> getDoctorsByDepartmentIdAsync(int department_id)
         {
-            var doctorEntities = await dbContext.Doctors
-                .Where(d => d.DepartmentId == departmentId)
+            List<DoctorEntity> doctor_entities = await _db_context.Doctors
+                .Include(doctor => doctor.department)
+                .Include(doctor => doctor.user)
+                .Where(doctor => doctor.departmentId == department_id)
                 .ToListAsync();
 
-            return doctorEntities.Select(d => new Doctor
+            return doctor_entities.Select(doctor => new Doctor
             {
-                UserId = d.UserId,
-                DepartmentId = d.DepartmentId,
-                DoctorRating = d.DoctorRating,
-                LicenseNumber = d.LicenseNumber
+                userId = doctor.userId,
+                departmentId = doctor.departmentId,
+                doctorRating = doctor.doctorRating,
+                licenseNumber = doctor.licenseNumber,
+                doctorName = doctor.user.name
             }).ToList();
         }
 
         /// <inheritdoc/>
-        public async Task AddDoctorAsync(Doctor doctor)
+        public async Task addDoctorAsync(Doctor doctor)
         {
-            var existingPatient = await dbContext.Patients.FindAsync(doctor.UserId);
-            if (existingPatient != null)
+            var existing_patient = await _db_context.Patients.FindAsync(doctor.userId);
+            if (existing_patient != null)
             {
                 throw new InvalidOperationException("User is already registered as a patient and cannot be a doctor.");
             }
 
-            var doctorEntity = new DoctorEntity
+            var doctor_entity = new DoctorEntity
             {
-                UserId = doctor.UserId,
-                DepartmentId = doctor.DepartmentId,
-                DoctorRating = doctor.DoctorRating,
-                LicenseNumber = doctor.LicenseNumber
+                userId = doctor.userId,
+                departmentId = doctor.departmentId,
+                doctorRating = doctor.doctorRating,
+                licenseNumber = doctor.licenseNumber
             };
 
-            dbContext.Doctors.Add(doctorEntity);
-            await dbContext.SaveChangesAsync();
+            _db_context.Doctors.Add(doctor_entity);
+            await _db_context.SaveChangesAsync();
         }
 
         /// <inheritdoc/>
-        public async Task DeleteDoctorAsync(int id)
+        public async Task deleteDoctorAsync(int id)
         {
-            var doctorEntity = await dbContext.Doctors.FindAsync(id);
-            if (doctorEntity == null)
+            var doctor_entity = await _db_context.Doctors.FindAsync(id);
+            if (doctor_entity == null)
             {
                 throw new Exception($"Doctor with user ID {id} not found.");
             }
 
-            dbContext.Doctors.Remove(doctorEntity);
-            await dbContext.SaveChangesAsync();
+            _db_context.Doctors.Remove(doctor_entity);
+            await _db_context.SaveChangesAsync();
         }
     }
 }

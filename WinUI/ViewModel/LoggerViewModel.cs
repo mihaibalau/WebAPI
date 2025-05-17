@@ -18,8 +18,9 @@ namespace WinUI.ViewModel
     /// <summary>
     /// View model for managing and displaying system logs.
     /// </summary>
-    public class LoggerViewModel : BaseViewModel, ILoggerViewModel
+    public class LoggerViewModel : BaseViewModel
     {
+
         private readonly ILoggerService _logger_service;
         private string _user_id_input = string.Empty;
         private ActionType _selected_action_type;
@@ -28,19 +29,19 @@ namespace WinUI.ViewModel
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggerViewModel"/> class.
         /// </summary>
-        /// <param name="_logger_service">The logger manager model interface.</param>
-        public LoggerViewModel(ILoggerService _logger_service)
+        /// <param name="logger_service">The logger manager model interface.</param>
+        public LoggerViewModel(ILoggerService logger_service)
         {
-            this._logger_service = _logger_service ?? throw new ArgumentNullException(nameof(_logger_service));
+            this._logger_service = logger_service ?? throw new ArgumentNullException(nameof(logger_service));
             this.logs = new ObservableCollection<LogEntryModel>();
-            this.action_types = Enum.GetValues(typeof(ActionType)).Cast<ActionType>().ToList();
+            this.actionTypes = Enum.GetValues(typeof(ActionType)).Cast<ActionType>().ToList();
 
             // Initialize commands
-            this.load_all_logs_command = new RelayCommand(async () => await this.executeLoadAllLogsAsync());
-            this.filter_logs_by_user_id_command = new RelayCommand(async () => await this.executeFilterLogsByUserIdAsync());
-            this.filter_logs_by_timestamp_command = new RelayCommand(async () => await this.executeFilterLogsByTimestampAsync());
-            this.filter_logs_by_action_type_command = new RelayCommand(async () => await this.executeFilterLogsByActionTypeAsync());
-            this.apply_all_filters_command = new RelayCommand(async () => await this.executeApplyAllFiltersAsync());
+            this.loadAllLogsCommand = new RelayCommand(async () => await this.executeLoadAllLogsAsync());
+            this.filterLogsByUserIdCommand = new RelayCommand(async () => await this.executeFilterLogsByUserIdAsync());
+            this.filterLogsByTimestampCommand = new RelayCommand(async () => await this.executeFilterLogsByTimestampAsync());
+            this.filterLogsByActionTypeCommand = new RelayCommand(async () => await this.executeFilterLogsByActionTypeAsync());
+            this.applyAllFiltersCommand = new RelayCommand(async () => await this.executeApplyAllFiltersAsync());
         }
 
         /// <summary>
@@ -51,32 +52,32 @@ namespace WinUI.ViewModel
         /// <summary>
         /// Gets the command to load all logs.
         /// </summary>
-        public ICommand load_all_logs_command { get; }
+        public ICommand loadAllLogsCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by user ID.
         /// </summary>
-        public ICommand filter_logs_by_user_id_command { get; }
+        public ICommand filterLogsByUserIdCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by timestamp.
         /// </summary>
-        public ICommand filter_logs_by_timestamp_command { get; }
+        public ICommand filterLogsByTimestampCommand { get; }
 
         /// <summary>
         /// Gets the command to filter logs by action type.
         /// </summary>
-        public ICommand filter_logs_by_action_type_command { get; }
+        public ICommand filterLogsByActionTypeCommand { get; }
 
         /// <summary>
         /// Gets the command to apply all filters simultaneously.
         /// </summary>
-        public ICommand apply_all_filters_command { get; }
+        public ICommand applyAllFiltersCommand { get; }
 
         /// <summary>
         /// Gets the list of available action types for filtering.
         /// </summary>
-        public List<ActionType> action_types { get; }
+        public List<ActionType> actionTypes { get; }
 
         /// <summary>
         /// Gets or sets the user ID input for filtering.
@@ -206,16 +207,16 @@ namespace WinUI.ViewModel
         /// <returns>A task representing the asynchronous operation.</returns>
         private async Task executeApplyAllFiltersAsync()
         {
-            int? userId = null;
+            int? user_id = null;
 
             if (int.TryParse(this.user_id_input, out int parsed_user_id))
             {
-                userId = parsed_user_id;
+                user_id = parsed_user_id;
             }
 
             try
             {
-                IEnumerable<LogEntryModel> filtered_logs = await this._logger_service.getLogsWithParameters(userId, this.selected_action_type, this.selected_timestamp);
+                IEnumerable<LogEntryModel> filtered_logs = await this._logger_service.getLogsWithParameters(user_id, this.selected_action_type, this.selected_timestamp);
                 this.updateLogsCollection(filtered_logs);
             }
             catch (Exception)

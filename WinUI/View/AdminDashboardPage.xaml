@@ -26,7 +26,7 @@
 
             <Button Grid.Column="1" x:Name="LogoutButton" 
                     Content="Logout" Margin="0,0,20,0"
-                    Click="logoutButton_Click"/>
+                    Click="logoutButtonClick"/>
         </Grid>
 
         <!-- Main Content -->
@@ -68,16 +68,16 @@
 
                     <!-- Apply Filters Button -->
                     <StackPanel Grid.Column="3" Margin="10,0,0,0" VerticalAlignment="Bottom">
-                        <Button x:Name="ApplyFiltersButton" Content="Apply Filters" Command="{x:Bind _logger_view_model.apply_all_filters_command}"/>
+                        <Button x:Name="ApplyFiltersButton" Content="Apply Filters" Command="{x:Bind _logger_view_model.applyAllFiltersCommand}"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- Action Buttons -->
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
-                    <Button x:Name="LoadAllLogsButton" Content="Load All" Command="{x:Bind _logger_view_model.load_all_logs_command}" Margin="0,0,10,0"/>
-                    <Button x:Name="LoadLogsByUserIdButton" Content="Filter Logs by ID" Command="{x:Bind _logger_view_model.filter_logs_by_user_id_command}" Margin="0,0,10,0"/>
-                    <Button x:Name="LoadLogsByActionTypeButton" Content="Filter Logs by Action Type"  Command="{x:Bind _logger_view_model.filter_logs_by_action_type_command}" Margin="0,0,10,0"/>
-                    <Button x:Name="LoadLogsBeforeTimestampButton" Content="Filter Logs by Time" Command="{x:Bind _logger_view_model.filter_logs_by_timestamp_command}" />
+                    <Button x:Name="LoadAllLogsButton" Content="Load All" Command="{x:Bind _logger_view_model.loadAllLogsCommand}" Margin="0,0,10,0"/>
+                    <Button x:Name="LoadLogsByUserIdButton" Content="Filter Logs by ID" Command="{x:Bind _logger_view_model.filterLogsByUserIdCommand}" Margin="0,0,10,0"/>
+                    <Button x:Name="LoadLogsByActionTypeButton" Content="Filter Logs by Action Type"  Command="{x:Bind _logger_view_model.filterLogsByActionTypeCommand}" Margin="0,0,10,0"/>
+                    <Button x:Name="LoadLogsBeforeTimestampButton" Content="Filter Logs by Time" Command="{x:Bind _logger_view_model.filterLogsByTimestampCommand}" />
                 </StackPanel>
             </StackPanel>
 

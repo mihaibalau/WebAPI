@@ -16,47 +16,47 @@ namespace WebApi.Repository
     /// </summary>
     public class NotificationRepository : INotificationRepository
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext _db_context;
 
-        public NotificationRepository(ApplicationDbContext dbContext)
+        public NotificationRepository(ApplicationDbContext db_context)
         {
-            this.dbContext = dbContext;
+            this._db_context = db_context;
         }
 
         /// <inheritdoc/>
-        public async Task<List<Notification>> GetAllNotificationsAsync()
+        public async Task<List<Notification>> getAllNotificationsAsync()
         {
-            var entities = await this.dbContext.Notifications.ToListAsync();
+            List<NotificationEntity> entities = await this._db_context.Notifications.ToListAsync();
 
             return entities.Select(entity => new Notification
             {
-                NotificationId = entity.NotificationId,
-                UserId = entity.UserId,
-                DeliveryDateTime = entity.DeliveryDateTime,
-                Message = entity.Message
+                notificationId = entity.notificationId,
+                userId = entity.userId,
+                deliveryDateTime = entity.deliveryDateTime,
+                message = entity.message
             }).ToList();
         }
 
         /// <inheritdoc/>
-        public async Task<List<Notification>> GetNotificationsByUserIdAsync(int userId)
+        public async Task<List<Notification>> getNotificationsByUserIdAsync(int user_id)
         {
-            var entities = await this.dbContext.Notifications
-                .Where(n => n.UserId == userId)
+            List<NotificationEntity> entities = await this._db_context.Notifications
+                .Where(notification => notification.userId == user_id)
                 .ToListAsync();
 
             return entities.Select(entity => new Notification
             {
-                NotificationId = entity.NotificationId,
-                UserId = entity.UserId,
-                DeliveryDateTime = entity.DeliveryDateTime,
-                Message = entity.Message
+                notificationId = entity.notificationId,
+                userId = entity.userId,
+                deliveryDateTime = entity.deliveryDateTime,
+                message = entity.message
             }).ToList();
         }
 
         /// <inheritdoc/>
-        public async Task<Notification> GetNotificationByIdAsync(int id)
+        public async Task<Notification> getNotificationByIdAsync(int id)
         {
-            var entity = await this.dbContext.Notifications.FindAsync(id);
+            NotificationEntity entity = await this._db_context.Notifications.FindAsync(id);
 
             if (entity == null)
             {
@@ -65,41 +65,41 @@ namespace WebApi.Repository
 
             return new Notification
             {
-                NotificationId = entity.NotificationId,
-                UserId = entity.UserId,
-                DeliveryDateTime = entity.DeliveryDateTime,
-                Message = entity.Message
+                notificationId = entity.notificationId,
+                userId = entity.userId,
+                deliveryDateTime = entity.deliveryDateTime,
+                message = entity.message
             };
         }
 
         /// <inheritdoc/>
-        public async Task AddNotificationAsync(Notification notification)
+        public async Task addNotificationAsync(Notification notification)
         {
-            var entity = new NotificationEntity
+            NotificationEntity entity = new NotificationEntity
             {
-                UserId = notification.UserId,
-                DeliveryDateTime = notification.DeliveryDateTime,
-                Message = notification.Message
+                userId = notification.userId,
+                deliveryDateTime = notification.deliveryDateTime,
+                message = notification.message
             };
 
-            this.dbContext.Notifications.Add(entity);
-            await this.dbContext.SaveChangesAsync();
+            this._db_context.Notifications.Add(entity);
+            await this._db_context.SaveChangesAsync();
 
-            notification.NotificationId = entity.NotificationId; // Set the ID after insert
+            notification.notificationId = entity.notificationId; // Set the ID after insert
         }
 
         /// <inheritdoc/>
-        public async Task DeleteNotificationAsync(int id)
+        public async Task deleteNotificationAsync(int id)
         {
-            var entity = await this.dbContext.Notifications.FindAsync(id);
+            NotificationEntity entity = await this._db_context.Notifications.FindAsync(id);
 
             if (entity == null)
             {
                 throw new Exception($"Notification with ID {id} not found.");
             }
 
-            this.dbContext.Notifications.Remove(entity);
-            await this.dbContext.SaveChangesAsync();
+            this._db_context.Notifications.Remove(entity);
+            await this._db_context.SaveChangesAsync();
         }
     }
 }

@@ -15,6 +15,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\DoctorDashboard.xaml">
+    <Page Update="View\Windows\NotificationWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\PatientDashboardView.xaml">

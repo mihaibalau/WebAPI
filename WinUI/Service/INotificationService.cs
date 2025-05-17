@@ -15,17 +15,17 @@ namespace WinUI.Service
         /// <summary>
         /// Return all Notifications for all users.
         /// </summary>
-        Task<List<Notification>> GetAllAsync();
+        Task<List<Notification>> getAllNotificationsAsync();
 
         /// <summary>
         /// Return all notifications for a specific user.
         /// </summary>
-        Task<List<Notification>> GetByUserIdAsync(int userId);
+        Task<List<Notification>> getNotificationsByUserIdAsync(int user_id);
 
         /// <summary>
         /// Delete all notifications with <paramref name="notificationId"/>, 
-        /// Only if is from user <paramref name="userId"/>.
+        /// Only if is from user <paramref name="user_id"/>.
         /// </summary>
-        Task DeleteAsync(int notificationId, int userId);
+        Task deleteNotificationAsync(int notificationId, int user_id);
     }
 }

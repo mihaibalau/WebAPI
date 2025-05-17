@@ -8,130 +8,271 @@ using ClassLibrary.IRepository;
 using ClassLibrary.Domain;
 using WinUI.Model;
 using WinUI.Service;
+using static WinUI.Proxy.LogInProxy;
+using Windows.System;
+using User = ClassLibrary.Domain.User;
+using System.Net;
 
 namespace WinUI.Service
 {
     class PatientService : IPatientService
     {
         private readonly IPatientRepository _patient_repository; // ← From ClassLibrary.IRepository
+        private readonly ILoggerService _logger_service;
 
-        public PatientJointModel _patient_info { get; private set; } = PatientJointModel.Default;
-        public List<PatientJointModel> _patient_list { get; private set; } = new List<PatientJointModel>();
+        public PatientJointModel patientInfo { get; private set; } = PatientJointModel.Default;
+        public List<PatientJointModel> patientList { get; private set; } = new List<PatientJointModel>();
 
-        public PatientService(IPatientRepository _patient_repository)
+        public PatientService(IPatientRepository patient_repository, ILoggerService logger_service)
         {
-            this._patient_repository = _patient_repository;
+            this._patient_repository = patient_repository;
+
+            this._logger_service = logger_service ?? new LoggerService(new WinUI.Proxy.LoggerProxy());
         }
 
-        public async Task<bool> loadPatientInfoByUserId(int _user_id)
+        public async Task<bool> loadPatientInfoByUserId(int user_id)
         {
-            Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
-            if (domain_patient == null)
+            try
             {
-                _patient_info = PatientJointModel.Default;
+                Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(user_id);
+                List<User> domain_users = await this._patient_repository.getAllUserAsync();
+                User filtered_user = domain_users.Find(user => user.userId == user_id);
+
+                if (domain_patient == null || filtered_user == null)
+                {
+                    patientInfo = PatientJointModel.Default;
+                    return false;
+                }
+
+                this.patientInfo = mapToJointModel(domain_patient, filtered_user);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                patientInfo = PatientJointModel.Default;
                 return false;
             }
-
-            this._patient_info = mapToJointModel(domain_patient);
-            Debug.WriteLine($"Patient info loaded: {this._patient_info.patient_name}");
-            return true;
         }
 
         public async Task<bool> loadAllPatients()
         {
             List<Patient> domain_patients = await this._patient_repository.getAllPatientsAsync();
-            this._patient_list = domain_patients.Select(mapToJointModel).ToList();
+            List<User> domain_users = await this._patient_repository.getAllUserAsync();
+
+            this.patientList.Clear();
+            foreach (var patient in domain_patients)
+            {
+                User? matched_user = domain_users.Find(user => user.userId == patient.userId);
+                if (matched_user != null)
+                {
+                    this.patientList.Add(mapToJointModel(patient, matched_user));
+                }
+            }
             return true;
         }
 
-        public virtual async Task<bool> updatePassword(int _user_id, string _password)
+        public virtual async Task<bool> updatePassword(int user_id, string _password)
         {
-            throw new NotSupportedException("updatePassword is not supported in IPatientRepository from ClassLibrary.");
-        }
+            Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(user_id);
+            List<User> domain_users = await this._patient_repository.getAllUserAsync();
+            User filtered_user = domain_users.Find(user => user.userId == user_id);
+            if (domain_patient == null || filtered_user == null)
+            {
+                patientInfo = PatientJointModel.Default;
+                return false;
+            }
 
-        public virtual async Task<bool> updateEmail(int _user_id, string _email)
-        {
-            throw new NotSupportedException("updateEmail is not supported in IPatientRepository from ClassLibrary.");
-        }
+            filtered_user.password = _password;
+            await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
 
-        public virtual async Task<bool> updateUsername(int _user_id, string _username)
-        {
-            throw new NotSupportedException("updateUsername is not supported in IPatientRepository from ClassLibrary.");
-        }
-
-        public virtual async Task<bool> updateName(int _user_id, string _name)
-        {
-            throw new NotSupportedException("updateName is not supported in IPatientRepository from ClassLibrary.");
-        }
-
-        public virtual async Task<bool> updateBirthDate(int _user_id, DateOnly _birth_date)
-        {
-            throw new NotSupportedException("updateBirthDate is not supported in IPatientRepository from ClassLibrary.");
-        }
-
-        public virtual async Task<bool> updateAddress(int _user_id, string _address)
-        {
-            throw new NotSupportedException("updateAddress is not supported in IPatientRepository from ClassLibrary.");
-        }
-
-        public virtual async Task<bool> updatePhoneNumber(int _user_id, string _phone_number)
-        {
-            throw new NotSupportedException("updatePhoneNumber is not supported in IPatientRepository from ClassLibrary.");
-        }
-
-        public virtual async Task<bool> updateEmergencyContact(int _user_id, string _emergency_contact)
-        {
-            // This one is supported
-            Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(_user_id);
-            if (domain_patient == null) return false;
-            domain_patient.EmergencyContact = _emergency_contact;
-            await this._patient_repository.addPatientAsync(domain_patient);
             return true;
         }
 
-        public virtual async Task<bool> updateWeight(int _user_id, double weight)
+        public virtual async Task<bool> updateName(int user_id, string name)
         {
-            Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
-            if (domain_patient == null) return false;
-            domain_patient.Weight = weight;
-            await this._patient_repository.addPatientAsync(domain_patient);
+            Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(user_id);
+            List<User> domain_users = await this._patient_repository.getAllUserAsync();
+            User filtered_user = domain_users.Find(user => user.userId == user_id);
+            if (domain_patient == null || filtered_user == null)
+            {
+                patientInfo = PatientJointModel.Default;
+                return false;
+            }
+
+            filtered_user.name = name;
+            await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
+
             return true;
         }
 
-        public virtual async Task<bool> updateHeight(int _user_id, int height)
+        public virtual async Task<bool> updateAddress(int user_id, string address)
         {
-            Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(_user_id);
-            if (domain_patient == null) return false;
-            domain_patient.Height = height;
-            await this._patient_repository.addPatientAsync(domain_patient); // ← assumes Add is Upsert
+            Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(user_id);
+            List<User> domain_users = await this._patient_repository.getAllUserAsync();
+            User filtered_user = domain_users.Find(user => user.userId == user_id);
+            if (domain_patient == null || filtered_user == null)
+            {
+                patientInfo = PatientJointModel.Default;
+                return false;
+            }
+
+            filtered_user.address = address;
+            await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
+
             return true;
         }
 
-        public virtual async Task<bool> logUpdate(int _user_id, ActionType action)
+        public virtual async Task<bool> updatePhoneNumber(int user_id, string phone_number)
         {
-            Debug.WriteLine($"logUpdate called for user {_user_id}, action: {action}");
-            return await Task.FromResult(true); // stub implementation
+            Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(user_id);
+            List<User> domain_users = await this._patient_repository.getAllUserAsync();
+            User filtered_user = domain_users.Find(user => user.userId == user_id);
+            if (domain_patient == null || filtered_user == null)
+            {
+                patientInfo = PatientJointModel.Default;
+                return false;
+            }
+
+            filtered_user.phoneNumber = phone_number;
+            await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
+
+            return true;
         }
 
-        private PatientJointModel mapToJointModel(Patient _domain_patient)
+        public virtual async Task<bool> updateEmergencyContact(int user_id, string emergency_contact)
+        {
+            try
+            {
+                Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(user_id);
+                List<User> domain_users = await this._patient_repository.getAllUserAsync();
+                User filtered_user = domain_users.Find(user => user.userId == user_id);
+                if (domain_patient == null || filtered_user == null) return false;
+
+                domain_patient.EmergencyContact = emergency_contact;
+                await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine($"Error updating emergency contact: {exception.Message}");
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> updateWeight(int user_id, double weight)
+        {
+            try
+            {
+                Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(user_id);
+                List<User> domain_users = await this._patient_repository.getAllUserAsync();
+                User filtered_user = domain_users.Find(user => user.userId == user_id);
+                if (domain_patient == null || filtered_user == null) return false;
+
+                domain_patient.weight = weight;
+                await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine($"Error updating weight: {exception.Message}");
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> updateHeight(int user_id, int height)
+        {
+            try
+            {
+                Patient domain_patient = await this._patient_repository.getPatientByUserIdAsync(user_id);
+                List<User> domain_users = await this._patient_repository.getAllUserAsync();
+                User filtered_user = domain_users.Find(user => user.userId == user_id);
+                if (domain_patient == null || filtered_user == null) return false;
+
+                domain_patient.height = height;
+                await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine($"Error updating height: {exception.Message}");
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> updateBloodType(int user_id, string blood_type)
+        {
+            try
+            {
+                Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(user_id);
+                List<User> domain_users = await this._patient_repository.getAllUserAsync();
+                User filtered_user = domain_users.Find(user => user.userId == user_id);
+                if (domain_patient == null || filtered_user == null) return false;
+                domain_patient.bloodType = blood_type;
+                await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine($"Error updating blood type: {exception.Message}");
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> updateAllergies(int user_id, string allergies)
+        {
+            try
+            {
+                Patient domain_patient = await _patient_repository.getPatientByUserIdAsync(user_id);
+                List<User> domain_users = await this._patient_repository.getAllUserAsync();
+                User filtered_user = domain_users.Find(user => user.userId == user_id);
+                if (domain_patient == null || filtered_user == null) return false;
+                domain_patient.allergies = allergies;
+                await this._patient_repository.updatePatientAsync(domain_patient, filtered_user);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine($"Error updating allergies: {exception.Message}");
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> logUpdate(int user_id, ActionType action)
+        {
+            try
+            {
+                return await _logger_service.logAction(user_id, action);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine($"Error logging update: {exception.Message}");
+                return false;
+            }
+        }
+
+        private PatientJointModel mapToJointModel(Patient domain_patient, User domain_user)
         {
             return new PatientJointModel(
-                _domain_patient.UserId,
-                _domain_patient.UserId, // using _user_id as patient_id if not available
-                $"Patient {_domain_patient.UserId}", // placeholder
-                _domain_patient.BloodType ?? string.Empty,
-                _domain_patient.EmergencyContact ?? string.Empty,
-                _domain_patient.Allergies ?? string.Empty,
-                _domain_patient.Weight,
-                _domain_patient.Height,
-                $"user{_domain_patient.UserId}", // placeholder
-                string.Empty, // placeholder
-                $"patient{_domain_patient.UserId}@example.com", // placeholder
-                DateOnly.FromDateTime(DateTime.Now), // placeholder
-                string.Empty, // placeholder
-                string.Empty, // placeholder
-                string.Empty, // placeholder
-                DateTime.Now // placeholder
+                domain_patient.userId,
+                domain_user.userId,
+                domain_user.name,
+                domain_patient.bloodType ?? string.Empty,
+                domain_patient.EmergencyContact ?? string.Empty,
+                domain_patient.allergies ?? string.Empty,
+                domain_patient.weight,
+                domain_patient.height,
+                domain_user.username,
+                domain_user.password,
+                domain_user.mail,
+                domain_user.birthDate,
+                domain_user.cnp ?? string.Empty,
+                domain_user.address ?? string.Empty,
+                domain_user.phoneNumber ?? string.Empty,
+                domain_user.registrationDate
             );
         }
     }

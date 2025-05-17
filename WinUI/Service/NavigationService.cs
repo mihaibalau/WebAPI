@@ -16,11 +16,11 @@ namespace WinUI.Service
             }
         }
 
-        public static void navigate(Type _page_type, object _parameter = null)
+        public static void navigate(Type page_type, object parameter = null)
         {
             if (s_main_frame != null)
             {
-                s_main_frame.Navigate(_page_type, _parameter);
+                s_main_frame.Navigate(page_type, parameter);
             }
         }
     }
