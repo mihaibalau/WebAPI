@@ -28,14 +28,14 @@
             {
                 try
                 {
-                    await _userRepository.AddUserAsync(user);
+                    await _userRepository.addUserAsync(user);
 
-                    var allUsers = await _userRepository.GetAllUsersAsync();
+                    var allUsers = await _userRepository.getAllUsersAsync();
 
                     var updatedUser = allUsers.FirstOrDefault(u =>
-                        u.Name == user.Name &&
-                        u.Mail == user.Mail &&
-                        u.Role == user.Role);
+                        u.name == user.name &&
+                        u.mail == user.mail &&
+                        u.role == user.role);
 
                     if (updatedUser == null)
                     {
@@ -57,24 +57,24 @@
             {
                 try
                 {
-                    var doctor = await _doctorRepository.GetDoctorByUserIdAsync(userId);
+                    var doctor = await _doctorRepository.getDoctorByUserIdAsync(userId);
                     if (doctor == null)
                         return false;
 
-                    var user = await _userRepository.GetUserByIdAsync(userId);
-                    var department = await _doctorRepository.GetDepartmentByIdAsync(doctor.DepartmentId);
+                    var user = await _userRepository.getUserByIdAsync(userId);
+                    var department = await _doctorRepository.getDepartmentByIdAsync(doctor.departmentId);
                     if (user == null || department == null)
                         return false;
 
                     DoctorInformation = new DoctorModel
                     {
-                        DoctorId = user.UserId,
-                        DoctorName = user.Name,
-                        DepartmentId = department.Id,
-                        DepartmentName = department.Name,
-                        Rating = doctor.DoctorRating,
-                        Mail = user.Mail,
-                        CareerInfo = user.Role, // Placeholder if CareerInfo is not defined elsewhere
+                        DoctorId = user.userId,
+                        DoctorName = user.name,
+                        DepartmentId = department.departmentId,
+                        DepartmentName = department.departmentName,
+                        Rating = doctor.doctorRating,
+                        Mail = user.mail,
+                        CareerInfo = user.role, // Placeholder if CareerInfo is not defined elsewhere
                         AvatarUrl = "" // Placeholder; update if this exists in your model
                     };
 
@@ -101,10 +101,10 @@
         {
             try
             {
-                var user = await _userRepository.GetUserByIdAsync(userId);
+                var user = await _userRepository.getUserByIdAsync(userId);
                 if (user == null) return false;
 
-                var doctor = await _doctorRepository.GetDoctorByUserIdAsync(userId);
+                var doctor = await _doctorRepository.getDoctorByUserIdAsync(userId);
                 if (doctor == null) return false;
 
                 bool isUserUpdate = false;
@@ -112,27 +112,27 @@
                 switch (field)
                 {
                     case UpdateField.DoctorName:
-                        user.Name = newValue;
+                        user.name = newValue;
                         isUserUpdate = true;
                         break;
                     case UpdateField.Department:
                         if (departmentId.HasValue)
-                            doctor.DepartmentId = departmentId.Value;
+                            doctor.departmentId = departmentId.Value;
                         break;
                     case UpdateField.CareerInfo:
-                        user.Role = newValue;
+                        user.role = newValue;
                         isUserUpdate = true;
                         break;
                     case UpdateField.AvatarUrl:
-                        user.Address = newValue;
+                        user.address = newValue;
                         isUserUpdate = true;
                         break;
                     case UpdateField.PhoneNumber:
-                        user.PhoneNumber = newValue;
+                        user.phoneNumber = newValue;
                         isUserUpdate = true;
                         break;
                     case UpdateField.Email:
-                        user.Mail = newValue;
+                        user.mail = newValue;
                         isUserUpdate = true;
                         break;
                     default:
@@ -141,23 +141,23 @@
 
                 if (isUserUpdate)
                 {
-                    await _doctorRepository.DeleteDoctorAsync(doctor.UserId);
-                    await _userRepository.DeleteUserAsync(userId);
+                    await _doctorRepository.deleteDoctorAsync(doctor.userId);
+                    await _userRepository.deleteUserAsync(userId);
 
                     var updatedUser = await AddUserAndGetUpdatedIdAsync(user);
 
-                    await _doctorRepository.AddDoctorAsync(new Doctor
+                    await _doctorRepository.addDoctorAsync(new Doctor
                     {
-                        UserId = updatedUser.UserId,
-                        DepartmentId = doctor.DepartmentId,
-                        DoctorRating = doctor.DoctorRating,
-                        LicenseNumber = doctor.LicenseNumber
+                        userId = updatedUser.userId,
+                        departmentId = doctor.departmentId,
+                        doctorRating = doctor.doctorRating,
+                        licenseNumber = doctor.licenseNumber
                     });
                 }
                 else
                 {
-                    await _doctorRepository.DeleteDoctorAsync(doctor.UserId);
-                    await _doctorRepository.AddDoctorAsync(doctor);
+                    await _doctorRepository.deleteDoctorAsync(doctor.userId);
+                    await _doctorRepository.addDoctorAsync(doctor);
                 }
 
                 return true;

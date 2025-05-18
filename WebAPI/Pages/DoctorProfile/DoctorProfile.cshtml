@@ -25,26 +25,26 @@
     <form method="post">
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div class="mb-4">
-                <label asp-for="Doctor.UserId" class="block text-gray-700 text-sm font-bold mb-2">User ID</label>
-                <input asp-for="Doctor.UserId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" readonly />
+                <label asp-for="Doctor.userId" class="block text-gray-700 text-sm font-bold mb-2">User ID</label>
+                <input asp-for="Doctor.userId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" readonly />
             </div>
 
             <div class="mb-4">
-                <label asp-for="Doctor.DepartmentId" class="block text-gray-700 text-sm font-bold mb-2">Department ID</label>
-                <input asp-for="Doctor.DepartmentId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" />
-                <span asp-validation-for="Doctor.DepartmentId" class="text-red-500 text-xs italic"></span>
+                <label asp-for="Doctor.departmentId" class="block text-gray-700 text-sm font-bold mb-2">Department ID</label>
+                <input asp-for="Doctor.departmentId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" />
+                <span asp-validation-for="Doctor.departmentId" class="text-red-500 text-xs italic"></span>
             </div>
 
             <div class="mb-4">
-                <label asp-for="Doctor.DoctorRating" class="block text-gray-700 text-sm font-bold mb-2">Doctor Rating</label>
-                <input asp-for="Doctor.DoctorRating" step="0.1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" />
-                <span asp-validation-for="Doctor.DoctorRating" class="text-red-500 text-xs italic"></span>
+                <label asp-for="Doctor.doctorRating" class="block text-gray-700 text-sm font-bold mb-2">Doctor Rating</label>
+                <input asp-for="Doctor.doctorRating" step="0.1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" />
+                <span asp-validation-for="Doctor.doctorRating" class="text-red-500 text-xs italic"></span>
             </div>
 
             <div class="mb-4">
-                <label asp-for="Doctor.LicenseNumber" class="block text-gray-700 text-sm font-bold mb-2">License Number</label>
-                <input asp-for="Doctor.LicenseNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" />
-                <span asp-validation-for="Doctor.LicenseNumber" class="text-red-500 text-xs italic"></span>
+                <label asp-for="Doctor.licenseNumber" class="block text-gray-700 text-sm font-bold mb-2">License Number</label>
+                <input asp-for="Doctor.licenseNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" />
+                <span asp-validation-for="Doctor.licenseNumber" class="text-red-500 text-xs italic"></span>
             </div>
 
             <div class="flex items-center justify-between">

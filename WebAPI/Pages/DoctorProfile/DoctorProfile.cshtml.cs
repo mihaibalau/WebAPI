@@ -27,7 +27,7 @@ namespace WebApi.Pages.DoctorProfile
                 return RedirectToPage("/Index");
             }
 
-            Doctor = await _doctorRepository.GetDoctorByUserIdAsync(id.Value);
+            Doctor = await _doctorRepository.getDoctorByUserIdAsync(id.Value);
 
             if (Doctor == null)
             {
@@ -47,7 +47,7 @@ namespace WebApi.Pages.DoctorProfile
             // TODO: add update logic here if UpdateDoctorAsync is implemented
 
             TempData["SuccessMessage"] = "Doctor profile updated successfully.";
-            return RedirectToPage("Profile", new { id = Doctor.UserId });
+            return RedirectToPage("Profile", new { id = Doctor.userId });
         }
     }
 }

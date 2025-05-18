@@ -21,7 +21,7 @@ namespace WinUI.Proxy
             this._httpClient = httpClient;
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task addUserAsync(User user)
         {
             string userJson = JsonSerializer.Serialize(user);
             StringContent content = new StringContent(userJson, Encoding.UTF8, "application/json");
@@ -30,13 +30,13 @@ namespace WinUI.Proxy
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task DeleteUserAsync(int id)
+        public async Task deleteUserAsync(int id)
         {
             HttpResponseMessage response = await _httpClient.DeleteAsync(_baseUrl + $"api/user/delete/{id}");
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<List<User>> getAllUsersAsync()
         {
             HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + "api/user");
             response.EnsureSuccessStatusCode();
@@ -51,7 +51,12 @@ namespace WinUI.Proxy
             return users;
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public Task<User> getUserByCNPAsync(string cnp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<User> getUserByIdAsync(int id)
         {
             HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + $"api/user/{id}");
             response.EnsureSuccessStatusCode();
@@ -62,6 +67,21 @@ namespace WinUI.Proxy
             });
             return user;
 
+        }
+
+        public Task<List<User>> getUsersByNameAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<User>> getUsersByRoleAsync(string role)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task updateUserAsync(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

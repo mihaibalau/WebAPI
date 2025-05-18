@@ -37,7 +37,7 @@ namespace WinUI.View
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is Tuple<IDoctorViewModel, IAuthViewModel> parameters)
+            if (e.Parameter is Tuple<IDoctorViewModel, AuthViewModel> parameters)
             {
                 ViewModel = parameters.Item1;
                 this.DataContext = this;

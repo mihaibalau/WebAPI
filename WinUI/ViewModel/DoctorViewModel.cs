@@ -96,7 +96,7 @@ namespace WinUI.ViewModel
                 {
                     _departmentId = value;
                     OnPropertyChanged();
-                    DepartmentName = Departments.FirstOrDefault(d => d.Id == _departmentId)?.Name ?? DefaultDepartmentName;
+                    DepartmentName = Departments.FirstOrDefault(d => d.departmentId == _departmentId)?.departmentName ?? DefaultDepartmentName;
                 }
             }
         }

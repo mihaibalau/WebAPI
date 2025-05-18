@@ -21,7 +21,7 @@ namespace WinUI.Proxy
             this._httpClient = httpClient;
         }
 
-        public async Task AddDoctorAsync(Doctor doctor)
+        public async Task addDoctorAsync(Doctor doctor)
         {
             string doctorJson = JsonSerializer.Serialize(doctor);
             StringContent content = new StringContent(doctorJson, Encoding.UTF8, "application/json");
@@ -30,13 +30,13 @@ namespace WinUI.Proxy
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task DeleteDoctorAsync(int id)
+        public async Task deleteDoctorAsync(int id)
         {
             HttpResponseMessage response = await _httpClient.DeleteAsync(_baseUrl + $"api/doctor/delete/{id}");
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task<List<Doctor>> GetAllDoctorsAsync()
+        public async Task<List<Doctor>> getAllDoctorsAsync()
         {
             HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + "api/doctor");
             response.EnsureSuccessStatusCode();
@@ -51,7 +51,7 @@ namespace WinUI.Proxy
             return doctors;
         }
 
-        public async Task<Doctor> GetDoctorByUserIdAsync(int id)
+        public async Task<Doctor> getDoctorByUserIdAsync(int id)
         {
             HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + $"api/doctor/{id}");
             response.EnsureSuccessStatusCode();
@@ -66,7 +66,7 @@ namespace WinUI.Proxy
             return doctor;
         }
 
-        public async Task<List<Doctor>> GetDoctorsByDepartmentIdAsync(int departmentId)
+        public async Task<List<Doctor>> getDoctorsByDepartmentIdAsync(int departmentId)
         {
             HttpResponseMessage response = await _httpClient.GetAsync(_baseUrl + $"api/doctor/doctor/{departmentId}");
             response.EnsureSuccessStatusCode();
@@ -81,10 +81,10 @@ namespace WinUI.Proxy
             return doctors;
         }
 
-        public async Task<Department> GetDepartmentByIdAsync(int id)
+        public async Task<Department> getDepartmentByIdAsync(int id)
         {
             var departments = await GetAllDepartmentsAsync();
-            return departments.FirstOrDefault(d => d.Id == id);
+            return departments.FirstOrDefault(d => d.departmentId == id);
         }
 
         public async Task<List<Department>> GetAllDepartmentsAsync()
