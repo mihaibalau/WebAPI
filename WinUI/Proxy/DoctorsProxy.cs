@@ -97,5 +97,24 @@ namespace WinUI.Proxy
                 PropertyNameCaseInsensitive = true
             });
         }
+
+        public async Task updateDoctorByIdAsync(int id, Doctor doctor)
+        {
+            string doctorJson = JsonSerializer.Serialize(doctor);
+            StringContent content = new StringContent(doctorJson, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PutAsync(_baseUrl + $"api/doctor/{id}", content);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task updateDoctorByNameAsync(string name, Doctor doctor)
+        {
+            string doctorJson = JsonSerializer.Serialize(doctor);
+            StringContent content = new StringContent(doctorJson, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PutAsync(_baseUrl + $"api/doctor/by-name/{Uri.EscapeDataString(name)}", content);
+            response.EnsureSuccessStatusCode();
+        }
+
     }
 }

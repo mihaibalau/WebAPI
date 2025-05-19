@@ -104,61 +104,37 @@
                 var user = await _userRepository.getUserByIdAsync(userId);
                 if (user == null) return false;
 
-                var doctor = await _doctorRepository.getDoctorByUserIdAsync(userId);
-                if (doctor == null) return false;
+                //var doctor = await _doctorRepository.getDoctorByUserIdAsync(userId);
+                //if (doctor == null) return false;
 
-                bool isUserUpdate = false;
-
+                // Update fields accordingly
                 switch (field)
                 {
                     case UpdateField.DoctorName:
                         user.name = newValue;
-                        isUserUpdate = true;
                         break;
-                    case UpdateField.Department:
-                        if (departmentId.HasValue)
-                            doctor.departmentId = departmentId.Value;
-                        break;
+                    //case UpdateField.Department:
+                    //    if (departmentId.HasValue)
+                    //        doctor.departmentId = departmentId.Value;
+                    //    break;
                     case UpdateField.CareerInfo:
                         user.role = newValue;
-                        isUserUpdate = true;
                         break;
                     case UpdateField.AvatarUrl:
                         user.address = newValue;
-                        isUserUpdate = true;
                         break;
                     case UpdateField.PhoneNumber:
                         user.phoneNumber = newValue;
-                        isUserUpdate = true;
                         break;
                     case UpdateField.Email:
                         user.mail = newValue;
-                        isUserUpdate = true;
                         break;
                     default:
                         throw new ArgumentException("Invalid update field specified");
                 }
 
-                if (isUserUpdate)
-                {
-                    await _doctorRepository.deleteDoctorAsync(doctor.userId);
-                    await _userRepository.deleteUserAsync(userId);
-
-                    var updatedUser = await AddUserAndGetUpdatedIdAsync(user);
-
-                    await _doctorRepository.addDoctorAsync(new Doctor
-                    {
-                        userId = updatedUser.userId,
-                        departmentId = doctor.departmentId,
-                        doctorRating = doctor.doctorRating,
-                        licenseNumber = doctor.licenseNumber
-                    });
-                }
-                else
-                {
-                    await _doctorRepository.deleteDoctorAsync(doctor.userId);
-                    await _doctorRepository.addDoctorAsync(doctor);
-                }
+                // Update User first
+                await _userRepository.updateUserAsync(user);
 
                 return true;
             }
@@ -168,5 +144,6 @@
                 return false;
             }
         }
+
     }
-    }
+}

@@ -75,7 +75,7 @@ namespace WinUI.View
             {
                 var (updateSuccessful, errorMessage) = await ViewModel.TryUpdateDoctorProfileAsync();
 
-                if (updateSuccessful)
+                if (errorMessage == null)
                 {
                     dialog.Title = "Success";
                     dialog.Content = "Your profile has been updated successfully.";

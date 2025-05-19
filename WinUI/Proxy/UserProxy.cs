@@ -79,9 +79,14 @@ namespace WinUI.Proxy
             throw new NotImplementedException();
         }
 
-        public Task updateUserAsync(User user)
+        public async Task updateUserAsync(User user)
         {
-            throw new NotImplementedException();
+            string userJson = JsonSerializer.Serialize(user);
+            StringContent content = new StringContent(userJson, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PutAsync(_baseUrl + $"api/user/{user.userId}", content);
+            response.EnsureSuccessStatusCode();
         }
+
     }
 }
