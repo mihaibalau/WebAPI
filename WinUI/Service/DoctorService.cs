@@ -74,6 +74,7 @@
                         DepartmentName = department.departmentName,
                         Rating = doctor.doctorRating,
                         Mail = user.mail,
+                        PhoneNumber = user.phoneNumber,
                         CareerInfo = user.role, // Placeholder if CareerInfo is not defined elsewhere
                         AvatarUrl = "" // Placeholder; update if this exists in your model
                     };
@@ -104,8 +105,8 @@
                 var user = await _userRepository.getUserByIdAsync(userId);
                 if (user == null) return false;
 
-                //var doctor = await _doctorRepository.getDoctorByUserIdAsync(userId);
-                //if (doctor == null) return false;
+                var doctor = await _doctorRepository.getDoctorByUserIdAsync(userId);
+                if (doctor == null) return false;
 
                 // Update fields accordingly
                 switch (field)
@@ -113,10 +114,10 @@
                     case UpdateField.DoctorName:
                         user.name = newValue;
                         break;
-                    //case UpdateField.Department:
-                    //    if (departmentId.HasValue)
-                    //        doctor.departmentId = departmentId.Value;
-                    //    break;
+                    case UpdateField.Department:
+                        if (departmentId.HasValue)
+                            doctor.departmentId = departmentId.Value;
+                        break;
                     case UpdateField.CareerInfo:
                         user.role = newValue;
                         break;
@@ -135,6 +136,11 @@
 
                 // Update User first
                 await _userRepository.updateUserAsync(user);
+                // Update the doctor if needed
+                if (field == UpdateField.Department)
+                {
+                    await _doctorRepository.updateDoctorByIdAsync(doctor.userId, doctor);
+                }
 
                 return true;
             }
@@ -142,6 +148,18 @@
             {
                 Console.WriteLine($"Error updating doctor profile: {ex.Message}");
                 return false;
+            }
+        }
+        public async Task<List<Department>> GetAllDepartments()
+        {
+            try
+            {
+                return await _doctorRepository.GetAllDepartmentsAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting departments: {ex.Message}");
+                return new List<Department>();
             }
         }
 

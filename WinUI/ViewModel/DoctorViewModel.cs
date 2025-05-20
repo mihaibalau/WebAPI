@@ -21,6 +21,7 @@ namespace WinUI.ViewModel
         private const string DefaultAvatarUrl = "https://picsum.photos/200";
         private const string DefaultPhoneNumber = "Loading phone...";
         private const string DefaultEmail = "Loading mail...";
+        private const string DefaultDoctorAddress = "Loading address...";
         private const string NotSpecified = "Not specified";
         private const string NotAvailable = "N/A";
         private const string NotProvided = "Not provided";
@@ -42,11 +43,13 @@ namespace WinUI.ViewModel
             Rating = DefaultRating;
             CareerInfo = DefaultCareerInfo;
             AvatarUrl = DefaultAvatarUrl;
+            DoctorAddress = DefaultDoctorAddress;
             PhoneNumber = DefaultPhoneNumber;
             Mail = DefaultEmail;
 
             OriginalDoctor = DoctorModel.Default;
             IsLoading = false;
+            LoadDepartments();
         }
 
         public DoctorViewModel(){}
@@ -80,6 +83,20 @@ namespace WinUI.ViewModel
                 if (_doctorName != value)
                 {
                     _doctorName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private string _doctorAddress = string.Empty;
+        public string DoctorAddress
+        {
+            get => _doctorAddress;
+            set
+            {
+                if (_doctorAddress != value)
+                {
+                    _doctorAddress = value;
                     OnPropertyChanged();
                 }
             }
@@ -359,12 +376,6 @@ namespace WinUI.ViewModel
                 if (DepartmentId != OriginalDoctor.DepartmentId)
                     changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.Department, string.Empty, DepartmentId);
 
-                if (CareerInfo != OriginalDoctor.CareerInfo)
-                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.CareerInfo, CareerInfo);
-
-                if (AvatarUrl != OriginalDoctor.AvatarUrl)
-                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.AvatarUrl, AvatarUrl);
-
                 if (PhoneNumber != OriginalDoctor.PhoneNumber)
                     changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.PhoneNumber, PhoneNumber);
 
@@ -377,6 +388,22 @@ namespace WinUI.ViewModel
             {
                 RevertChanges();
                 return (false, ex.Message);
+            }
+        }
+        private async void LoadDepartments()
+        {
+            try
+            {
+                var departments = await _doctorService.GetAllDepartments();
+                Departments.Clear();
+                foreach (var dept in departments)
+                {
+                    Departments.Add(dept);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading departments: {ex.Message}");
             }
         }
     }
