@@ -19,14 +19,26 @@
 
             <!-- Header -->
             <StackPanel Grid.Row="0" Margin="0,0,0,20">
-                <TextBlock Text="Doctor Profile Dashboard" 
-                       Style="{StaticResource TitleTextBlockStyle}" 
-                       FontWeight="Bold" 
-                       FontSize="28" />
-                <TextBlock Text="Manage your professional information" 
-                       Style="{StaticResource SubtitleTextBlockStyle}" 
-                       Opacity="0.6" 
-                       Margin="0,5,0,0" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Doctor Profile Dashboard" 
+                               Style="{StaticResource TitleTextBlockStyle}" 
+                               FontWeight="Bold" 
+                               FontSize="28" />
+                        <TextBlock Text="Manage your professional information" 
+                               Style="{StaticResource SubtitleTextBlockStyle}" 
+                               Opacity="0.6" 
+                               Margin="0,5,0,0" />
+                    </StackPanel>
+                    <Button Grid.Column="1" 
+                            Content="Logout"
+                            Click="OnLogout"
+                            Style="{StaticResource AccentButtonStyle}"/>
+                </Grid>
             </StackPanel>
 
             <!-- Main Content with Loading Indicator -->
@@ -44,16 +56,12 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Left Column - Profile Image -->
+                        <!-- Left Column - Address -->
                         <StackPanel Grid.Column="0" Margin="0,0,40,0" Width="220">
-                            <PersonPicture ProfilePicture="{Binding ViewModel.AvatarUrl, Mode=OneWay}" 
-                                       Width="200" 
-                                       Height="200" />
-
-                            <TextBox Header="Image URL" 
-                                 Text="{Binding ViewModel.AvatarUrl, Mode=TwoWay}" 
+                            <TextBox Header="Address" 
+                                 Text="{Binding ViewModel.Address, Mode=TwoWay}" 
                                  Margin="0,10,0,0"
-                                 PlaceholderText="Enter image URL" />
+                                 PlaceholderText="Enter your address" />
                         </StackPanel>
 
                         <!-- Right Column - Doctor Information -->
@@ -88,14 +96,6 @@
                                 <TextBlock Text="{Binding ViewModel.Rating, Mode=OneWay}" 
                                        VerticalAlignment="Center" />
                             </StackPanel>
-
-                            <!-- Career Information -->
-                            <TextBox Header="Career Information" 
-                                 Text="{Binding ViewModel.CareerInfo, Mode=TwoWay}" 
-                                 PlaceholderText="Enter your career information and specializations"
-                                 TextWrapping="Wrap"
-                                 AcceptsReturn="True"
-                                 Height="100" />
 
                             <!-- Contact Information -->
                             <TextBox Header="Phone Number" 
