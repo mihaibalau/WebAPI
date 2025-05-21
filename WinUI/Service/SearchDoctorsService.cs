@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassLibrary.IRepository;
+using ClassLibrary.Repository;
 using ClassLibrary.Domain;
 using WinUI.Model;
 using WinUI.Proxy;

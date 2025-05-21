@@ -1,5 +1,5 @@
 using ClassLibrary.Domain;
-using ClassLibrary.IRepository;
+using ClassLibrary.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

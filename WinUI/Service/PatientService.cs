@@ -170,7 +170,7 @@ namespace WinUI.Service
         
         }
 
-    public virtual async Task<bool> updateWeight(int user_id, double weight)
+        public virtual async Task<bool> updateWeight(int user_id, double weight)
         {
             
             try
