@@ -22,6 +22,12 @@ namespace WinUI.Service
         Task<bool> updateEmergencyContact(int user_id, string emergency_contact);
         Task<bool> updateBloodType(int user_id, string blood_type);
         Task<bool> updateAllergies(int user_id, string allergies);
+
         Task<bool> logUpdate(int user_id, ActionType action);
+        bool checkIfWeightIsValid(double weight);
+
+        bool checkIfHeightIsValid(int height);
+
+        bool checkIfBloodTypeIsValid(string blood_type);
     }
 }

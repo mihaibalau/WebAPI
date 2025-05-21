@@ -112,7 +112,7 @@ namespace WinUI.View
                 }
                 else
                 {
-                    await ShowDialogAsync("No Changes", "Please modify the fields you want to update.");
+                    await ShowDialogAsync("No Changes", "Please modify the fields you want to update");
                 }
             }
             catch (Exception exception)

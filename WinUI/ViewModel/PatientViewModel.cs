@@ -199,10 +199,13 @@ namespace WinUI.ViewModel
             }
         }
 
+        
+
         public async Task<bool> updateEmergencyContact(string emergency_contact)
         {
             try
             {
+               
                 this.is_loading = true;
                 bool updated = await this._patient_service.updateEmergencyContact(user_id, emergency_contact);
                 if (updated)
@@ -219,8 +222,13 @@ namespace WinUI.ViewModel
         {
             try
             {
+                
                 this.is_loading = true;
+                if(!this._patient_service.checkIfWeightIsValid(weight))
+                    return false;
+
                 bool updated = await this._patient_service.updateWeight(user_id, weight);
+
                 if (updated)
                 {
                     this.weight = weight;
@@ -236,6 +244,8 @@ namespace WinUI.ViewModel
             try
             {
                 this.is_loading = true;
+                if (!this._patient_service.checkIfHeightIsValid(height))
+                    return false;
                 bool updated = await this._patient_service.updateHeight(user_id, height);
                 if (updated)
                 {
@@ -316,6 +326,8 @@ namespace WinUI.ViewModel
             try
             {
                 this.is_loading = true;
+                if (!this._patient_service.checkIfBloodTypeIsValid(blood_type))
+                    return false;
                 bool updated = await this._patient_service.updateBloodType(user_id, blood_type);
                 if (updated)
                 {
