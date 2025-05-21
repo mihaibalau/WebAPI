@@ -253,12 +253,16 @@ namespace WinUI.ViewModel
                 DepartmentId = info.DepartmentId;
                 DepartmentName = info.DepartmentName;
                 Rating = info.Rating;
-                CareerInfo = info.CareerInfo;
-                AvatarUrl = info.AvatarUrl;
                 PhoneNumber = info.PhoneNumber;
                 Mail = info.Mail;
 
-                System.Diagnostics.Debug.WriteLine("Doctor info loaded from service");
+                OriginalDoctor.DoctorName = DoctorName;
+                OriginalDoctor.DepartmentId = DepartmentId;
+                OriginalDoctor.DepartmentName = DepartmentName;
+                OriginalDoctor.Rating = Rating;
+                OriginalDoctor.PhoneNumber = PhoneNumber;
+                OriginalDoctor.Mail = Mail;
+
                 return true;
             }
             catch (Exception exception)
@@ -285,8 +289,7 @@ namespace WinUI.ViewModel
         {
             DoctorName = OriginalDoctor.DoctorName;
             DepartmentName = OriginalDoctor.DepartmentName;
-            CareerInfo = OriginalDoctor.CareerInfo;
-            AvatarUrl = OriginalDoctor.AvatarUrl;
+            DepartmentId = OriginalDoctor.DepartmentId;
             PhoneNumber = OriginalDoctor.PhoneNumber;
             Mail = OriginalDoctor.Mail;
         }
