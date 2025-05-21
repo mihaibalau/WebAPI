@@ -86,7 +86,7 @@
                              Text="{Binding ViewModel.PhoneNumber, Mode=TwoWay}" 
                              PlaceholderText="Enter your phone number" />
 
-                        <TextBox Header="Email" 
+                        <TextBox Header="Mail" 
                              Text="{Binding ViewModel.Mail, Mode=TwoWay}" 
                              PlaceholderText="Enter your email address" />
                     </StackPanel>

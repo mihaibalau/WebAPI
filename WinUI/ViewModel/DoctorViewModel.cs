@@ -341,9 +341,9 @@ namespace WinUI.ViewModel
                             OriginalDoctor = OriginalDoctor.Clone(phoneNumber: newValue);
                             break;
 
-                        case DoctorService.UpdateField.Email:
+                        case DoctorService.UpdateField.Mail:
                             Mail = newValue;
-                            OriginalDoctor = OriginalDoctor.Clone(email: newValue);
+                            OriginalDoctor = OriginalDoctor.Clone(mail: newValue);
                             break;
                     }
                 }
@@ -380,7 +380,7 @@ namespace WinUI.ViewModel
                     changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.PhoneNumber, PhoneNumber);
 
                 if (Mail != OriginalDoctor.Mail)
-                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.Email, Mail);
+                    changeMade |= await UpdateDoctorFieldAsync(DoctorService.UpdateField.Mail, Mail);
 
                 return (changeMade, null);
             }

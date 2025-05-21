@@ -95,7 +95,7 @@
             CareerInfo,
             AvatarUrl,
             PhoneNumber,
-            Email
+            Mail
         }
 
         public async Task<bool> UpdateDoctorProfile(int userId, UpdateField field, string newValue, int? departmentId = null)
@@ -127,7 +127,7 @@
                     case UpdateField.PhoneNumber:
                         user.phoneNumber = newValue;
                         break;
-                    case UpdateField.Email:
+                    case UpdateField.Mail:
                         user.mail = newValue;
                         break;
                     default:

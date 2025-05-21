@@ -41,7 +41,7 @@
             string careerInformation = null,
             string avatarUrl = null,
             string phoneNumber = null,
-            string email = null)
+            string mail = null)
         {
             return new DoctorModel(
                 DoctorId,
@@ -52,7 +52,7 @@
                 careerInformation ?? CareerInfo,
                 avatarUrl ?? AvatarUrl,
                 phoneNumber ?? PhoneNumber,
-                email ?? Mail
+                mail ?? Mail
             );
         }
 
