@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ClassLibrary.Domain;
 using static WinUI.Proxy.LogInProxy;
-using ClassLibrary.IRepository;
+using ClassLibrary.Repository;
 
 namespace WinUI.Proxy
 {
