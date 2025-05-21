@@ -233,6 +233,7 @@ namespace WinUI.Service
             }
         }
 
+
         public virtual async Task<bool> updateAllergies(int user_id, string allergies)
         {
             try
