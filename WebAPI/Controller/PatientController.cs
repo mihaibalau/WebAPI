@@ -112,7 +112,7 @@ namespace Controllers
 
             try
             {
-                await this._patient_repository.updatePatientByIdAsync(id, patient);
+                await this._patient_repository.updatePatientAsync(id, patient);
                 return this.NoContent();
             }
             catch (Exception ex)
