@@ -265,6 +265,27 @@ namespace WinUI.Service
             }
         }
 
+        public bool checkIfWeightIsValid(double weight)
+        {
+            const int WEIGHT_MIN = 0;
+            const int WEIGHT_MAX = 250;
+            return weight >= WEIGHT_MIN && weight <= WEIGHT_MAX;
+        }
+
+        public bool checkIfHeightIsValid(int height)
+        {
+            const int HEIGHT_MIN = 0;
+            const int HEIGHT_MAX = 300;
+            return height >= HEIGHT_MIN && height <= HEIGHT_MAX;
+        }
+
+
+        public bool checkIfBloodTypeIsValid(string blood_type)
+        {
+            string[] validBloodTypes = { "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "a+","a-", "b+", "b-", "ab+", "ab-", "o+", "o-" };
+            return validBloodTypes.Contains(blood_type);
+        }
+
         private PatientJointModel mapToJointModel(Patient domain_patient, User domain_user)
         {
             return new PatientJointModel(
@@ -286,5 +307,7 @@ namespace WinUI.Service
                 domain_user.registrationDate
             );
         }
+
+        
     }
 }
