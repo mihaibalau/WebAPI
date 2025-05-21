@@ -36,7 +36,7 @@ namespace ClassLibrary.IRepository
         /// <returns>A task representing the asynchronous operation.</returns>
         Task deletePatientAsync(int id);
 
-        Task updatePatientAsync(Patient patient, User user);
+        Task updatePatientAsync(int id, Patient patient);
 
         Task<List<User>> getAllUserAsync();
     }
