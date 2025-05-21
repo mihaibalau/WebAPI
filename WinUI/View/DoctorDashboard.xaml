@@ -71,16 +71,6 @@
                             <Run Text="{Binding ViewModel.DepartmentName, Mode=TwoWay}" FontWeight="SemiBold" />
                         </TextBlock>
 
-                        <!-- Rating (Read-only) -->
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            <TextBlock Text="Rating:" VerticalAlignment="Center" />
-                            <RatingControl Value="{Binding ViewModel.Rating, Mode=OneWay}" MaxRating="5" 
-                                      IsReadOnly="True"
-                                      PlaceholderValue="0"/>
-                            <TextBlock Text="{Binding ViewModel.Rating, Mode=OneWay}" 
-                                       VerticalAlignment="Center" />
-                        </StackPanel>
-
                         <!-- Contact Information -->
                         <TextBox Header="Phone Number" 
                              Text="{Binding ViewModel.PhoneNumber, Mode=TwoWay}" 
