@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ClassLibrary.Exceptions;
 using ClassLibrary.Model;
-using ClassLibrary.IRepository;
+using ClassLibrary.Repository;
 
 namespace ClassLibrary.Proxy
 {

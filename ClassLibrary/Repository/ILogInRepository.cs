@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClassLibrary.Model;
 
-namespace ClassLibrary.IRepository
+namespace ClassLibrary.Repository
 {
     /// <summary>
     /// Interface for LogInRepository which does the following things:

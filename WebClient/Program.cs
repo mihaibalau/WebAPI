@@ -1,6 +1,6 @@
 ﻿using ClassLibrary.Configuration;
 using ClassLibrary.Exceptions;
-using ClassLibrary.IRepository;
+using ClassLibrary.Repository;
 using ClassLibrary.Proxy;
 using ClassLibrary.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;

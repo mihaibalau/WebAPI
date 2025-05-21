@@ -1,5 +1,5 @@
 ﻿using ClassLibrary.Exceptions;
-using ClassLibrary.IRepository;
+using ClassLibrary.Repository;
 using ClassLibrary.Model;
 using ClassLibrary.Service;
 using Microsoft.AspNetCore.Authentication;
